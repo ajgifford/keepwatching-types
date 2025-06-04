@@ -6,5 +6,5 @@ export * from './types/notificationTypes';
 export * from './types/profileTypes';
 export * from './types/seasonTypes';
 export * from './types/showTypes';
-export * from './types/statisticTypes';
+export * from './types/statisticsTypes';
 export * from './types/watchStatusTypes';
