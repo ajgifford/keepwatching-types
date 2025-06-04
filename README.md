@@ -49,7 +49,7 @@ const account: Account = {
 - **Watch Status Types** - Content viewing states and progress tracking
 - **Statistics Types** - Analytics and progress reporting
 - **Notification Types** - User notifications and messaging
-- **Discovery Types** - Content discovery and search functionality
+- **[Discovery & Search Types](./docs/discover-search-types.md)** - Content discovery and search functionality
 
 ### API Types
 
