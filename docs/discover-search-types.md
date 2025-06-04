@@ -326,40 +326,6 @@ function filterAndSortResults(results: DiscoverAndSearchResult[]) {
 }
 ```
 
-## Error Handling
-
-When working with these types, consider:
-
-- **Empty Results**: Handle cases where no content matches search criteria
-- **Pagination Bounds**: Validate page numbers within available range
-- **Media Type Validation**: Ensure MediaType enum values are used consistently
-- **Image Loading**: Handle cases where image URLs may be invalid
-
-```typescript
-function validateSearchResponse(response: DiscoverAndSearchResponse): boolean {
-  if (!response.results || !Array.isArray(response.results)) {
-    console.error('Invalid results array in response');
-    return false;
-  }
-
-  if (response.currentPage < 1 || response.currentPage > response.totalPages) {
-    console.error('Current page out of bounds');
-    return false;
-  }
-
-  if (response.totalResults < 0 || response.totalPages < 0) {
-    console.error('Invalid pagination metadata');
-    return false;
-  }
-
-  return true;
-}
-
-function validateMediaType(mediaType: string): mediaType is MediaType {
-  return Object.values(MediaType).includes(mediaType as MediaType);
-}
-```
-
 ## Dependencies
 
 This module depends on:
@@ -376,75 +342,8 @@ This module depends on:
 5. **Image Handling**: Implement fallbacks for missing or broken image URLs
 6. **Genre Processing**: Handle varying genre formats from different content sources
 
-## Common Patterns
-
-### Search with Filters
-
-```typescript
-interface SearchFilters {
-  mediaType: MediaType;
-  genres?: string[];
-  minRating?: number;
-  year?: number;
-  page?: number;
-}
-
-async function searchWithFilters(searchString: string, filters: SearchFilters): Promise<DiscoverAndSearchResult[]> {
-  const response = await contentDiscoveryService.searchMedia(
-    filters.mediaType,
-    searchString,
-    filters.year,
-    filters.page || 1,
-  );
-
-  let results = response.results;
-
-  // Apply client-side filters
-  if (filters.genres) {
-    results = results.filter((result) => result.genres.some((genre) => filters.genres!.includes(genre)));
-  }
-
-  if (filters.minRating) {
-    results = results.filter((result) => result.rating >= filters.minRating!);
-  }
-
-  return results;
-}
-```
-
-### Content Recommendation
-
-```typescript
-function getContentRecommendations(
-  userPreferences: { genres: string[]; minRating: number },
-  results: DiscoverAndSearchResult[],
-): DiscoverAndSearchResult[] {
-  return results
-    .filter((result) => {
-      // Match user preferences
-      const hasPreferredGenre = result.genres.some((genre) => userPreferences.genres.includes(genre));
-      const meetsRatingThreshold = result.rating >= userPreferences.minRating;
-
-      return hasPreferredGenre && meetsRatingThreshold;
-    })
-    .sort((a, b) => {
-      // Prioritize by rating and popularity
-      const scoreA = a.rating + (a.popularity || 0) / 10;
-      const scoreB = b.rating + (b.popularity || 0) / 10;
-      return scoreB - scoreA;
-    });
-}
-```
-
 ## Related Types
 
 - `Show` and `Movie` types (from showTypes.ts and movieTypes.ts) - For detailed content information
 - `BaseResponse` (from responseTypes.ts) - For API response structure
 - External API types - For integration with content databases (TMDB, etc.)
-
-## Future Considerations
-
-- **Advanced Filtering**: Extended filter options for streaming services, content ratings
-- **Personalization**: User-specific recommendation scoring
-- **Multi-language Support**: Localized content titles and descriptions
-- **Content Availability**: Integration with streaming service availability data

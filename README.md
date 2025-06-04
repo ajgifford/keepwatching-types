@@ -46,15 +46,14 @@ const account: Account = {
 - **Movie Types** - Movies and film-related data structures
 - **Episode Types** - Individual episodes and viewing progress
 - **Season Types** - TV show seasons and episode collections
-- **Watch Status Types** - Content viewing states and progress tracking
-- **Statistics Types** - Analytics and progress reporting
-- **Notification Types** - User notifications and messaging
+- **[Watch Status Types](./docs/watch-status-types.md)** - Content viewing states and progress tracking
+- **[Statistics Types](./docs/statistics-types.md)** - Analytics and progress reporting
+- **[Notification Types](./docs/notification-types.md)** - User notifications and messaging
 - **[Discovery & Search Types](./docs/discover-search-types.md)** - Content discovery and search functionality
 
 ### API Types
 
-- **Response Types** - Standardized API response structures
-- **Request Types** - API request payload definitions
+- **[Response Types](./docs/response-types.md)** - Standardized API response structures
 
 ## Type Categories
 
