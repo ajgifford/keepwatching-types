@@ -342,16 +342,25 @@ export interface ShowReference {
  * Extended reference that includes TMDB ID and title for external API operations
  * and content matching.
  *
- * Provides the minimum information needed for show identification in contexts
- * where TMDB integration or title display is required.
+ * Builds upon the basic ShowReference by adding external database integration
+ * capabilities and display information. Provides the minimum information needed
+ * for show identification in contexts where TMDB integration or title display is required.
  *
  * @interface ShowTMDBReference
+ * @extends ShowReference
  * @example
  * ```typescript
  * const tmdbRef: ShowTMDBReference = {
  *   id: 1,
  *   tmdbId: 1399,
  *   title: "Game of Thrones"
+ * };
+ *
+ * // Used for removed show references
+ * const removedShowRef: ShowTMDBReference = {
+ *   id: 15,
+ *   tmdbId: 1396,
+ *   title: "Breaking Bad"
  * };
  * ```
  */
@@ -729,20 +738,107 @@ export interface UpdateShowRequest extends CreateShowRequest {
  * ```
  */
 export interface AddShowFavorite {
+  /** The show that was successfully added to the user's favorites with profile-specific viewing data */
   favoritedShow: ProfileShow;
+
+  /**
+   * Updated episode information for the profile after adding the show (optional)
+   *
+   * May be included to provide immediate updates to keep watching lists,
+   * recent episodes, and upcoming episodes after adding a show to favorites.
+   * This helps maintain UI consistency without requiring additional API calls.
+   */
   episodes?: EpisodesForProfile;
 }
 
+/**
+ * Response type for removing shows from favorites that includes show reference
+ * and updated episode information for the profile.
+ *
+ * Provides minimal show reference since the full show data is no longer needed
+ * after removal, along with updated episode collections to maintain UI consistency.
+ *
+ * @interface RemoveShowFavorite
+ * @example
+ * ```typescript
+ * const removeResult: RemoveShowFavorite = {
+ *   removedShow: {
+ *     id: 1,
+ *     tmdbId: 1399,
+ *     title: "Breaking Bad"
+ *   },
+ *   episodes: {
+ *     recentEpisodes: [],
+ *     upcomingEpisodes: [],
+ *     nextUnwatchedEpisodes: []
+ *   }
+ * };
+ * ```
+ */
 export interface RemoveShowFavorite {
+  /** Reference to the show that was removed from favorites */
   removedShow: ShowTMDBReference;
+
+  /** Updated episode information after show removal */
   episodes: EpisodesForProfile;
 }
 
+/**
+ * API response wrapper for operations returning multiple shows.
+ * Extends BaseResponse to include an array of profile shows in a standardized format.
+ *
+ * @interface ShowsResponse
+ * @extends BaseResponse
+ * @example
+ * ```typescript
+ * const response: ShowsResponse = {
+ *   message: "Shows retrieved successfully",
+ *   shows: [
+ *     {
+ *       id: 1,
+ *       title: "Breaking Bad",
+ *       profileId: 123,
+ *       watchStatus: "WATCHING"
+ *       // ... other ProfileShow properties
+ *     }
+ *   ]
+ * };
+ * ```
+ */
 export interface ShowsResponse extends BaseResponse {
+  /** Array of shows returned by the API */
   shows: ProfileShow[];
 }
 
+/**
+ * API response wrapper for detailed show information including seasons and episodes.
+ * Extends BaseResponse to include comprehensive show data with complete season/episode hierarchy.
+ *
+ * @interface ShowDetailsResponse
+ * @extends BaseResponse
+ * @example
+ * ```typescript
+ * const response: ShowDetailsResponse = {
+ *   message: "Show details retrieved successfully",
+ *   show: {
+ *     id: 1,
+ *     title: "Breaking Bad",
+ *     profileId: 123,
+ *     watchStatus: "WATCHING",
+ *     seasons: [
+ *       {
+ *         id: 1,
+ *         seasonNumber: 1,
+ *         episodes: []
+ *       }
+ *     ]
+ *     // ... other ProfileShowWithSeasons properties
+ *   }
+ * };
+ * ```
+ */
 export interface ShowDetailsResponse extends BaseResponse {
+  /** Detailed show information with seasons and episodes */
   show: ProfileShowWithSeasons;
 }
 
@@ -864,6 +960,36 @@ export interface RemoveShowFavoriteResponse extends BaseResponse {
   episodes: EpisodesForProfile;
 }
 
+/**
+ * API response wrapper for show recommendations and similar content operations.
+ * Extends BaseResponse to include an array of recommended shows with metadata
+ * for content discovery and recommendation features.
+ *
+ * @interface SimilarOrRecommendedShowsResponse
+ * @extends BaseResponse
+ * @example
+ * ```typescript
+ * const response: SimilarOrRecommendedShowsResponse = {
+ *   message: "Similar shows retrieved successfully",
+ *   shows: [
+ *     {
+ *       id: 2,
+ *       title: "Better Call Saul",
+ *       genres: ["Drama", "Crime"],
+ *       premiered: "2015-02-08",
+ *       summary: "The trials and tribulations of criminal lawyer Jimmy McGill...",
+ *       image: "https://image.tmdb.org/poster.jpg",
+ *       rating: 8.8,
+ *       popularity: 85.5,
+ *       country: "US",
+ *       language: "en",
+ *       inFavorites: false
+ *     }
+ *   ]
+ * };
+ * ```
+ */
 export interface SimilarOrRecommendedShowsResponse extends BaseResponse {
+  /** Array of recommended or similar shows */
   shows: SimilarOrRecommendedShow[];
 }
