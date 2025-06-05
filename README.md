@@ -41,11 +41,11 @@ const account: Account = {
 ### Core Modules
 
 - **[Account Types](./docs/account-types.md)** - User accounts, authentication, and Firebase integration
-- **Profile Types** - User profiles and content management
-- **Show Types** - TV shows, series, and related metadata
-- **Movie Types** - Movies and film-related data structures
-- **Episode Types** - Individual episodes and viewing progress
-- **Season Types** - TV show seasons and episode collections
+- **[Profile Types](./docs/profile-types.md)** - User profiles and content management
+- **[Show Types](./docs/show-types.md)** - TV shows, series, and related metadata
+- **[Movie Types](./docs/movie-types.md)** - Movies and film-related data structures
+- **[Episode Types](./docs/episode-types.md)** - Individual episodes and viewing progress
+- **[Season Types](./docs/season-types.md)** - TV show seasons and episode collections
 - **[Watch Status Types](./docs/watch-status-types.md)** - Content viewing states and progress tracking
 - **[Statistics Types](./docs/statistics-types.md)** - Analytics and progress reporting
 - **[Notification Types](./docs/notification-types.md)** - User notifications and messaging
