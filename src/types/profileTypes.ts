@@ -1,4 +1,4 @@
-import { EpisodesForProfile, NextEpisode } from './episodeTypes';
+import { EpisodesForProfile } from './episodeTypes';
 import { ProfileMovie, RecentUpcomingMoviesForProfile } from './movieTypes';
 import { BaseResponse } from './responseTypes';
 import { ProfileShow } from './showTypes';

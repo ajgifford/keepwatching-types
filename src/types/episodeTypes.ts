@@ -1,4 +1,4 @@
-import { KeepWatchingShow, ProfileShow } from './showTypes';
+import { KeepWatchingShow } from './showTypes';
 import { BinaryWatchStatusType } from './watchStatusTypes';
 
 /**

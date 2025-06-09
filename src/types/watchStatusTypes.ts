@@ -50,6 +50,6 @@ export function isFullWatchStatus(status: WatchStatusType): status is FullWatchS
  * @param contentType The type of content
  * @returns The default status for the content type
  */
-export function getDefaultStatus(contentType: 'show' | 'season' | 'episode' | 'movie'): WatchStatusType {
+export function getDefaultStatus(_contentType: 'show' | 'season' | 'episode' | 'movie'): WatchStatusType {
   return WatchStatus.NOT_WATCHED;
 }

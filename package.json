@@ -19,8 +19,10 @@
     "prepare": "yarn build",
     "clean": "rm -rf dist",
     "rebuild": "yarn clean && yarn build",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --config ./.prettierrc.js . --write",
+    "type-check": "tsc --noEmit",
     "version:patch": "npm version patch",
     "version:minor": "npm version minor",
     "version:major": "npm version major"
@@ -35,12 +37,13 @@
   "author": "Andy Gifford <ajgifford@users.noreply.github.com>",
   "license": "ISC",
   "devDependencies": {
-    "@eslint/js": "^9.27.0",
+    "@eslint/js": "9.16.0",
     "@trivago/prettier-plugin-sort-imports": "5.2.2",
+    "eslint": "9.16.0",
     "eslint-config-prettier": "10.1.2",
     "prettier": "3.5.3",
     "typescript": "^5.8.3",
-    "typescript-eslint": "8.29.1"
+    "typescript-eslint": "8.16.0"
   },
   "packageManager": "yarn@1.22.22"
 }
