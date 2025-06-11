@@ -255,6 +255,96 @@ export interface CreateMovieRequest {
 }
 
 /**
+ * Interface for movie recommendations and similar content suggestions.
+ * Contains comprehensive metadata for evaluating and presenting content recommendations.
+ *
+ * This interface supports recommendation algorithms and helps users discover
+ * new content based on their viewing preferences and history.
+ *
+ * @interface SimilarOrRecommendedMovie
+ * @example
+ * ```typescript
+ * const recommendation: SimilarOrRecommendedMovie = {
+ *   id: 2,
+ *   title: "The Matrix",
+ *   genres: ["Drama", "Crime"],
+ *   premiered: "1998-02-08",
+ *   summary: "The story of Neo...",
+ *   image: "https://image.tmdb.org/poster.jpg",
+ *   rating: 8.8,
+ *   popularity: 85.5,
+ *   country: "US",
+ *   language: "en",
+ *   inFavorites: false
+ * };
+ * ```
+ */
+export interface SimilarOrRecommendedMovie {
+  /** Movie ID for reference and navigation */
+  id: number;
+
+  /** Movie title for display */
+  title: string;
+
+  /**
+   * Array of genre names associated with the movie
+   *
+   * Used for genre-based filtering and similarity matching in recommendations.
+   */
+  genres: string[];
+
+  /**
+   * Premiere date in ISO format (YYYY-MM-DD)
+   *
+   * Used for sorting by recency and filtering by time periods.
+   */
+  premiered: string;
+
+  /** Brief description or synopsis of the movie */
+  summary: string;
+
+  /** Show image URL for visual display */
+  image: string;
+
+  /**
+   * Movie rating score (typically 0-10 scale)
+   *
+   * Used for quality-based recommendations and sorting.
+   */
+  rating: number;
+
+  /**
+   * Popularity score indicating audience engagement
+   *
+   * Higher values indicate more popular content. Used for trending
+   * recommendations and popularity-based sorting.
+   */
+  popularity: number;
+
+  /**
+   * Country of origin (ISO country code or full name)
+   *
+   * Used for regional content filtering and localization preferences.
+   */
+  country: string;
+
+  /**
+   * Primary language (ISO language code)
+   *
+   * Used for language-based filtering and accessibility features.
+   */
+  language: string;
+
+  /**
+   * Whether this movie is already in the user's favorites
+   *
+   * Helps avoid recommending content the user has already added
+   * and provides context for recommendation displays.
+   */
+  inFavorites: boolean;
+}
+
+/**
  * Specialized interface for organizing movies by release timing relative to the current date.
  * Provides quick access to recently released and upcoming movies for enhanced user experience
  * and content discovery features.
