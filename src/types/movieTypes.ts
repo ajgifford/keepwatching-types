@@ -303,7 +303,7 @@ export interface SimilarOrRecommendedMovie {
   /** Brief description or synopsis of the movie */
   summary: string;
 
-  /** Show image URL for visual display */
+  /** Movie image URL for visual display */
   image: string;
 
   /**
@@ -558,4 +558,38 @@ export interface RemoveMovieResponse extends BaseResponse {
 
   /** Updated timeline data for recent and upcoming movies */
   recentUpcomingMovies: RecentUpcomingMoviesForProfile;
+}
+
+/**
+ * API response wrapper for movie recommendations and similar content operations.
+ * Extends BaseResponse to include an array of recommended movies with metadata
+ * for content discovery and recommendation features.
+ *
+ * @interface SimilarOrRecommendedMoviesResponse
+ * @extends BaseResponse
+ * @example
+ * ```typescript
+ * const response: SimilarOrRecommendedMoviesResponse = {
+ *   message: "Similar movies retrieved successfully",
+ *   movies: [
+ *     {
+ *       id: 2,
+ *       title: "The Matrix",
+ *       genres: ["Drama", "Crime"],
+ *       premiered: "1998-02-08",
+ *       summary: "The trials and tribulations of Neo...",
+ *       image: "https://image.tmdb.org/poster.jpg",
+ *       rating: 8.8,
+ *       popularity: 85.5,
+ *       country: "US",
+ *       language: "en",
+ *       inFavorites: false
+ *     }
+ *   ]
+ * };
+ * ```
+ */
+export interface SimilarOrRecommendedMoviesResponse extends BaseResponse {
+  /** Array of recommended or similar movies */
+  movies: SimilarOrRecommendedMovie[];
 }
