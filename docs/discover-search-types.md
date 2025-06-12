@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Discovery and Search Types Documentation
 
 This module provides TypeScript type definitions for content discovery and search operations in the KeepWatching

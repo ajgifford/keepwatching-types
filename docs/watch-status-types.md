@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Watch Status Types Documentation
 
 This module provides TypeScript type definitions for content watch status management in the KeepWatching application. It

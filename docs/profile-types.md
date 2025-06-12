@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Profile Types Documentation
 
 This module provides TypeScript type definitions for profile-related operations in the KeepWatching application. It

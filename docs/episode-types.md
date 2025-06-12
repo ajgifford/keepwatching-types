@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Episode Types Documentation
 
 This module provides TypeScript type definitions for episode-related operations in the KeepWatching application. It

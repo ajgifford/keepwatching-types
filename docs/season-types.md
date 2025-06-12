@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Season Types Documentation
 
 This module provides TypeScript type definitions for season-related operations in the KeepWatching application. It

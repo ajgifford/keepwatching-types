@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Response Types Documentation
 
 This module provides the foundational TypeScript type definition for API responses in the KeepWatching application. It

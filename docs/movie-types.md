@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Movie Types Documentation
 
 This module provides TypeScript type definitions for movie-related operations in the KeepWatching application. It
@@ -14,6 +16,7 @@ The movie types module defines interfaces for:
 - Movie discovery and recommendation systems
 - API request/response patterns for movie operations
 - Streaming service and genre associations
+- Detailed production metadata and financial information
 
 ## Core Interfaces
 
@@ -93,6 +96,47 @@ const profileMovie: ProfileMovie = {
 };
 ```
 
+### `ProfileMovieWithDetails` _(NEW)_
+
+Extended profile movie interface that includes comprehensive production metadata, financial information, and creative
+credits. This interface combines user-specific movie data with detailed production information for enhanced movie
+analytics, detailed views, and industry insights.
+
+**Additional Properties:**
+
+- `director: string` - Name(s) of the movie's director(s)
+- `productionCompanies: string` - Comma-separated list of production company names
+- `budget: number` - Total production budget in USD
+- `revenue: number` - Total worldwide box office revenue in USD
+
+**Usage Example:**
+
+```typescript
+const detailedMovie: ProfileMovieWithDetails = {
+  // All ProfileMovie properties
+  id: 1,
+  tmdbId: 27205,
+  title: 'Inception',
+  description: 'A thief who steals corporate secrets through dream-sharing technology...',
+  releaseDate: '2010-07-16',
+  posterImage: 'https://image.tmdb.org/t/p/w500/inception_poster.jpg',
+  backdropImage: 'https://image.tmdb.org/t/p/original/inception_backdrop.jpg',
+  runtime: 148,
+  userRating: 8.8,
+  mpaRating: 'PG-13',
+  genres: 'Action, Drama, Sci-Fi, Thriller',
+  streamingServices: 'Netflix, HBO Max',
+  profileId: 123,
+  watchStatus: 'WATCHED',
+
+  // Additional detailed properties
+  director: 'Christopher Nolan',
+  productionCompanies: 'Warner Bros. Pictures, Legendary Entertainment, Syncopy',
+  budget: 160000000, // $160 million
+  revenue: 836836967, // $836.8 million worldwide
+};
+```
+
 ### `AdminMovie`
 
 Administrative interface for movie management that extends the base movie with system metadata. Used for content
@@ -109,7 +153,7 @@ const adminMovie: AdminMovie = {
   id: 1,
   tmdbId: 27205,
   title: 'Inception',
-  description: 'A thief who steals corporate secrets through dream-sharing technology...',
+  description: 'A thief who steals corporate secrets...',
   releaseDate: '2010-07-16',
   posterImage: 'https://image.tmdb.org/t/p/w500/inception_poster.jpg',
   backdropImage: 'https://image.tmdb.org/t/p/original/inception_backdrop.jpg',
@@ -150,6 +194,45 @@ const recentMovies: MovieReference[] = [
   { id: 2, title: 'The Matrix', tmdbId: 603 },
   { id: 3, title: 'Interstellar', tmdbId: 157336 },
 ];
+```
+
+## Recommendation and Discovery Types
+
+### `SimilarOrRecommendedMovie` _(NEW)_
+
+Interface for movie recommendations and similar content suggestions. Contains comprehensive metadata for evaluating and
+presenting content recommendations.
+
+**Properties:**
+
+- `id: number` - Movie ID for reference and navigation
+- `title: string` - Movie title for display
+- `genres: string[]` - Array of genre names associated with the movie
+- `premiered: string` - Premiere date in ISO format (YYYY-MM-DD)
+- `summary: string` - Brief description or synopsis of the movie
+- `image: string` - Movie image URL for visual display
+- `rating: number` - Movie rating score (typically 0-10 scale)
+- `popularity: number` - Popularity score indicating audience engagement
+- `country: string` - Country of origin (ISO country code or full name)
+- `language: string` - Primary language (ISO language code)
+- `inFavorites: boolean` - Whether this movie is already in the user's favorites
+
+**Usage Example:**
+
+```typescript
+const recommendation: SimilarOrRecommendedMovie = {
+  id: 2,
+  title: 'The Matrix',
+  genres: ['Action', 'Sci-Fi'],
+  premiered: '1999-03-31',
+  summary: 'A computer programmer discovers reality is a simulation...',
+  image: 'https://image.tmdb.org/t/p/w500/matrix_poster.jpg',
+  rating: 8.7,
+  popularity: 92.3,
+  country: 'US',
+  language: 'en',
+  inFavorites: false,
+};
 ```
 
 ## Request Types
@@ -372,6 +455,81 @@ const removeResponse: RemoveMovieResponse = {
 };
 ```
 
+### `MovieDetailsResponse` _(NEW)_
+
+API response wrapper for comprehensive movie details operations that includes detailed movie information and related
+content recommendations. This response extends BaseResponse to provide a complete movie viewing experience with detailed
+metadata, user context, and content discovery features.
+
+**Structure:**
+
+```typescript
+interface MovieDetailsResponse extends BaseResponse {
+  message: string; // From BaseResponse
+  movie: ProfileMovieWithDetails; // Comprehensive movie data
+  recommendedMovies: SimilarOrRecommendedMovie[]; // Personalized recommendations
+  similarMovies: SimilarOrRecommendedMovie[]; // Similar content
+}
+```
+
+**Usage Example:**
+
+```typescript
+const movieDetailsResponse: MovieDetailsResponse = {
+  message: 'Movie details retrieved successfully',
+  movie: {
+    id: 1,
+    tmdbId: 27205,
+    title: 'Inception',
+    description: 'A thief who steals corporate secrets...',
+    releaseDate: '2010-07-16',
+    posterImage: 'https://image.tmdb.org/t/p/w500/inception_poster.jpg',
+    backdropImage: 'https://image.tmdb.org/t/p/original/inception_backdrop.jpg',
+    runtime: 148,
+    userRating: 8.8,
+    mpaRating: 'PG-13',
+    genres: 'Action, Drama, Sci-Fi, Thriller',
+    streamingServices: 'Netflix, HBO Max',
+    profileId: 123,
+    watchStatus: 'WATCHED',
+    director: 'Christopher Nolan',
+    productionCompanies: 'Warner Bros. Pictures, Legendary Entertainment',
+    budget: 160000000,
+    revenue: 836836967,
+  },
+  recommendedMovies: [
+    {
+      id: 2,
+      title: 'The Matrix',
+      genres: ['Action', 'Sci-Fi'],
+      premiered: '1999-03-31',
+      summary: 'A computer programmer discovers reality is a simulation...',
+      image: 'https://image.tmdb.org/t/p/w500/matrix_poster.jpg',
+      rating: 8.7,
+      popularity: 92.3,
+      country: 'US',
+      language: 'en',
+      inFavorites: false,
+    },
+  ],
+  similarMovies: [
+    {
+      id: 3,
+      title: 'Shutter Island',
+      genres: ['Drama', 'Mystery', 'Thriller'],
+      premiered: '2010-02-19',
+      summary: 'A U.S. Marshal investigates a psychiatric facility...',
+      image: 'https://image.tmdb.org/t/p/w500/shutter_island_poster.jpg',
+      rating: 8.2,
+      popularity: 78.5,
+      country: 'US',
+      language: 'en',
+      inFavorites: true,
+    },
+  ],
+};
+```
+
 ## Real-World Usage Examples
 
 ### Controller Implementation
@@ -413,6 +571,27 @@ export class MovieController {
         message: 'Movie updated successfully',
         movie,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // GET /api/v1/movies/:id/details/:profileId
+  async getMovieDetails(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const movieId = parseInt(req.params.id);
+      const profileId = parseInt(req.params.profileId);
+
+      const movieDetails = await this.movieService.getMovieDetails(movieId, profileId);
+
+      const response: MovieDetailsResponse = {
+        message: 'Movie details retrieved successfully',
+        movie: movieDetails.movie,
+        recommendedMovies: movieDetails.recommendedMovies,
+        similarMovies: movieDetails.similarMovies,
+      };
+
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }
@@ -487,6 +666,24 @@ export class MovieController {
       next(error);
     }
   }
+
+  // GET /api/v1/movies/:id/recommendations/:profileId
+  async getMovieRecommendations(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const movieId = parseInt(req.params.id);
+      const profileId = parseInt(req.params.profileId);
+
+      const recommendations = await this.movieService.getMovieRecommendations(movieId, profileId);
+
+      res.status(200).json({
+        message: 'Movie recommendations retrieved successfully',
+        recommendedMovies: recommendations.recommended,
+        similarMovies: recommendations.similar,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 ```
 
@@ -497,9 +694,12 @@ import {
   AddMovieFavorite,
   CreateMovieRequest,
   Movie,
+  MovieDetailsResponse,
   ProfileMovie,
+  ProfileMovieWithDetails,
   RecentUpcomingMoviesForProfile,
   RemoveMovieFavorite,
+  SimilarOrRecommendedMovie,
   UpdateMovieRequest,
 } from '@ajgifford/keepwatching-types';
 
@@ -507,6 +707,7 @@ export class MovieService {
   constructor(
     private movieRepository: MovieRepository,
     private profileMovieRepository: ProfileMovieRepository,
+    private recommendationService: RecommendationService,
   ) {}
 
   async createMovie(request: CreateMovieRequest): Promise<Movie> {
@@ -544,6 +745,30 @@ export class MovieService {
 
     // Return movie with populated associations
     return await this.movieRepository.findByIdWithAssociations(movie.id);
+  }
+
+  async getMovieDetails(
+    movieId: number,
+    profileId: number,
+  ): Promise<{
+    movie: ProfileMovieWithDetails;
+    recommendedMovies: SimilarOrRecommendedMovie[];
+    similarMovies: SimilarOrRecommendedMovie[];
+  }> {
+    // Get detailed movie information
+    const movie = await this.getProfileMovieWithDetails(movieId, profileId);
+
+    // Get recommendations and similar movies in parallel
+    const [recommendedMovies, similarMovies] = await Promise.all([
+      this.recommendationService.getRecommendedMovies(movieId, profileId),
+      this.recommendationService.getSimilarMovies(movieId, profileId),
+    ]);
+
+    return {
+      movie,
+      recommendedMovies,
+      similarMovies,
+    };
   }
 
   async addToFavorites(profileId: number, movieId: number): Promise<AddMovieFavorite> {
@@ -637,11 +862,17 @@ export class MovieService {
   private async associateGenres(movieId: number, genreIds: number[]): Promise<void> {
     // Implementation would associate movie with genres
     // and update the genres string field
+    for (const genreId of genreIds) {
+      await this.movieRepository.addGenre(movieId, genreId);
+    }
   }
 
   private async associateStreamingServices(movieId: number, serviceIds: number[]): Promise<void> {
     // Implementation would associate movie with streaming services
     // and update the streamingServices string field
+    for (const serviceId of serviceIds) {
+      await this.movieRepository.addStreamingService(movieId, serviceId);
+    }
   }
 }
 ```
@@ -739,6 +970,116 @@ class TMDBIntegrationService {
 }
 ```
 
+### Recommendation Engine Integration
+
+```typescript
+import { SimilarOrRecommendedMovie } from '@ajgifford/keepwatching-types';
+
+class MovieRecommendationService {
+  async getRecommendedMovies(movieId: number, profileId: number): Promise<SimilarOrRecommendedMovie[]> {
+    // Get user's viewing history and preferences
+    const userProfile = await this.getUserPreferences(profileId);
+    const baseMovie = await this.movieRepository.findById(movieId);
+
+    // Generate personalized recommendations based on:
+    // - User's favorite genres
+    // - Previously watched movies
+    // - Similar user preferences
+    const recommendations = await this.generatePersonalizedRecommendations(baseMovie, userProfile);
+
+    return recommendations.map((movie) => this.transformToRecommendation(movie, profileId));
+  }
+
+  async getSimilarMovies(movieId: number, profileId: number): Promise<SimilarOrRecommendedMovie[]> {
+    const baseMovie = await this.movieRepository.findById(movieId);
+
+    // Find movies with similar attributes:
+    // - Same genres
+    // - Same director
+    // - Similar release period
+    // - Similar ratings
+    const similarMovies = await this.findSimilarMovies(baseMovie);
+
+    return Promise.all(
+      similarMovies.map(async (movie) => {
+        const inFavorites = await this.isInUserFavorites(movie.id, profileId);
+        return this.transformToRecommendation(movie, profileId, inFavorites);
+      }),
+    );
+  }
+
+  private async transformToRecommendation(
+    movie: any,
+    profileId: number,
+    inFavorites?: boolean,
+  ): Promise<SimilarOrRecommendedMovie> {
+    const userHasFavorited = inFavorites ?? (await this.isInUserFavorites(movie.id, profileId));
+
+    return {
+      id: movie.id,
+      title: movie.title,
+      genres: movie.genres.split(',').map((g: string) => g.trim()),
+      premiered: movie.releaseDate,
+      summary: movie.description,
+      image: movie.posterImage,
+      rating: movie.userRating,
+      popularity: movie.popularity || 0,
+      country: movie.country || 'US',
+      language: movie.language || 'en',
+      inFavorites: userHasFavorited,
+    };
+  }
+
+  private async isInUserFavorites(movieId: number, profileId: number): Promise<boolean> {
+    const favorite = await this.profileMovieRepository.findByProfileAndMovie(profileId, movieId);
+    return !!favorite;
+  }
+
+  private async getUserPreferences(profileId: number): Promise<any> {
+    // Analyze user's viewing history to determine preferences
+    const watchedMovies = await this.profileMovieRepository.findWatchedByProfile(profileId);
+
+    // Calculate genre preferences, favorite directors, etc.
+    return this.analyzeUserPreferences(watchedMovies);
+  }
+
+  private async generatePersonalizedRecommendations(baseMovie: any, userProfile: any): Promise<any[]> {
+    // Implementation would use machine learning or collaborative filtering
+    // to generate personalized recommendations
+    return [];
+  }
+
+  private async findSimilarMovies(baseMovie: any): Promise<any[]> {
+    // Find movies with similar characteristics
+    return await this.movieRepository.findSimilarMovies(baseMovie);
+  }
+
+  private analyzeUserPreferences(watchedMovies: any[]): any {
+    // Analyze viewing patterns to determine user preferences
+    return {
+      favoriteGenres: this.extractFavoriteGenres(watchedMovies),
+      favoriteDirectors: this.extractFavoriteDirectors(watchedMovies),
+      ratingPreference: this.calculateAverageRatingPreference(watchedMovies),
+    };
+  }
+
+  private extractFavoriteGenres(movies: any[]): string[] {
+    // Implementation to extract user's favorite genres
+    return [];
+  }
+
+  private extractFavoriteDirectors(movies: any[]): string[] {
+    // Implementation to extract user's favorite directors
+    return [];
+  }
+
+  private calculateAverageRatingPreference(movies: any[]): number {
+    // Calculate user's preference for movie ratings
+    return movies.reduce((sum, movie) => sum + movie.userRating, 0) / movies.length;
+  }
+}
+```
+
 ## Performance Considerations
 
 ### Caching Strategy
@@ -748,6 +1089,7 @@ class MovieCacheService {
   private movieCache = new Map<number, Movie>();
   private profileMovieCache = new Map<string, ProfileMovie>();
   private timelineCache = new Map<number, RecentUpcomingMoviesForProfile>();
+  private recommendationCache = new Map<string, SimilarOrRecommendedMovie[]>();
 
   private CACHE_TTL = 15 * 60 * 1000; // 15 minutes
 
@@ -778,6 +1120,29 @@ class MovieCacheService {
     }, this.CACHE_TTL);
   }
 
+  async getCachedRecommendations(
+    movieId: number,
+    profileId: number,
+    type: 'recommended' | 'similar',
+  ): Promise<SimilarOrRecommendedMovie[] | null> {
+    const key = `${type}:${movieId}:${profileId}`;
+    return this.recommendationCache.get(key) || null;
+  }
+
+  setCachedRecommendations(
+    movieId: number,
+    profileId: number,
+    type: 'recommended' | 'similar',
+    recommendations: SimilarOrRecommendedMovie[],
+  ): void {
+    const key = `${type}:${movieId}:${profileId}`;
+    this.recommendationCache.set(key, recommendations);
+
+    setTimeout(() => {
+      this.recommendationCache.delete(key);
+    }, this.CACHE_TTL * 2); // Longer cache for recommendations
+  }
+
   invalidateProfileCache(profileId: number): void {
     // Remove all cached entries for a profile
     for (const [key, value] of this.profileMovieCache.entries()) {
@@ -788,8 +1153,262 @@ class MovieCacheService {
 
     // Also invalidate timeline cache
     this.timelineCache.delete(profileId);
+
+    // Invalidate recommendation cache for this profile
+    for (const [key] of this.recommendationCache.entries()) {
+      if (key.includes(`:${profileId}`)) {
+        this.recommendationCache.delete(key);
+      }
+    }
+  }
+
+  clearCache(): void {
+    this.movieCache.clear();
+    this.profileMovieCache.clear();
+    this.timelineCache.clear();
+    this.recommendationCache.clear();
   }
 }
+```
+
+## Frontend Component Integration
+
+```typescript
+import React, { useState, useEffect } from 'react';
+import {
+  ProfileMovie,
+  ProfileMovieWithDetails,
+  SimilarOrRecommendedMovie,
+  MovieDetailsResponse,
+} from '@ajgifford/keepwatching-types';
+
+interface MovieDetailsProps {
+  movieId: number;
+  profileId: number;
+}
+
+export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, profileId }) => {
+  const [movieDetails, setMovieDetails] = useState<ProfileMovieWithDetails | null>(null);
+  const [recommendations, setRecommendations] = useState<SimilarOrRecommendedMovie[]>([]);
+  const [similarMovies, setSimilarMovies] = useState<SimilarOrRecommendedMovie[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadMovieDetails();
+  }, [movieId, profileId]);
+
+  const loadMovieDetails = async (): Promise<void> => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(`/api/v1/movies/${movieId}/details/${profileId}`);
+
+      if (!response.ok) {
+        throw new Error('Failed to load movie details');
+      }
+
+      const data: MovieDetailsResponse = await response.json();
+
+      setMovieDetails(data.movie);
+      setRecommendations(data.recommendedMovies);
+      setSimilarMovies(data.similarMovies);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleWatchStatus = async (): Promise<void> => {
+    if (!movieDetails) return;
+
+    try {
+      const newStatus = movieDetails.watchStatus === 'WATCHED' ? 'NOT_WATCHED' : 'WATCHED';
+
+      const response = await fetch(`/api/v1/movies/${movieId}/watch-status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profileId, watchStatus: newStatus }),
+      });
+
+      if (response.ok) {
+        setMovieDetails(prev => prev ? { ...prev, watchStatus: newStatus } : null);
+      }
+    } catch (err) {
+      console.error('Failed to update watch status:', err);
+    }
+  };
+
+  const formatBudget = (amount: number): string => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  const formatRevenue = (amount: number): string => {
+    if (amount >= 1000000000) {
+      return `${(amount / 1000000000).toFixed(1)}B`;
+    } else if (amount >= 1000000) {
+      return `${(amount / 1000000).toFixed(1)}M`;
+    }
+    return formatBudget(amount);
+  };
+
+  if (loading) {
+    return (
+      <div className="movie-details-loading">
+        <div className="spinner" />
+        <p>Loading movie details...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="movie-details-error">
+        <h2>Error Loading Movie</h2>
+        <p>{error}</p>
+        <button onClick={loadMovieDetails}>Try Again</button>
+      </div>
+    );
+  }
+
+  if (!movieDetails) {
+    return (
+      <div className="movie-details-not-found">
+        <h2>Movie Not Found</h2>
+        <p>The requested movie could not be found.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="movie-details">
+      {/* Hero Section */}
+      <div
+        className="movie-hero"
+        style={{ backgroundImage: `url(${movieDetails.backdropImage})` }}
+      >
+        <div className="movie-hero-overlay">
+          <div className="movie-hero-content">
+            <img
+              src={movieDetails.posterImage}
+              alt={movieDetails.title}
+              className="movie-poster"
+            />
+            <div className="movie-info">
+              <h1>{movieDetails.title}</h1>
+              <div className="movie-meta">
+                <span className="rating">{movieDetails.mpaRating}</span>
+                <span className="runtime">{movieDetails.runtime} min</span>
+                <span className="release-year">
+                  {new Date(movieDetails.releaseDate).getFullYear()}
+                </span>
+                <span className="user-rating">⭐ {movieDetails.userRating.toFixed(1)}</span>
+              </div>
+              <p className="movie-description">{movieDetails.description}</p>
+
+              <div className="movie-actions">
+                <button
+                  className={`watch-status-btn ${movieDetails.watchStatus.toLowerCase()}`}
+                  onClick={toggleWatchStatus}
+                >
+                  {movieDetails.watchStatus === 'WATCHED' ? '✓ Watched' : '+ Mark as Watched'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Movie Details */}
+      <div className="movie-details-content">
+        <div className="movie-details-grid">
+          <div className="movie-details-main">
+            <section className="movie-production">
+              <h2>Production Details</h2>
+              <div className="production-info">
+                <div className="production-item">
+                  <label>Director:</label>
+                  <span>{movieDetails.director}</span>
+                </div>
+                <div className="production-item">
+                  <label>Production Companies:</label>
+                  <span>{movieDetails.productionCompanies}</span>
+                </div>
+                <div className="production-item">
+                  <label>Budget:</label>
+                  <span>{formatBudget(movieDetails.budget)}</span>
+                </div>
+                <div className="production-item">
+                  <label>Box Office:</label>
+                  <span>{formatRevenue(movieDetails.revenue)}</span>
+                </div>
+                <div className="production-item">
+                  <label>Genres:</label>
+                  <span>{movieDetails.genres}</span>
+                </div>
+                <div className="production-item">
+                  <label>Streaming:</label>
+                  <span>{movieDetails.streamingServices}</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        {/* Recommendations */}
+        {recommendations.length > 0 && (
+          <section className="movie-recommendations">
+            <h2>Recommended for You</h2>
+            <div className="movie-grid">
+              {recommendations.map((movie) => (
+                <div key={movie.id} className="movie-card">
+                  <img src={movie.image} alt={movie.title} />
+                  <div className="movie-card-info">
+                    <h3>{movie.title}</h3>
+                    <p className="movie-card-genres">{movie.genres.join(', ')}</p>
+                    <div className="movie-card-meta">
+                      <span className="rating">⭐ {movie.rating.toFixed(1)}</span>
+                      {movie.inFavorites && <span className="favorited">❤️</span>}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Similar Movies */}
+        {similarMovies.length > 0 && (
+          <section className="similar-movies">
+            <h2>More Like This</h2>
+            <div className="movie-grid">
+              {similarMovies.map((movie) => (
+                <div key={movie.id} className="movie-card">
+                  <img src={movie.image} alt={movie.title} />
+                  <div className="movie-card-info">
+                    <h3>{movie.title}</h3>
+                    <p className="movie-card-genres">{movie.genres.join(', ')}</p>
+                    <div className="movie-card-meta">
+                      <span className="rating">⭐ {movie.rating.toFixed(1)}</span>
+                      {movie.inFavorites && <span className="favorited">❤️</span>}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+};
 ```
 
 ## Dependencies
@@ -811,6 +1430,9 @@ This module depends on:
 5. **Caching**: Cache frequently accessed movie data to improve performance
 6. **Validation**: Validate external API data before creating movie records
 7. **Consistency**: Use snake_case for database operations, camelCase for application logic
+8. **Recommendations**: Implement proper caching and user preference analysis for recommendations
+9. **Performance**: Use parallel loading for movie details and recommendations
+10. **Error Handling**: Implement graceful degradation for missing recommendation data
 
 ## Related Types
 

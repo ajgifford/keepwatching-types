@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Statistics Types Documentation
 
 This module provides TypeScript type definitions for analytics and statistics operations in the KeepWatching

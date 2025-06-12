@@ -1,3 +1,5 @@
+[< Back](../README.md)
+
 # Show Types Documentation
 
 This module provides TypeScript type definitions for show-related operations in the KeepWatching application. It handles
