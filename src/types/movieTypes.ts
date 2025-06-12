@@ -111,6 +111,68 @@ export interface ProfileMovie extends Movie {
 }
 
 /**
+ * Extended profile movie interface that includes comprehensive production metadata,
+ * financial information, and creative credits. This interface combines user-specific
+ * movie data with detailed production information for enhanced movie analytics,
+ * detailed views, and industry insights.
+ *
+ * ProfileMovieWithDetails provides complete movie information including production
+ * credits, company details, and financial performance data while maintaining
+ * profile-specific viewing context and watch status tracking.
+ *
+ * @interface ProfileMovieWithDetails
+ * @extends ProfileMovie
+ * @example
+ * ```typescript
+ * const detailedMovie: ProfileMovieWithDetails = {
+ *   // All ProfileMovie properties
+ *   id: 1,
+ *   tmdbId: 27205,
+ *   title: "Inception",
+ *   description: "A thief who steals corporate secrets through dream-sharing technology...",
+ *   releaseDate: "2010-07-16",
+ *   posterImage: "https://image.tmdb.org/t/p/w500/inception_poster.jpg",
+ *   backdropImage: "https://image.tmdb.org/t/p/original/inception_backdrop.jpg",
+ *   runtime: 148,
+ *   userRating: 8.8,
+ *   mpaRating: "PG-13",
+ *   genres: "Action, Drama, Sci-Fi, Thriller",
+ *   streamingServices: "Netflix, HBO Max",
+ *   profileId: 123,
+ *   watchStatus: "WATCHED",
+ *
+ *   // Additional detailed properties
+ *   director: "Christopher Nolan",
+ *   productionCompanies: "Warner Bros. Pictures, Legendary Entertainment, Syncopy",
+ *   budget: 160000000, // $160 million
+ *   revenue: 836836967  // $836.8 million worldwide
+ * };
+ * ```
+ */
+export interface ProfileMovieWithDetails extends ProfileMovie {
+  /**
+   * Contains the name(s) of the movie's director(s)
+   */
+  director: string;
+
+  /**
+   * Comma-separated list of production company names that were involved in
+   * bringing the movie to screen.
+   */
+  productionCompanies: string;
+
+  /**
+   * Total production budget in USD
+   */
+  budget: number;
+
+  /**
+   * Total worldwide box office revenue in USD
+   */
+  revenue: number;
+}
+
+/**
  * Administrative interface for movie management that extends the base movie
  * with system metadata. Used for content management, database administration,
  * and tracking content lifecycle in administrative panels and tools.
@@ -561,36 +623,87 @@ export interface RemoveMovieResponse extends BaseResponse {
 }
 
 /**
- * API response wrapper for movie recommendations and similar content operations.
- * Extends BaseResponse to include an array of recommended movies with metadata
- * for content discovery and recommendation features.
+ * API response wrapper for comprehensive movie details operations that includes
+ * detailed movie information and related content recommendations. This response
+ * extends BaseResponse to provide a complete movie viewing experience with
+ * detailed metadata, user context, and content discovery features.
  *
- * @interface SimilarOrRecommendedMoviesResponse
+ * MovieDetailsResponse serves as the primary response for detailed movie view
+ * endpoints, combining core movie data with personalized recommendations to
+ * enhance user engagement and content discovery.
+ *
+ * @interface MovieDetailsResponse
  * @extends BaseResponse
  * @example
  * ```typescript
- * const response: SimilarOrRecommendedMoviesResponse = {
- *   message: "Similar movies retrieved successfully",
- *   movies: [
+ * const movieDetailsResponse: MovieDetailsResponse = {
+ *   message: "Movie details retrieved successfully",
+ *   movie: {
+ *     id: 1,
+ *     tmdbId: 27205,
+ *     title: "Inception",
+ *     description: "A thief who steals corporate secrets...",
+ *     releaseDate: "2010-07-16",
+ *     posterImage: "https://image.tmdb.org/t/p/w500/inception_poster.jpg",
+ *     backdropImage: "https://image.tmdb.org/t/p/original/inception_backdrop.jpg",
+ *     runtime: 148,
+ *     userRating: 8.8,
+ *     mpaRating: "PG-13",
+ *     genres: "Action, Drama, Sci-Fi, Thriller",
+ *     streamingServices: "Netflix, HBO Max",
+ *     profileId: 123,
+ *     watchStatus: "WATCHED",
+ *     director: "Christopher Nolan",
+ *     productionCompanies: "Warner Bros. Pictures, Legendary Entertainment",
+ *     budget: 160000000,
+ *     revenue: 836836967
+ *   },
+ *   recommendedMovies: [
  *     {
  *       id: 2,
  *       title: "The Matrix",
- *       genres: ["Drama", "Crime"],
- *       premiered: "1998-02-08",
- *       summary: "The trials and tribulations of Neo...",
- *       image: "https://image.tmdb.org/poster.jpg",
- *       rating: 8.8,
- *       popularity: 85.5,
+ *       genres: ["Action", "Sci-Fi"],
+ *       premiered: "1999-03-31",
+ *       summary: "A computer programmer discovers reality is a simulation...",
+ *       image: "https://image.tmdb.org/t/p/w500/matrix_poster.jpg",
+ *       rating: 8.7,
+ *       popularity: 92.3,
  *       country: "US",
  *       language: "en",
  *       inFavorites: false
+ *     }
+ *   ],
+ *   similarMovies: [
+ *     {
+ *       id: 3,
+ *       title: "Shutter Island",
+ *       genres: ["Drama", "Mystery", "Thriller"],
+ *       premiered: "2010-02-19",
+ *       summary: "A U.S. Marshal investigates a psychiatric facility...",
+ *       image: "https://image.tmdb.org/t/p/w500/shutter_island_poster.jpg",
+ *       rating: 8.2,
+ *       popularity: 78.5,
+ *       country: "US",
+ *       language: "en",
+ *       inFavorites: true
  *     }
  *   ]
  * };
  * ```
  */
 export interface MovieDetailsResponse extends BaseResponse {
-  movie: ProfileMovie;
+  /**
+   * Comprehensive movie data with detailed production metadata and user context.
+   */
+  movie: ProfileMovieWithDetails;
+
+  /**
+   * Array of personalized movie recommendations based on user preferences and viewing history.
+   */
   recommendedMovies: SimilarOrRecommendedMovie[];
+
+  /**
+   * Array of movies that are thematically or stylistically similar to the main movie.
+   */
   similarMovies: SimilarOrRecommendedMovie[];
 }
