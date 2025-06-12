@@ -589,7 +589,8 @@ export interface RemoveMovieResponse extends BaseResponse {
  * };
  * ```
  */
-export interface SimilarOrRecommendedMoviesResponse extends BaseResponse {
-  /** Array of recommended or similar movies */
-  movies: SimilarOrRecommendedMovie[];
+export interface MovieDetailsResponse extends BaseResponse {
+  movie: ProfileMovie;
+  recommendedMovies: SimilarOrRecommendedMovie[];
+  similarMovies: SimilarOrRecommendedMovie[];
 }
