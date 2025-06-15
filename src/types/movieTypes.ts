@@ -300,6 +300,27 @@ export interface CreateMovieRequest {
   mpa_rating: string;
 
   /**
+   * Contains the name(s) of the movie's director(s)
+   */
+  director: string;
+
+  /**
+   * Comma-separated list of production company names that were involved in
+   * bringing the movie to screen.
+   */
+  production_companies: string;
+
+  /**
+   * Total production budget in USD
+   */
+  budget: number;
+
+  /**
+   * Total worldwide box office revenue in USD
+   */
+  revenue: number;
+
+  /**
    * Optional array of streaming service IDs to associate with this movie
    *
    * These IDs reference the streaming services table and will be used
@@ -314,6 +335,39 @@ export interface CreateMovieRequest {
    * the genres string field after creation.
    */
   genre_ids?: number[];
+}
+
+/**
+ * Request payload for updating existing movies. Extends the creation request
+ * with an ID field to identify which movie to modify. All fields from the
+ * creation request can be updated, allowing for comprehensive movie management.
+ *
+ * This interface supports both partial and complete updates to movie records,
+ * enabling flexible content management workflows for administrators.
+ *
+ * @interface UpdateMovieRequest
+ * @extends CreateMovieRequest
+ * @example
+ * ```typescript
+ * const updateRequest: UpdateMovieRequest = {
+ *   id: 1,
+ *   tmdb_id: 27205,
+ *   title: "Inception (Director's Cut)",
+ *   description: "Enhanced version with additional scenes and commentary...",
+ *   release_date: "2010-07-16",
+ *   runtime: 155, // Extended runtime
+ *   poster_image: "https://image.tmdb.org/t/p/w500/inception_poster_dc.jpg",
+ *   backdrop_image: "https://image.tmdb.org/t/p/original/inception_backdrop_dc.jpg",
+ *   user_rating: 9.0, // Updated rating
+ *   mpa_rating: "PG-13",
+ *   streaming_service_ids: [1, 3, 5], // Added Disney+
+ *   genre_ids: [1, 2, 4, 8]
+ * };
+ * ```
+ */
+export interface UpdateMovieRequest extends CreateMovieRequest {
+  /** ID of the movie to update */
+  id: number;
 }
 
 /**
@@ -510,39 +564,6 @@ export interface RemoveMovieFavorite {
 
   /** Updated timeline data for recent and upcoming movies */
   recentUpcomingMovies: RecentUpcomingMoviesForProfile;
-}
-
-/**
- * Request payload for updating existing movies. Extends the creation request
- * with an ID field to identify which movie to modify. All fields from the
- * creation request can be updated, allowing for comprehensive movie management.
- *
- * This interface supports both partial and complete updates to movie records,
- * enabling flexible content management workflows for administrators.
- *
- * @interface UpdateMovieRequest
- * @extends CreateMovieRequest
- * @example
- * ```typescript
- * const updateRequest: UpdateMovieRequest = {
- *   id: 1,
- *   tmdb_id: 27205,
- *   title: "Inception (Director's Cut)",
- *   description: "Enhanced version with additional scenes and commentary...",
- *   release_date: "2010-07-16",
- *   runtime: 155, // Extended runtime
- *   poster_image: "https://image.tmdb.org/t/p/w500/inception_poster_dc.jpg",
- *   backdrop_image: "https://image.tmdb.org/t/p/original/inception_backdrop_dc.jpg",
- *   user_rating: 9.0, // Updated rating
- *   mpa_rating: "PG-13",
- *   streaming_service_ids: [1, 3, 5], // Added Disney+
- *   genre_ids: [1, 2, 4, 8]
- * };
- * ```
- */
-export interface UpdateMovieRequest extends CreateMovieRequest {
-  /** ID of the movie to update */
-  id: number;
 }
 
 /**

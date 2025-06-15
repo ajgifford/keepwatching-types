@@ -9,7 +9,7 @@ import { BaseResponse } from './responseTypes';
  * @example
  * ```typescript
  * const searchResult: DiscoverAndSearchResult = {
- *   id: "tv-12345",
+ *   id: "12345",
  *   title: "Breaking Bad",
  *   genres: ["Drama", "Crime", "Thriller"],
  *   premiered: "2008-01-20",
@@ -21,7 +21,7 @@ import { BaseResponse } from './responseTypes';
  * ```
  */
 export interface DiscoverAndSearchResult {
-  /** Unique identifier for the content item (format: "tv-{id}" or "movie-{id}") */
+  /** Unique identifier for the content item*/
   id: string;
 
   /** Display title of the content */

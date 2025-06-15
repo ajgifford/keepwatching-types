@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsc",
     "prepare": "yarn build",
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "rebuild": "yarn clean && yarn build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -42,6 +42,7 @@
     "eslint": "9.16.0",
     "eslint-config-prettier": "10.1.2",
     "prettier": "3.5.3",
+    "rimraf": "^6.0.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "8.16.0"
   },
