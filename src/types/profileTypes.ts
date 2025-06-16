@@ -149,7 +149,7 @@ export interface UpdateProfileNameRequest extends UpdateProfileRequest {
  */
 export interface UpdateProfileImageRequest extends UpdateProfileRequest {
   /** New profile image URL */
-  image: string;
+  image: string | null;
 }
 
 /**

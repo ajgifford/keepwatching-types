@@ -210,7 +210,7 @@ export interface UpdateAccountRequest {
   name?: string;
 
   /** Optional new profile image URL for the account */
-  image?: string;
+  image?: string | null;
 
   /** Optional new default profile ID for the account */
   defaultProfileId?: number;
