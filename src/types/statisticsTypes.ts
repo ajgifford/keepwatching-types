@@ -38,6 +38,8 @@ export interface ShowStatisticsResponse {
 
   /** Count of shows by watch status category */
   watchStatusCounts: {
+    /** Number of unaired shows */
+    unaired: number;
     /** Number of completely watched shows */
     watched: number;
     /** Number of shows currently being watched */
