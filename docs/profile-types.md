@@ -105,7 +105,7 @@ const contentProfile: ContentProfiles = {
   image: 'https://example.com/sarah-avatar.jpg',
   accountId: 45,
   accountName: 'Smith Family',
-  watchStatus: 'WATCHING',
+  watchStatus: WatchStatus.WATCHING,
   addedDate: '2023-06-15T14:22:00Z',
   lastUpdated: '2023-12-01T09:45:00Z',
 };
@@ -139,7 +139,7 @@ const profileWithContent: ProfileWithContent = {
       id: 101,
       title: 'Breaking Bad',
       profileId: 1,
-      watchStatus: 'WATCHED',
+      watchStatus: WatchStatus.WATCHED,
       // ... other show properties
     },
   ],
@@ -153,7 +153,7 @@ const profileWithContent: ProfileWithContent = {
       id: 201,
       title: 'Inception',
       profileId: 1,
-      watchStatus: 'WATCHED',
+      watchStatus: WatchStatus.WATCHED,
       // ... other movie properties
     },
   ],
@@ -187,7 +187,7 @@ const seasonProgress: AdminSeasonWatchProgress = {
   seasonId: 301,
   seasonNumber: 1,
   name: 'Season 1',
-  status: 'WATCHING',
+  status: WatchStatus.WATCHING,
   episodeCount: 13,
   watchedEpisodes: 8,
   percentComplete: 61.5,
@@ -214,7 +214,7 @@ Comprehensive watch progress aggregation for a profile across an entire show, in
 const profileProgress: AdminProfileWatchProgress = {
   profileId: 123,
   name: "Sarah's Profile",
-  showStatus: 'WATCHING',
+  showStatus: WatchStatus.WATCHING,
   totalEpisodes: 62,
   watchedEpisodes: 45,
   percentComplete: 72.6,
@@ -223,7 +223,7 @@ const profileProgress: AdminProfileWatchProgress = {
       seasonId: 301,
       seasonNumber: 1,
       name: 'Season 1',
-      status: 'WATCHED',
+      status: WatchStatus.WATCHED,
       episodeCount: 13,
       watchedEpisodes: 13,
       percentComplete: 100,
@@ -232,7 +232,7 @@ const profileProgress: AdminProfileWatchProgress = {
       seasonId: 302,
       seasonNumber: 2,
       name: 'Season 2',
-      status: 'WATCHING',
+      status: WatchStatus.WATCHING,
       episodeCount: 13,
       watchedEpisodes: 8,
       percentComplete: 61.5,
@@ -366,7 +366,7 @@ const showProgressData: AdminShowWatchProgressResult = [
   {
     profileId: 123,
     name: 'Profile 1',
-    showStatus: 'WATCHING',
+    showStatus: WatchStatus.WATCHING,
     totalEpisodes: 50,
     watchedEpisodes: 35,
     percentComplete: 70,
@@ -375,7 +375,7 @@ const showProgressData: AdminShowWatchProgressResult = [
   {
     profileId: 124,
     name: 'Profile 2',
-    showStatus: 'WATCHED',
+    showStatus: WatchStatus.WATCHED,
     totalEpisodes: 50,
     watchedEpisodes: 50,
     percentComplete: 100,
@@ -576,7 +576,7 @@ export class ProfileAnalyticsService {
       this.episodeService.getSeasonEpisodes(seasonId, profileId),
     ]);
 
-    const watchedEpisodes = episodes.filter((ep) => ep.watchStatus === 'WATCHED').length;
+    const watchedEpisodes = episodes.filter((ep) => ep.watchStatus === WatchStatus.WATCHED).length;
     const percentComplete = episodes.length > 0 ? (watchedEpisodes / episodes.length) * 100 : 0;
 
     return {
@@ -593,25 +593,25 @@ export class ProfileAnalyticsService {
   private determineShowStatus(seasons: AdminSeasonWatchProgress[]): WatchStatusType | null {
     if (seasons.length === 0) return null;
 
-    const allWatched = seasons.every((season) => season.status === 'WATCHED');
-    const noneWatched = seasons.every((season) => season.status === 'NOT_WATCHED');
-    const someWatching = seasons.some((season) => season.status === 'WATCHING');
+    const allWatched = seasons.every((season) => season.status === WatchStatus.WATCHED);
+    const noneWatched = seasons.every((season) => season.status === WatchStatus.NOT_WATCHED);
+    const someWatching = seasons.some((season) => season.status === WatchStatus.WATCHING);
 
-    if (allWatched) return 'WATCHED';
-    if (noneWatched) return 'NOT_WATCHED';
-    if (someWatching) return 'WATCHING';
+    if (allWatched) return WatchStatus.WATCHED;
+    if (noneWatched) return WatchStatus.NOT_WATCHED;
+    if (someWatching) return WatchStatus.WATCHING;
 
-    return 'WATCHING'; // Mixed states default to watching
+    return WatchStatus.WATCHING; // Mixed states default to watching
   }
 
   private determineSeasonStatus(episodes: ProfileEpisode[]): WatchStatusType | null {
     if (episodes.length === 0) return null;
 
-    const watchedCount = episodes.filter((ep) => ep.watchStatus === 'WATCHED').length;
+    const watchedCount = episodes.filter((ep) => ep.watchStatus === WatchStatus.WATCHED).length;
 
-    if (watchedCount === 0) return 'NOT_WATCHED';
-    if (watchedCount === episodes.length) return 'WATCHED';
-    return 'WATCHING';
+    if (watchedCount === 0) return WatchStatus.NOT_WATCHED;
+    if (watchedCount === episodes.length) return WatchStatus.WATCHED;
+    return WatchStatus.WATCHING;
   }
 }
 ```

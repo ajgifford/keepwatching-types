@@ -168,7 +168,7 @@ export interface UpdateProfileImageRequest extends UpdateProfileRequest {
  *   image: "https://example.com/sarah-avatar.jpg",
  *   accountId: 45,
  *   accountName: "Smith Family",
- *   watchStatus: "WATCHING",
+ *   watchStatus: WatchStatus.WATCHING,
  *   addedDate: "2023-06-15T14:22:00Z",
  *   lastUpdated: "2023-12-01T09:45:00Z"
  * };
@@ -212,7 +212,7 @@ export interface ContentProfiles {
  *   seasonId: 301,
  *   seasonNumber: 1,
  *   name: "Season 1",
- *   status: "WATCHING",
+ *   status: WatchStatus.WATCHING,
  *   episodeCount: 13,
  *   watchedEpisodes: 8,
  *   percentComplete: 61.5
@@ -256,7 +256,7 @@ export interface AdminSeasonWatchProgress {
  * const profileProgress: AdminProfileWatchProgress = {
  *   profileId: 123,
  *   name: "Sarah's Profile",
- *   showStatus: "WATCHING",
+ *   showStatus: WatchStatus.WATCHING,
  *   totalEpisodes: 62,
  *   watchedEpisodes: 45,
  *   percentComplete: 72.6,
@@ -265,7 +265,7 @@ export interface AdminSeasonWatchProgress {
  *       seasonId: 301,
  *       seasonNumber: 1,
  *       name: "Season 1",
- *       status: "WATCHED",
+ *       status: WatchStatus.WATCHED,
  *       episodeCount: 13,
  *       watchedEpisodes: 13,
  *       percentComplete: 100
@@ -274,7 +274,7 @@ export interface AdminSeasonWatchProgress {
  *       seasonId: 302,
  *       seasonNumber: 2,
  *       name: "Season 2",
- *       status: "WATCHING",
+ *       status: WatchStatus.WATCHING,
  *       episodeCount: 13,
  *       watchedEpisodes: 8,
  *       percentComplete: 61.5
@@ -329,7 +329,7 @@ export interface AdminProfileWatchProgress {
  *       id: 101,
  *       title: "Breaking Bad",
  *       profileId: 1,
- *       watchStatus: "WATCHED",
+ *       watchStatus: WatchStatus.WATCHED,
  *       // ... other show properties
  *     }
  *   ],
@@ -343,7 +343,7 @@ export interface AdminProfileWatchProgress {
  *       id: 201,
  *       title: "Inception",
  *       profileId: 1,
- *       watchStatus: "WATCHED",
+ *       watchStatus: WatchStatus.WATCHED,
  *       // ... other movie properties
  *     }
  *   ],
@@ -383,7 +383,7 @@ export interface ProfileWithContent {
  *   {
  *     profileId: 123,
  *     name: "Profile 1",
- *     showStatus: "WATCHING",
+ *     showStatus: WatchStatus.WATCHING,
  *     totalEpisodes: 50,
  *     watchedEpisodes: 35,
  *     percentComplete: 70,
@@ -392,7 +392,7 @@ export interface ProfileWithContent {
  *   {
  *     profileId: 124,
  *     name: "Profile 2",
- *     showStatus: "WATCHED",
+ *     showStatus: WatchStatus.WATCHED,
  *     totalEpisodes: 50,
  *     watchedEpisodes: 50,
  *     percentComplete: 100,

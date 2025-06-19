@@ -79,7 +79,7 @@ Individual show progress information containing detailed viewing metrics for spe
 const showProgress: ShowProgress = {
   showId: 12345,
   title: 'Breaking Bad',
-  status: 'WATCHED',
+  status: WatchStatus.WATCHED,
   totalEpisodes: 62,
   watchedEpisodes: 62,
   percentComplete: 100,
@@ -108,7 +108,7 @@ const progressResponse: ProfileWatchProgressResponse = {
     {
       showId: 1,
       title: 'The Office',
-      status: 'WATCHED',
+      status: WatchStatus.WATCHED,
       totalEpisodes: 201,
       watchedEpisodes: 201,
       percentComplete: 100,
@@ -116,7 +116,7 @@ const progressResponse: ProfileWatchProgressResponse = {
     {
       showId: 2,
       title: 'Stranger Things',
-      status: 'WATCHING',
+      status: WatchStatus.WATCHING,
       totalEpisodes: 42,
       watchedEpisodes: 25,
       percentComplete: 59.5,
@@ -369,7 +369,7 @@ class StatisticsService {
   }
 
   private countWatchedEpisodes(show: any): number {
-    return show.episodes?.filter((ep) => ep.watchStatus === 'WATCHED').length || 0;
+    return show.episodes?.filter((ep) => ep.watchStatus === WatchStatus.WATCHED).length || 0;
   }
 }
 ```
@@ -486,7 +486,7 @@ function createDashboardMetrics(statistics: ProfileStatisticsResponse): Dashboar
 
   return {
     watchingNow: episodeWatchProgress.showsProgress
-      .filter((show) => show.status === 'WATCHING')
+      .filter((show) => show.status === WatchStatus.WATCHING)
       .sort((a, b) => b.percentComplete - a.percentComplete)
       .slice(0, 10),
   };

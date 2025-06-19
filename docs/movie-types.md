@@ -92,7 +92,7 @@ const profileMovie: ProfileMovie = {
   genres: 'Action, Drama, Sci-Fi, Thriller',
   streamingServices: 'Netflix, HBO Max',
   profileId: 123,
-  watchStatus: 'WATCHED',
+  watchStatus: WatchStatus.WATCHED,
 };
 ```
 
@@ -127,7 +127,7 @@ const detailedMovie: ProfileMovieWithDetails = {
   genres: 'Action, Drama, Sci-Fi, Thriller',
   streamingServices: 'Netflix, HBO Max',
   profileId: 123,
-  watchStatus: 'WATCHED',
+  watchStatus: WatchStatus.WATCHED,
 
   // Additional detailed properties
   director: 'Christopher Nolan',
@@ -353,7 +353,7 @@ const favoriteResult: AddMovieFavorite = {
     title: 'Inception',
     // ... other movie properties
     profileId: 123,
-    watchStatus: 'NOT_WATCHED',
+    watchStatus: WatchStatus.NOT_WATCHED,
   },
   recentUpcomingMovies: {
     recentMovies: [{ id: 100, title: 'Top Gun: Maverick', tmdbId: 361743 }],
@@ -415,7 +415,7 @@ const favoriteResponse: FavoriteMovieResponse = {
     title: 'Inception',
     // ... other properties
     profileId: 123,
-    watchStatus: 'NOT_WATCHED',
+    watchStatus: WatchStatus.NOT_WATCHED,
   },
   recentUpcomingMovies: {
     recentMovies: [{ id: 100, title: 'Top Gun: Maverick', tmdbId: 361743 }],
@@ -491,7 +491,7 @@ const movieDetailsResponse: MovieDetailsResponse = {
     genres: 'Action, Drama, Sci-Fi, Thriller',
     streamingServices: 'Netflix, HBO Max',
     profileId: 123,
-    watchStatus: 'WATCHED',
+    watchStatus: WatchStatus.WATCHED,
     director: 'Christopher Nolan',
     productionCompanies: 'Warner Bros. Pictures, Legendary Entertainment',
     budget: 160000000,
@@ -782,7 +782,7 @@ export class MovieService {
     const profileMovie = await this.profileMovieRepository.create({
       profileId,
       movieId,
-      watchStatus: 'NOT_WATCHED',
+      watchStatus: WatchStatus.NOT_WATCHED,
     });
 
     // Get full movie data
@@ -1219,7 +1219,7 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, profileId }
     if (!movieDetails) return;
 
     try {
-      const newStatus = movieDetails.watchStatus === 'WATCHED' ? 'NOT_WATCHED' : 'WATCHED';
+      const newStatus = movieDetails.watchStatus === WatchStatus.WATCHED ? WatchStatus.NOT_WATCHED : WatchStatus.WATCHED;
 
       const response = await fetch(`/api/v1/movies/${movieId}/watch-status`, {
         method: 'PUT',
@@ -1312,7 +1312,7 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, profileId }
                   className={`watch-status-btn ${movieDetails.watchStatus.toLowerCase()}`}
                   onClick={toggleWatchStatus}
                 >
-                  {movieDetails.watchStatus === 'WATCHED' ? '✓ Watched' : '+ Mark as Watched'}
+                  {movieDetails.watchStatus === WatchStatus.WATCHED ? '✓ Watched' : '+ Mark as Watched'}
                 </button>
               </div>
             </div>

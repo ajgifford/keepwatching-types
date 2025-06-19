@@ -113,7 +113,7 @@ const profileShow: ProfileShow = {
 
   // Profile-specific properties
   profileId: 123,
-  watchStatus: 'WATCHING',
+  watchStatus: WatchStatus.WATCHING,
   lastEpisode: {
     title: 'The Long Night',
     airDate: '2019-04-28',
@@ -153,7 +153,7 @@ const showWithSeasons: ProfileShowWithSeasons = {
       seasonNumber: 1,
       name: 'Season 1',
       profileId: 123,
-      watchStatus: 'WATCHED',
+      watchStatus: WatchStatus.WATCHED,
       episodes: [
         {
           id: 1,
@@ -161,7 +161,7 @@ const showWithSeasons: ProfileShowWithSeasons = {
           episodeNumber: 1,
           seasonNumber: 1,
           profileId: 123,
-          watchStatus: 'WATCHED',
+          watchStatus: WatchStatus.WATCHED,
           // ... other episode properties
         },
       ],
@@ -770,7 +770,7 @@ export class ShowService {
       lastAirDate: show.lastAirDate,
       network: show.network,
       profileId: profileId,
-      watchStatus: show.watchStatus || 'NOT_WATCHED',
+      watchStatus: show.watchStatus || WatchStatus.NOT_WATCHED,
       lastEpisode: show.lastEpisode,
       nextEpisode: show.nextEpisode,
     };
@@ -840,7 +840,7 @@ class ShowWatchStatusService {
     const episodes = await this.episodeService.getEpisodesForShow(showId, profileId);
     const show = await this.showService.getShow(showId);
 
-    const watchedCount = episodes.filter((ep) => ep.watchStatus === 'WATCHED').length;
+    const watchedCount = episodes.filter((ep) => ep.watchStatus === WatchStatus.WATCHED).length;
     const newStatus = this.calculateShowStatus(watchedCount, episodes.length, show.inProduction);
 
     await this.showService.updateWatchStatus(showId, profileId, newStatus);

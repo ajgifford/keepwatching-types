@@ -79,7 +79,7 @@ export interface Season {
  *   posterImage: "https://example.com/season1-poster.jpg",
  *   numberOfEpisodes: 7,
  *   profileId: 42,
- *   watchStatus: "WATCHING",
+ *   watchStatus: WatchStatus.WATCHING,
  *   episodes: [
  *     {
  *       id: 1001,
@@ -95,7 +95,7 @@ export interface Season {
  *       airDate: "2008-01-20",
  *       stillImage: "https://example.com/episode1-still.jpg",
  *       profileId: 42,
- *       watchStatus: "WATCHED"
+ *       watchStatus: WatchStatus.WATCHED
  *     }
  *     // ... more episodes
  *   ]

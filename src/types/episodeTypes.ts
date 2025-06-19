@@ -1,5 +1,5 @@
 import { KeepWatchingShow } from './showTypes';
-import { WatchStatus } from './watchStatusTypes';
+import { SimpleWatchStatus } from './watchStatusTypes';
 
 /**
  * Represents an individual episode in the KeepWatching application with complete metadata
@@ -118,7 +118,7 @@ export interface Episode {
  *   airDate: "2008-01-20",
  *   stillImage: "https://image.tmdb.org/t/p/w500/pilot-still.jpg",
  *   profileId: 5,
- *   watchStatus: "WATCHED"
+ *   watchStatus: WatchStatus.WATCHED
  * };
  * ```
  */
@@ -129,16 +129,17 @@ export interface ProfileEpisode extends Episode {
   /**
    * Watch status for this episode from the perspective of the specified profile.
    *
-   * Episodes use binary watch status, supporting only two states:
+   * Episodes use simple watch status, supporting three states:
+   * - "UNAIRED" - Episode has yet to air
    * - "NOT_WATCHED" - Episode has not been viewed by this profile
    * - "WATCHED" - Episode has been completely viewed by this profile
    *
    * Episodes do not support partial viewing states like "WATCHING" or "UP_TO_DATE"
    * as they represent discrete content that is either watched or not watched.
-   * This binary approach simplifies progress tracking and enables accurate
+   * This approach simplifies progress tracking and enables accurate
    * season and show completion calculations.
    */
-  watchStatus: WatchStatus;
+  watchStatus: SimpleWatchStatus;
 }
 
 /**

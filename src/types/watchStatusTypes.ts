@@ -10,6 +10,8 @@ export enum WatchStatus {
   UP_TO_DATE = 'UP_TO_DATE',
 }
 
+export type SimpleWatchStatus = WatchStatus.UNAIRED | WatchStatus.NOT_WATCHED | WatchStatus.WATCHED;
+
 /**
  * Base type that includes all possible watch statuses
  * This is used mainly for type checking and as a foundation for more specific types

@@ -12,6 +12,7 @@ import { WatchStatus } from './watchStatusTypes';
  * const showStats: ShowStatisticsResponse = {
  *   total: 25,
  *   watchStatusCounts: {
+ *     unaired: 3,
  *     watched: 8,
  *     watching: 5,
  *     notWatched: 10,
@@ -20,12 +21,12 @@ import { WatchStatus } from './watchStatusTypes';
  *   genreDistribution: {
  *     "Drama": 12,
  *     "Comedy": 8,
- *     "Action": 5
+ *     "Action": 8
  *   },
  *   serviceDistribution: {
  *     "Netflix": 15,
  *     "Disney+": 6,
- *     "HBO Max": 4
+ *     "HBO Max": 7
  *   },
  *   watchProgress: 68.5
  * };
@@ -67,7 +68,7 @@ export interface ShowStatisticsResponse {
  * const showProgress: ShowProgress = {
  *   showId: 12345,
  *   title: "Breaking Bad",
- *   status: "WATCHED",
+ *   status: WatchStatus.WATCHED,
  *   totalEpisodes: 62,
  *   watchedEpisodes: 62,
  *   percentComplete: 100
@@ -109,7 +110,7 @@ export interface ShowProgress {
  *     {
  *       showId: 1,
  *       title: "The Office",
- *       status: "WATCHED",
+ *       status: WatchStatus.WATCHED,
  *       totalEpisodes: 201,
  *       watchedEpisodes: 201,
  *       percentComplete: 100
@@ -117,7 +118,7 @@ export interface ShowProgress {
  *     {
  *       showId: 2,
  *       title: "Stranger Things",
- *       status: "WATCHING",
+ *       status: WatchStatus.WATCHING,
  *       totalEpisodes: 42,
  *       watchedEpisodes: 25,
  *       percentComplete: 59.5
@@ -155,19 +156,20 @@ export interface ProfileWatchProgressResponse {
  *   ],
  *   total: 45,
  *   watchStatusCounts: {
+ *     unaired: 5,
  *     watched: 32,
  *     notWatched: 13
  *   },
  *   genreDistribution: {
  *     "Action": 18,
- *     "Drama": 12,
- *     "Comedy": 10,
- *     "Sci-Fi": 8
+ *     "Drama": 14,
+ *     "Comedy": 12,
+ *     "Sci-Fi": 9
  *   },
  *   serviceDistribution: {
- *     "Netflix": 20,
+ *     "Netflix": 22,
  *     "Amazon Prime": 15,
- *     "Disney+": 10
+ *     "Disney+": 13
  *   },
  *   watchProgress: 71.1
  * };
@@ -180,8 +182,10 @@ export interface MovieStatisticsResponse {
   /** Total number of movies in the user's library */
   total: number;
 
-  /** Count of movies by watch status (binary: watched or not watched) */
+  /** Count of movies by watch status (unaired, watched or not watched) */
   watchStatusCounts: {
+    /** Number of movies that have not yet been released */
+    unaired: number;
     /** Number of movies that have been watched */
     watched: number;
     /** Number of movies not yet watched */
@@ -211,7 +215,7 @@ export interface MovieStatisticsResponse {
  *   profileName: "John's Profile",
  *   showStatistics: {
  *     total: 25,
- *     watchStatusCounts: { watched: 8, watching: 5, notWatched: 10, upToDate: 2 },
+ *     watchStatusCounts: { unaired: 2, watched: 8, watching: 5, notWatched: 10, upToDate: 2 },
  *     genreDistribution: { "Drama": 12, "Comedy": 8 },
  *     serviceDistribution: { "Netflix": 15, "Disney+": 6 },
  *     watchProgress: 68.5
@@ -219,7 +223,7 @@ export interface MovieStatisticsResponse {
  *   movieStatistics: {
  *     movieReferences: [{ id: 1, title: "Inception", tmdbId: 27205 }],
  *     total: 45,
- *     watchStatusCounts: { watched: 32, notWatched: 13 },
+ *     watchStatusCounts: { unaired: 5, watched: 32, notWatched: 13 },
  *     genreDistribution: { "Action": 18, "Drama": 12 },
  *     serviceDistribution: { "Netflix": 20, "Amazon Prime": 15 },
  *     watchProgress: 71.1
@@ -312,7 +316,7 @@ export interface AccountEpisodeProgress {
  *   },
  *   showStatistics: {
  *     total: 125,
- *     watchStatusCounts: { watched: 45, watching: 25, notWatched: 40, upToDate: 15 },
+ *     watchStatusCounts: { unaired: 3, watched: 45, watching: 25, notWatched: 40, upToDate: 15 },
  *     genreDistribution: { "Drama": 50, "Comedy": 35, "Action": 25 },
  *     serviceDistribution: { "Netflix": 60, "Disney+": 30, "HBO Max": 20 },
  *     watchProgress: 72.5
@@ -320,7 +324,7 @@ export interface AccountEpisodeProgress {
  *   movieStatistics: {
  *     movieReferences: [],
  *     total: 280,
- *     watchStatusCounts: { watched: 180, notWatched: 100 },
+ *     watchStatusCounts: { unaired: 10, watched: 180, notWatched: 100 },
  *     genreDistribution: { "Action": 80, "Drama": 60, "Comedy": 50 },
  *     serviceDistribution: { "Netflix": 120, "Amazon Prime": 80, "Disney+": 50 },
  *     watchProgress: 64.3

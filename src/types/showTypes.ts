@@ -186,7 +186,7 @@ export interface Show {
  *
  *   // Profile-specific properties
  *   profileId: 123,
- *   watchStatus: "WATCHING",
+ *   watchStatus: WatchStatus.WATCHING,
  *   lastEpisode: {
  *     title: "The Long Night",
  *     airDate: "2019-04-28",
@@ -247,7 +247,7 @@ export interface ProfileShow extends Show {
  *   id: 1,
  *   title: "Breaking Bad",
  *   profileId: 123,
- *   watchStatus: "WATCHING",
+ *   watchStatus: WatchStatus.WATCHING,
  *   // ... other ProfileShow properties
  *
  *   // Season details with episodes
@@ -258,7 +258,7 @@ export interface ProfileShow extends Show {
  *       seasonNumber: 1,
  *       name: "Season 1",
  *       profileId: 123,
- *       watchStatus: "WATCHED",
+ *       watchStatus: WatchStatus.WATCHED,
  *       episodes: [
  *         {
  *           id: 1,
@@ -266,7 +266,7 @@ export interface ProfileShow extends Show {
  *           episodeNumber: 1,
  *           seasonNumber: 1,
  *           profileId: 123,
- *           watchStatus: "WATCHED"
+ *           watchStatus: WatchStatus.WATCHED
  *         }
  *       ]
  *     }
@@ -798,7 +798,7 @@ export interface RemoveShowFavorite {
  *       id: 1,
  *       title: "Breaking Bad",
  *       profileId: 123,
- *       watchStatus: "WATCHING"
+ *       watchStatus: WatchStatus.WATCHING
  *       // ... other ProfileShow properties
  *     }
  *   ]
@@ -824,7 +824,7 @@ export interface ShowsResponse extends BaseResponse {
  *     id: 1,
  *     title: "Breaking Bad",
  *     profileId: 123,
- *     watchStatus: "WATCHING",
+ *     watchStatus: WatchStatus.WATCHING,
  *     seasons: [
  *       {
  *         id: 1,
@@ -906,7 +906,7 @@ export interface EpisodesForProfileResponse extends BaseResponse {
  *     id: 1,
  *     title: "Breaking Bad",
  *     profileId: 123,
- *     watchStatus: "NOT_WATCHED"
+ *     watchStatus: WatchStatus.NOT_WATCHED
  *   },
  *   episodes: {
  *     recentEpisodes: [],

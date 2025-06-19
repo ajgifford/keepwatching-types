@@ -121,9 +121,9 @@ function setMovieStatus(status: WatchStatusType) {
 }
 
 // Filtering statuses
-const allStatuses: WatchStatusType[] = ['NOT_WATCHED', 'WATCHING', 'WATCHED', 'UP_TO_DATE'];
-const binaryStatuses = allStatuses.filter(isBinaryWatchStatus);
-// Result: ['NOT_WATCHED', 'WATCHED']
+const allStatuses: WatchStatusType[] = ['UNAIRED', 'NOT_WATCHED', 'WATCHING', 'WATCHED', 'UP_TO_DATE'];
+const simpleStatuses = allStatuses.filter(isSimpleWatchStatus);
+// Result: ['UNAIRED', 'NOT_WATCHED', 'WATCHED']
 ```
 
 ### `isWatchStatus()`
@@ -166,7 +166,7 @@ function handleContentStatus(status: WatchStatusType, contentType: string) {
       console.error('Unexpected status validation failure');
     }
   } else if (contentType === 'movie' || contentType === 'episode') {
-    if (isBinaryWatchStatus(status)) {
+    if (isSimpleWatchStatus(status)) {
       updateMovieEpisodeStatus(status);
     } else {
       throw new Error(`Invalid ${contentType} status: ${status}`);
@@ -318,7 +318,7 @@ function markEpisodesWatched(episodes: Episode[], episodeIds: number[]) {
 ### Status Validation
 
 ```typescript
-import { WatchStatus, isBinaryWatchStatus, isFullWatchStatus } from '@ajgifford/keepwatching-types';
+import { WatchStatus, isSimpleWatchStatus, isWatchStatus } from '@ajgifford/keepwatching-types';
 
 // API endpoint validation
 function validateStatusUpdate(contentType: string, newStatus: string) {
@@ -331,11 +331,11 @@ function validateStatusUpdate(contentType: string, newStatus: string) {
 
   // Validate based on content type
   if (contentType === 'movie' || contentType === 'episode') {
-    if (!isBinaryWatchStatus(status)) {
-      throw new Error(`Movies and episodes only support WATCHED/NOT_WATCHED statuses. Received: ${status}`);
+    if (!isSimpleWatchStatus(status)) {
+      throw new Error(`Movies and episodes only support UNAIRED/WATCHED/NOT_WATCHED statuses. Received: ${status}`);
     }
   } else if (contentType === 'show' || contentType === 'season') {
-    if (!isFullWatchStatus(status)) {
+    if (!isWatchStatus(status)) {
       // This should never happen since all statuses are valid for shows/seasons
       throw new Error(`Unexpected validation error for ${contentType}`);
     }

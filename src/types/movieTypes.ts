@@ -1,5 +1,5 @@
 import { BaseResponse } from './responseTypes';
-import { WatchStatus } from './watchStatusTypes';
+import { SimpleWatchStatus } from './watchStatusTypes';
 
 /**
  * Represents a movie in the KeepWatching application.
@@ -92,7 +92,7 @@ export interface Movie {
  *   genres: "Action, Drama, Sci-Fi, Thriller",
  *   streamingServices: "Netflix, HBO Max",
  *   profileId: 123,
- *   watchStatus: "WATCHED"
+ *   watchStatus: WatchStatus.WATCHED
  * };
  * ```
  */
@@ -101,13 +101,13 @@ export interface ProfileMovie extends Movie {
   profileId: number;
 
   /**
-   * Current watch status for this movie (binary: watched or not watched)
+   * Current watch status for this movie (not release, watched or not watched)
    *
-   * Movies use binary watch status because they are discrete content that
+   * Movies use watch status because they are discrete content that
    * can only be completely watched or not watched, unlike TV shows which
    * can have partial progress through multiple episodes.
    */
-  watchStatus: WatchStatus;
+  watchStatus: SimpleWatchStatus;
 }
 
 /**
@@ -139,7 +139,7 @@ export interface ProfileMovie extends Movie {
  *   genres: "Action, Drama, Sci-Fi, Thriller",
  *   streamingServices: "Netflix, HBO Max",
  *   profileId: 123,
- *   watchStatus: "WATCHED",
+ *   watchStatus: WatchStatus.WATCHED,
  *
  *   // Additional detailed properties
  *   director: "Christopher Nolan",
@@ -509,7 +509,7 @@ export interface RecentUpcomingMoviesForProfile {
  *     title: "Inception",
  *     // ... other movie properties
  *     profileId: 123,
- *     watchStatus: "NOT_WATCHED"
+ *     watchStatus: WatchStatus.NOT_WATCHED
  *   },
  *   recentUpcomingMovies: {
  *     recentMovies: [
@@ -585,7 +585,7 @@ export interface RemoveMovieFavorite {
  *     title: "Inception",
  *     // ... other properties
  *     profileId: 123,
- *     watchStatus: "NOT_WATCHED"
+ *     watchStatus: WatchStatus.NOT_WATCHED
  *   },
  *   recentUpcomingMovies: {
  *     recentMovies: [
@@ -673,7 +673,7 @@ export interface RemoveMovieResponse extends BaseResponse {
  *     genres: "Action, Drama, Sci-Fi, Thriller",
  *     streamingServices: "Netflix, HBO Max",
  *     profileId: 123,
- *     watchStatus: "WATCHED",
+ *     watchStatus: WatchStatus.WATCHED,
  *     director: "Christopher Nolan",
  *     productionCompanies: "Warner Bros. Pictures, Legendary Entertainment",
  *     budget: 160000000,

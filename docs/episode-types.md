@@ -90,7 +90,7 @@ const profileEpisode: ProfileEpisode = {
   airDate: '2008-01-20',
   stillImage: 'https://image.tmdb.org/t/p/w500/pilot-still.jpg',
   profileId: 5,
-  watchStatus: 'WATCHED',
+  watchStatus: WatchStatus.WATCHED,
 };
 ```
 
@@ -605,7 +605,7 @@ async function markEpisodeWatched(profileId: number, episodeId: number): Promise
   // Validate status is appropriate for episodes
   const newStatus = WatchStatus.WATCHED;
 
-  if (!isBinaryWatchStatus(newStatus)) {
+  if (!isSimpleWatchStatus(newStatus)) {
     throw new Error('Episodes only support binary watch status');
   }
 
