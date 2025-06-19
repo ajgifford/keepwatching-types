@@ -1,5 +1,5 @@
 import { MovieReference } from './movieTypes';
-import { FullWatchStatusType } from './watchStatusTypes';
+import { WatchStatus } from './watchStatusTypes';
 
 /**
  * Statistics response for show-related metrics and analytics.
@@ -82,7 +82,7 @@ export interface ShowProgress {
   title: string;
 
   /** Current watch status of the show */
-  status: FullWatchStatusType;
+  status: WatchStatus;
 
   /** Total number of episodes in the show */
   totalEpisodes: number;

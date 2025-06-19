@@ -59,7 +59,7 @@ season appears to a specific user profile, including their watch progress and ep
 **Additional Properties:**
 
 - `profileId: number` - ID of the profile viewing this season
-- `watchStatus: FullWatchStatusType` - Current watch status for the entire season
+- `watchStatus: WatchStatus` - Current watch status for the entire season
 - `episodes: ProfileEpisode[]` - Array of episodes with profile-specific viewing states
 
 **Key Features:**
@@ -254,13 +254,13 @@ const updateSeasonRequest: UpdateSeasonRequest = {
 
 ### Season Status Calculation
 
-Seasons use `FullWatchStatusType` which supports all four watch status values:
+Seasons use `WatchStatus` which supports all five watch status values:
 
 ```typescript
-import { FullWatchStatusType, WatchStatus } from '@ajgifford/keepwatching-types';
+import { WatchStatus } from '@ajgifford/keepwatching-types';
 
 // Season status progression examples
-function calculateSeasonStatus(episodes: ProfileEpisode[], isOngoing: boolean): FullWatchStatusType {
+function calculateSeasonStatus(episodes: ProfileEpisode[], isOngoing: boolean): WatchStatus {
   const watchedCount = episodes.filter((ep) => ep.watchStatus === WatchStatus.WATCHED).length;
   const totalCount = episodes.length;
 
@@ -274,7 +274,8 @@ function calculateSeasonStatus(episodes: ProfileEpisode[], isOngoing: boolean): 
 }
 
 // Valid season statuses
-const seasonStatuses: FullWatchStatusType[] = [
+const seasonStatuses: WatchStatus[] = [
+  WatchStatus.UNAIRED, // Hasn't aired
   WatchStatus.NOT_WATCHED, // Haven't started watching any episodes
   WatchStatus.WATCHING, // Watching some episodes but not finished
   WatchStatus.WATCHED, // Finished all episodes (complete season)
@@ -470,7 +471,7 @@ class SeasonCacheService {
 This module depends on:
 
 - `./episodeTypes` - For ProfileEpisode and AdminEpisode interfaces
-- `./watchStatusTypes` - For FullWatchStatusType
+- `./watchStatusTypes` - For WatchStatus
 - External content APIs (TMDB) - For season metadata
 - Database ORM - For data persistence
 

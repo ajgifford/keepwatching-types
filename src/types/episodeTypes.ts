@@ -1,5 +1,5 @@
 import { KeepWatchingShow } from './showTypes';
-import { BinaryWatchStatusType } from './watchStatusTypes';
+import { WatchStatus } from './watchStatusTypes';
 
 /**
  * Represents an individual episode in the KeepWatching application with complete metadata
@@ -138,7 +138,7 @@ export interface ProfileEpisode extends Episode {
    * This binary approach simplifies progress tracking and enables accurate
    * season and show completion calculations.
    */
-  watchStatus: BinaryWatchStatusType;
+  watchStatus: WatchStatus;
 }
 
 /**

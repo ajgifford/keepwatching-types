@@ -68,7 +68,7 @@ Individual show progress information containing detailed viewing metrics for spe
 
 - `showId: number` - Unique identifier for the show
 - `title: string` - Display title of the show
-- `status: FullWatchStatusType` - Current watch status
+- `status: WatchStatus` - Current watch status
 - `totalEpisodes: number` - Total episodes in the show
 - `watchedEpisodes: number` - Episodes the user has watched
 - `percentComplete: number` - Completion percentage (0-100)
@@ -659,7 +659,7 @@ class StatisticsCache {
 This module depends on:
 
 - `./movieTypes` - For MovieReference interface
-- `./watchStatusTypes` - For FullWatchStatusType
+- `./watchStatusTypes` - For WatchStatus
 - Database models for shows, movies, episodes, and profiles
 - Analytics and reporting services
 

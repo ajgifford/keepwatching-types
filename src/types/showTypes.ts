@@ -1,7 +1,7 @@
 import { EpisodesForProfile, NextEpisode, ShowEpisode } from './episodeTypes';
 import { BaseResponse } from './responseTypes';
 import { ProfileSeason } from './seasonTypes';
-import { FullWatchStatusType } from './watchStatusTypes';
+import { WatchStatus } from './watchStatusTypes';
 
 /**
  * Represents a TV show or series in the KeepWatching application with comprehensive metadata.
@@ -212,7 +212,7 @@ export interface ProfileShow extends Show {
    * Supports all watch statuses (NOT_WATCHED, WATCHING, WATCHED, UP_TO_DATE)
    * since shows can have progressive viewing states based on episode progress.
    */
-  watchStatus: FullWatchStatusType;
+  watchStatus: WatchStatus;
 
   /**
    * Information about the most recently watched episode (nullable)

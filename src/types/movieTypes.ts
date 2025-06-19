@@ -1,5 +1,5 @@
 import { BaseResponse } from './responseTypes';
-import { BinaryWatchStatusType } from './watchStatusTypes';
+import { WatchStatus } from './watchStatusTypes';
 
 /**
  * Represents a movie in the KeepWatching application.
@@ -107,7 +107,7 @@ export interface ProfileMovie extends Movie {
    * can only be completely watched or not watched, unlike TV shows which
    * can have partial progress through multiple episodes.
    */
-  watchStatus: BinaryWatchStatusType;
+  watchStatus: WatchStatus;
 }
 
 /**

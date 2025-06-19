@@ -2,7 +2,7 @@ import { EpisodesForProfile } from './episodeTypes';
 import { ProfileMovie, RecentUpcomingMoviesForProfile } from './movieTypes';
 import { BaseResponse } from './responseTypes';
 import { ProfileShow } from './showTypes';
-import { WatchStatusType } from './watchStatusTypes';
+import { WatchStatus } from './watchStatusTypes';
 
 /**
  * Represents a user profile within an account in the KeepWatching application.
@@ -191,7 +191,7 @@ export interface ContentProfiles {
   accountName: string;
 
   /** Current watch status of the content for this profile */
-  watchStatus: WatchStatusType;
+  watchStatus: WatchStatus;
 
   /** ISO timestamp when the content was added to this profile */
   addedDate: string;
@@ -229,8 +229,8 @@ export interface AdminSeasonWatchProgress {
   /** Display name of the season */
   name: string;
 
-  /** Overall watch status for the season (null if no episodes watched) */
-  status: WatchStatusType | null;
+  /** Overall watch status for the season */
+  status: WatchStatus;
 
   /** Total number of episodes in the season */
   episodeCount: number;
@@ -290,8 +290,8 @@ export interface AdminProfileWatchProgress {
   /** Display name of the profile */
   name: string;
 
-  /** Overall watch status for the entire show (null if no episodes watched) */
-  showStatus: WatchStatusType | null;
+  /** Overall watch status for the entire show */
+  showStatus: WatchStatus;
 
   /** Total number of episodes across all seasons of the show */
   totalEpisodes: number;

@@ -1,5 +1,5 @@
 import { AdminEpisode, ProfileEpisode } from './episodeTypes';
-import { FullWatchStatusType } from './watchStatusTypes';
+import { WatchStatus } from './watchStatusTypes';
 
 /**
  * Represents a TV show season in the KeepWatching application.
@@ -118,7 +118,7 @@ export interface ProfileSeason extends Season {
    *
    * Season status can also be set directly by the user to override automatic calculation.
    */
-  watchStatus: FullWatchStatusType;
+  watchStatus: WatchStatus;
 
   /**
    * Array of episodes in this season with profile-specific viewing states.

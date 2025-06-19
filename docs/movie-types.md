@@ -67,7 +67,7 @@ interface enables personalized movie libraries and viewing progress management.
 **Additional Properties:**
 
 - `profileId: number` - ID of the user profile that owns this movie association
-- `watchStatus: BinaryWatchStatusType` - Current watch status (WATCHED or NOT_WATCHED)
+- `watchStatus: WatchStatus` - Current watch status (UNAIRED, WATCHED or NOT_WATCHED)
 
 **Key Features:**
 
@@ -882,19 +882,12 @@ export class MovieService {
 ### Watch Status Management
 
 ```typescript
-import { BinaryWatchStatusType, isBinaryWatchStatus } from '@ajgifford/keepwatching-types';
+import { WatchStatus } from '@ajgifford/keepwatching-types';
 
 class MovieWatchStatusService {
-  async updateWatchStatus(profileId: number, movieId: number, newStatus: string): Promise<ProfileMovie> {
-    // Validate status is appropriate for movies
-    if (!isBinaryWatchStatus(newStatus as any)) {
-      throw new Error('Movies only support WATCHED and NOT_WATCHED statuses');
-    }
-
-    const status = newStatus as BinaryWatchStatusType;
-
+  async updateWatchStatus(profileId: number, movieId: number, newStatus: WatchStatus): Promise<ProfileMovie> {
     // Update the status
-    await this.profileMovieRepository.updateWatchStatus(profileId, movieId, status);
+    await this.profileMovieRepository.updateWatchStatus(profileId, movieId, newStatus);
 
     // Return updated movie
     return await this.getProfileMovie(profileId, movieId);
@@ -902,17 +895,18 @@ class MovieWatchStatusService {
 
   async toggleWatchStatus(profileId: number, movieId: number): Promise<ProfileMovie> {
     const profileMovie = await this.getProfileMovie(profileId, movieId);
-    const newStatus: BinaryWatchStatusType = profileMovie.watchStatus === 'WATCHED' ? 'NOT_WATCHED' : 'WATCHED';
+    const newStatus: WatchStatus =
+      profileMovie.watchStatus === WatchStatus.WATCHED ? WatchStatus.NOT_WATCHED : WatchStatus.WATCHED;
 
     return await this.updateWatchStatus(profileId, movieId, newStatus);
   }
 
   async markAsWatched(profileId: number, movieId: number): Promise<ProfileMovie> {
-    return await this.updateWatchStatus(profileId, movieId, 'WATCHED');
+    return await this.updateWatchStatus(profileId, movieId, WatchStatus.WATCHED);
   }
 
   async markAsNotWatched(profileId: number, movieId: number): Promise<ProfileMovie> {
-    return await this.updateWatchStatus(profileId, movieId, 'NOT_WATCHED');
+    return await this.updateWatchStatus(profileId, movieId, WatchStatus.NOT_WATCHED);
   }
 }
 ```
@@ -1416,7 +1410,7 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, profileId }
 This module depends on:
 
 - `./responseTypes` - For BaseResponse interface
-- `./watchStatusTypes` - For BinaryWatchStatusType
+- `./watchStatusTypes` - For WatchStatus
 - External movie databases (TMDB) - For movie metadata
 - Image CDN services - For poster and backdrop images
 - Streaming service APIs - For availability data
@@ -1436,7 +1430,7 @@ This module depends on:
 
 ## Related Types
 
-- `BinaryWatchStatusType` (from watchStatusTypes.ts) - For movie watch status
+- `WatchStatus` (from watchStatusTypes.ts) - For movie watch status
 - `BaseResponse` (from responseTypes.ts) - For API response structure
 - `Profile` types (from profileTypes.ts) - For user profile associations
 - `Statistics` types (from statisticsTypes.ts) - For movie analytics

@@ -77,7 +77,7 @@ combines show metadata with personalized viewing information.
 **Additional Properties:**
 
 - `profileId: number` - ID of the profile this show belongs to
-- `watchStatus: FullWatchStatusType` - Current watch status for this profile
+- `watchStatus: WatchStatus` - Current watch status for this profile
 - `lastEpisode: ShowEpisode | null` - Most recently watched episode
 - `nextEpisode: ShowEpisode | null` - Next episode to watch
 
@@ -819,11 +819,11 @@ export class ShowService {
 Shows support all watch statuses due to their episodic nature:
 
 ```typescript
-import { FullWatchStatusType, WatchStatus } from '@ajgifford/keepwatching-types';
+import { WatchStatus } from '@ajgifford/keepwatching-types';
 
 class ShowWatchStatusService {
   // Calculate show status based on episode progress
-  calculateShowStatus(watchedEpisodes: number, totalEpisodes: number, isOngoing: boolean): FullWatchStatusType {
+  calculateShowStatus(watchedEpisodes: number, totalEpisodes: number, isOngoing: boolean): WatchStatus {
     if (watchedEpisodes === 0) {
       return WatchStatus.NOT_WATCHED;
     } else if (watchedEpisodes < totalEpisodes) {
@@ -922,7 +922,7 @@ This module depends on:
 - `./episodeTypes` - For EpisodesForProfile, NextEpisode, ShowEpisode interfaces
 - `./responseTypes` - For BaseResponse interface
 - `./seasonTypes` - For ProfileSeason interface
-- `./watchStatusTypes` - For FullWatchStatusType
+- `./watchStatusTypes` - For WatchStatus
 - External APIs (TMDB) - For content metadata
 - Database ORM - For persistence operations
 

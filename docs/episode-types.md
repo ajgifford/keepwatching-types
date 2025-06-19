@@ -65,7 +65,7 @@ This represents an episode as seen from a specific user's perspective.
 **Additional Properties:**
 
 - `profileId: number` - ID of the profile viewing this episode
-- `watchStatus: BinaryWatchStatusType` - Watch status (WATCHED or NOT_WATCHED)
+- `watchStatus: WatchStatus` - Watch status (UNAIRED, WATCHED or NOT_WATCHED)
 
 **Key Features:**
 
@@ -639,7 +639,7 @@ async function markEpisodeWatched(profileId: number, episodeId: number): Promise
 This module depends on:
 
 - `./showTypes` - For KeepWatchingShow and ProfileShow types
-- `./watchStatusTypes` - For BinaryWatchStatusType and status validation
+- `./watchStatusTypes` - For WatchStatus and status validation
 - Database models for episodes, seasons, and shows
 - External APIs (TMDB) for episode metadata
 

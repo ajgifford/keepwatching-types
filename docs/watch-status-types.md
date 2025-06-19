@@ -24,6 +24,7 @@ of truth for watch status values.
 
 **Values:**
 
+- `UNAIRED = 'UNAIRED'` - Content has not yet aired, air date/release date is in the future
 - `NOT_WATCHED = 'NOT_WATCHED'` - Content has not been viewed
 - `WATCHING = 'WATCHING'` - Content is currently being viewed (in progress)
 - `WATCHED = 'WATCHED'` - Content has been completely viewed
@@ -50,54 +51,43 @@ if (status === WatchStatus.UP_TO_DATE) {
 
 ### `WatchStatusType`
 
-Base type that includes all possible watch statuses. Used mainly for type checking and as a foundation for more specific
-types.
+Base type that includes all possible watch statuses. Used for content that supports all watch statuses (Shows and
+Seasons). These can have progressive status like `UP_TO_DATE` for ongoing series.
 
 ```typescript
 type WatchStatusType = keyof typeof WatchStatus;
-// Results in: 'NOT_WATCHED' | 'WATCHING' | 'WATCHED' | 'UP_TO_DATE'
+// Results in: 'UNAIRED' | 'NOT_WATCHED' | 'WATCHING' | 'WATCHED' | 'UP_TO_DATE'
+
+const showStatus: WatchStatusType = WatchStatus.UP_TO_DATE;
+const seasonStatus: WatchStatusType = WatchStatus.WATCHING;
 ```
 
-### `FullWatchStatusType`
+### `SimpleWatchStatusType`
 
-Status type for content that supports all watch statuses (Shows and Seasons). These can have progressive status like
-`UP_TO_DATE` for ongoing series.
-
-```typescript
-type FullWatchStatusType = WatchStatusType;
-
-// Usage examples
-const showStatus: FullWatchStatusType = WatchStatus.UP_TO_DATE;
-const seasonStatus: FullWatchStatusType = WatchStatus.WATCHING;
-```
-
-### `BinaryWatchStatusType`
-
-Status type for content that can only be completely watched or not (Movies and Episodes). Binary watch status - either
-watched or not watched.
+Status type for content that can only be unaired, watched or not (Movies and Episodes).
 
 ```typescript
-type BinaryWatchStatusType = Extract<WatchStatusType, 'NOT_WATCHED' | 'WATCHED'>;
+type SimpleWatchStatusType = Extract<WatchStatusType, 'UNAIRED' | 'NOT_WATCHED' | 'WATCHED'>;
 
 // Usage examples
-const movieStatus: BinaryWatchStatusType = WatchStatus.WATCHED;
-const episodeStatus: BinaryWatchStatusType = WatchStatus.NOT_WATCHED;
+const movieStatus: SimpleWatchStatusType = WatchStatus.WATCHED;
+const episodeStatus: SimpleWatchStatusType = WatchStatus.NOT_WATCHED;
 
 // These would cause TypeScript errors:
-// const invalidMovie: BinaryWatchStatusType = WatchStatus.WATCHING; // Error!
-// const invalidEpisode: BinaryWatchStatusType = WatchStatus.UP_TO_DATE; // Error!
+// const invalidMovie: SimpleWatchStatusType = WatchStatus.WATCHING; // Error!
+// const invalidEpisode: SimpleWatchStatusType = WatchStatus.UP_TO_DATE; // Error!
 ```
 
 ## Type Guards
 
-### `isBinaryWatchStatus()`
+### `isSimpleWatchStatus()`
 
-Helper type guard to check if a given status is valid for binary watch status content (Movies and Episodes).
+Helper type guard to check if a given status is valid for simple watch status content (Movies and Episodes).
 
 **Signature:**
 
 ```typescript
-function isBinaryWatchStatus(status: WatchStatusType): status is BinaryWatchStatusType;
+function isSimpleWatchStatus(status: WatchStatusType): status is SimpleWatchStatusType;
 ```
 
 **Parameters:**
@@ -111,18 +101,18 @@ function isBinaryWatchStatus(status: WatchStatusType): status is BinaryWatchStat
 **Usage Examples:**
 
 ```typescript
-import { WatchStatus, isBinaryWatchStatus } from '@ajgifford/keepwatching-types';
+import { WatchStatus, isSimpleWatchStatus } from '@ajgifford/keepwatching-types';
 
 // Validate movie status
 const movieStatus = WatchStatus.WATCHED;
-if (isBinaryWatchStatus(movieStatus)) {
+if (isSimpleWatchStatus(movieStatus)) {
   console.log('Valid movie status');
-  // TypeScript now knows movieStatus is BinaryWatchStatusType
+  // TypeScript now knows movieStatus is SimpleWatchStatusType
 }
 
 // Runtime validation
 function setMovieStatus(status: WatchStatusType) {
-  if (isBinaryWatchStatus(status)) {
+  if (isSimpleWatchStatus(status)) {
     // Safe to use for movie
     updateMovieWatchStatus(status);
   } else {
@@ -136,14 +126,14 @@ const binaryStatuses = allStatuses.filter(isBinaryWatchStatus);
 // Result: ['NOT_WATCHED', 'WATCHED']
 ```
 
-### `isFullWatchStatus()`
+### `isWatchStatus()`
 
-Helper type guard to check if a given status is valid for full watch status content (Shows and Seasons).
+Helper type guard to check if a given status is valid for all watch status content (Shows and Seasons).
 
 **Signature:**
 
 ```typescript
-function isFullWatchStatus(status: WatchStatusType): status is FullWatchStatusType;
+function isWatchStatus(status: WatchStatusType): status is WatchStatusType;
 ```
 
 **Parameters:**
@@ -157,19 +147,19 @@ function isFullWatchStatus(status: WatchStatusType): status is FullWatchStatusTy
 **Usage Examples:**
 
 ```typescript
-import { WatchStatus, isFullWatchStatus } from '@ajgifford/keepwatching-types';
+import { WatchStatus, isWatchStatus } from '@ajgifford/keepwatching-types';
 
 // Validate show status
 const showStatus = WatchStatus.UP_TO_DATE;
-if (isFullWatchStatus(showStatus)) {
+if (isWatchStatus(showStatus)) {
   console.log('Valid show status');
-  // TypeScript now knows showStatus is FullWatchStatusType
+  // TypeScript now knows showStatus is WatchStatusType
 }
 
 // Content type determination
 function handleContentStatus(status: WatchStatusType, contentType: string) {
   if (contentType === 'show' || contentType === 'season') {
-    if (isFullWatchStatus(status)) {
+    if (isWatchStatus(status)) {
       updateShowSeasonStatus(status);
     } else {
       // This should never happen since all statuses are valid for shows/seasons
@@ -236,29 +226,30 @@ function createContentWithDefaults(type: 'show' | 'season' | 'episode' | 'movie'
 
 ## Content Type Mapping
 
-### Shows and Seasons (FullWatchStatusType)
+### Shows and Seasons (WatchStatus)
 
 Shows and seasons support all four watch statuses because they represent collections of content that can be partially
 consumed:
 
 ```typescript
-import { FullWatchStatusType, WatchStatus } from '@ajgifford/keepwatching-types';
+import { WatchStatus } from '@ajgifford/keepwatching-types';
 
 interface Show {
   id: number;
   title: string;
-  watchStatus: FullWatchStatusType;
+  watchStatus: WatchStatus;
 }
 
 interface Season {
   id: number;
   showId: number;
   seasonNumber: number;
-  watchStatus: FullWatchStatusType;
+  watchStatus: WatchStatus;
 }
 
 // All valid show/season statuses
-const showStatuses: FullWatchStatusType[] = [
+const showStatuses: WatchStatus[] = [
+  WatchStatus.UNAIRED, // Hasn't aired
   WatchStatus.NOT_WATCHED, // Haven't started watching
   WatchStatus.WATCHING, // Currently watching episodes
   WatchStatus.WATCHED, // Finished all available episodes
@@ -279,34 +270,36 @@ function updateShowProgress(show: Show, watchedEpisodes: number, totalEpisodes: 
 }
 ```
 
-### Movies and Episodes (BinaryWatchStatusType)
+### Movies and Episodes (SimpleWatchStatusType)
 
-Movies and episodes only support binary statuses because they represent discrete content that is either watched or not:
+Movies and episodes only support simple statuses because they represent discrete content that is either unaired, watched
+or not watched:
 
 ```typescript
-import { BinaryWatchStatusType, WatchStatus } from '@ajgifford/keepwatching-types';
+import { SimpleWatchStatusType, WatchStatus } from '@ajgifford/keepwatching-types';
 
 interface Movie {
   id: number;
   title: string;
-  watchStatus: BinaryWatchStatusType;
+  watchStatus: SimpleWatchStatusType;
 }
 
 interface Episode {
   id: number;
   showId: number;
   episodeNumber: number;
-  watchStatus: BinaryWatchStatusType;
+  watchStatus: SimpleWatchStatusType;
 }
 
-// Valid movie/episode statuses (only two options)
-const binaryStatuses: BinaryWatchStatusType[] = [
+// Valid movie/episode statuses (three options)
+const simpleStatuses: SimpleWatchStatusType[] = [
   WatchStatus.NOT_WATCHED, // Haven't watched
   WatchStatus.WATCHED, // Have watched
+  WatchStatus.UNAIRED,
 ];
 
 // Simple status toggle
-function toggleWatchStatus(status: BinaryWatchStatusType): BinaryWatchStatusType {
+function toggleWatchStatus(status: SimpleWatchStatusType): SimpleWatchStatusType {
   return status === WatchStatus.WATCHED ? WatchStatus.NOT_WATCHED : WatchStatus.WATCHED;
 }
 
@@ -357,13 +350,10 @@ function validateStatusUpdate(contentType: string, newStatus: string) {
 ### Progress Calculation
 
 ```typescript
-import { BinaryWatchStatusType, FullWatchStatusType, WatchStatus } from '@ajgifford/keepwatching-types';
+import { SimpleWatchStatusType, WatchStatus, WatchStatusType } from '@ajgifford/keepwatching-types';
 
 // Calculate show progress based on episode statuses
-function calculateShowStatus(
-  episodes: { watchStatus: BinaryWatchStatusType }[],
-  isOngoing: boolean,
-): FullWatchStatusType {
+function calculateShowStatus(episodes: { watchStatus: SimpleWatchStatusType }[], isOngoing: boolean): WatchStatusType {
   const watchedCount = episodes.filter((ep) => ep.watchStatus === WatchStatus.WATCHED).length;
   const totalCount = episodes.length;
 
@@ -377,8 +367,9 @@ function calculateShowStatus(
 }
 
 // Calculate overall progress percentage
-function calculateWatchProgress(statuses: (FullWatchStatusType | BinaryWatchStatusType)[]): number {
+function calculateWatchProgress(statuses: (WatchStatusType | SimpleWatchStatusType)[]): number {
   const weights = {
+    [WatchStatus.UNAIRED]: 0,
     [WatchStatus.NOT_WATCHED]: 0,
     [WatchStatus.WATCHING]: 0.5,
     [WatchStatus.WATCHED]: 1,
@@ -479,9 +470,8 @@ This module has no external dependencies and provides the foundation for other t
 
 ## Best Practices
 
-1. **Type Safety**: Always use the specific watch status types (`BinaryWatchStatusType` or `FullWatchStatusType`) rather
-   than the general `WatchStatusType`
-2. **Validation**: Use type guards (`isBinaryWatchStatus`, `isFullWatchStatus`) for runtime validation
+1. **Type Safety**: Always use the specific watch status types (`SimpleWatchStatusType` or `WatchStatusType`)
+2. **Validation**: Use type guards (`isSimpleWatchStatus`, `isWatchStatus`) for runtime validation
 3. **Default Values**: Use `getDefaultStatus()` for consistent initialization
 4. **Error Handling**: Implement proper validation before status updates
 5. **Status Progression**: Consider logical status transitions (e.g., NOT_WATCHED → WATCHING → WATCHED)
@@ -491,8 +481,8 @@ This module has no external dependencies and provides the foundation for other t
 ## Related Types
 
 - **Profile Types** (`profileTypes.ts`) - Uses watch status for user content
-- **Show Types** (`showTypes.ts`) - Uses `FullWatchStatusType` for shows
-- **Movie Types** (`movieTypes.ts`) - Uses `BinaryWatchStatusType` for movies
-- **Episode Types** (`episodeTypes.ts`) - Uses `BinaryWatchStatusType` for episodes
-- **Season Types** (`seasonTypes.ts`) - Uses `FullWatchStatusType` for seasons
+- **Show Types** (`showTypes.ts`) - Uses `WatchStatus` for shows
+- **Movie Types** (`movieTypes.ts`) - Uses `WatchStatus` for movies
+- **Episode Types** (`episodeTypes.ts`) - Uses `WatchStatus` for episodes
+- **Season Types** (`seasonTypes.ts`) - Uses `WatchStatus` for seasons
 - **Statistics Types** (`statisticsTypes.ts`) - Aggregates watch status data
