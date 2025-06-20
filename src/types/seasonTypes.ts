@@ -111,6 +111,7 @@ export interface ProfileSeason extends Season {
    *
    * The season watch status is typically calculated based on the viewing progress
    * of individual episodes within the season:
+   * - UNAIRED: The season has not aired
    * - NOT_WATCHED: No episodes have been watched
    * - WATCHING: Some episodes watched, but season not complete
    * - WATCHED: All episodes in the season have been watched (complete season)

@@ -209,7 +209,7 @@ export interface ProfileShow extends Show {
   /**
    * Current watch status for this profile
    *
-   * Supports all watch statuses (NOT_WATCHED, WATCHING, WATCHED, UP_TO_DATE)
+   * Supports all watch statuses (UNAIRED, NOT_WATCHED, WATCHING, WATCHED, UP_TO_DATE)
    * since shows can have progressive viewing states based on episode progress.
    */
   watchStatus: WatchStatus;

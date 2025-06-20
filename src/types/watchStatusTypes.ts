@@ -10,7 +10,11 @@ export enum WatchStatus {
   UP_TO_DATE = 'UP_TO_DATE',
 }
 
+/** Subset of watch statuses that are used by Episodes and Movies */
 export type SimpleWatchStatus = WatchStatus.UNAIRED | WatchStatus.NOT_WATCHED | WatchStatus.WATCHED;
+
+/** Subset of watch statuses that are allowed to be passed from the client */
+export type UserWatchStatus = WatchStatus.WATCHED | WatchStatus.NOT_WATCHED;
 
 /**
  * Base type that includes all possible watch statuses
