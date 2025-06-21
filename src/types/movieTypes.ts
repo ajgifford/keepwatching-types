@@ -242,6 +242,9 @@ export interface MovieReference {
 
   /** External database reference (TMDB ID) */
   tmdbId: number;
+
+  /** Release date of the movie */
+  releaseDate: string;
 }
 
 /**

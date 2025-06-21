@@ -319,41 +319,17 @@ export interface AdminShow extends Show {
 }
 
 /**
- * Minimal show reference containing only the ID for lightweight operations
- * and foreign key relationships.
- *
- * Used when only show identification is needed without loading full metadata,
- * such as in relationship mappings or reference operations.
- *
- * @interface ShowReference
- * @example
- * ```typescript
- * const showRef: ShowReference = {
- *   id: 1
- * };
- * ```
- */
-export interface ShowReference {
-  /** Unique identifier for the show */
-  id: number;
-}
-
-/**
- * Extended reference that includes TMDB ID and title for external API operations
+ * Show reference that includes ID, TMDB ID, title and release date for external API operations
  * and content matching.
  *
- * Builds upon the basic ShowReference by adding external database integration
- * capabilities and display information. Provides the minimum information needed
- * for show identification in contexts where TMDB integration or title display is required.
- *
- * @interface ShowTMDBReference
- * @extends ShowReference
+ * @interface ShowReference
  * @example
  * ```typescript
  * const tmdbRef: ShowTMDBReference = {
  *   id: 1,
  *   tmdbId: 1399,
  *   title: "Game of Thrones"
+ *   releaseDate: "2018-08-09"
  * };
  *
  * // Used for removed show references
@@ -361,15 +337,22 @@ export interface ShowReference {
  *   id: 15,
  *   tmdbId: 1396,
  *   title: "Breaking Bad"
+ *   releaseDate: "2015-07-01"
  * };
  * ```
  */
-export interface ShowTMDBReference extends ShowReference {
+export interface ShowReference {
+  /** Unique identifier for the show */
+  id: number;
+
   /** TMDB identifier for external API operations */
   tmdbId: number;
 
   /** Display title of the show */
   title: string;
+
+  /** Release date of the show */
+  releaseDate: string;
 }
 
 /**
@@ -777,7 +760,7 @@ export interface AddShowFavorite {
  */
 export interface RemoveShowFavorite {
   /** Reference to the show that was removed from favorites */
-  removedShow: ShowTMDBReference;
+  removedShow: ShowReference;
 
   /** Updated episode information after show removal */
   episodes: EpisodesForProfile;
@@ -954,7 +937,7 @@ export interface AddShowFavoriteResponse extends BaseResponse {
  */
 export interface RemoveShowFavoriteResponse extends BaseResponse {
   /** Reference to the show that was removed from favorites */
-  removedShowReference: ShowTMDBReference;
+  removedShowReference: ShowReference;
 
   /** Updated episode information after show removal */
   episodes: EpisodesForProfile;
