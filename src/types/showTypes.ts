@@ -693,6 +693,13 @@ export interface UpdateShowRequest extends CreateShowRequest {
   id: number;
 }
 
+export interface UpdateWatchStatusData {
+  /** Updated show with seasons */
+  show: ProfileShowWithSeasons;
+  /** Updated keep watching shows after status change */
+  nextUnwatchedEpisodes: KeepWatchingShow[];
+}
+
 /**
  * Response type for adding shows to favorites that includes the added show
  * and updated episode information for the profile.
@@ -848,8 +855,8 @@ export interface ShowDetailsResponse extends BaseResponse {
  * ```
  */
 export interface UpdateWatchStatusResponse extends BaseResponse {
-  /** Updated keep watching shows after status change */
-  nextUnwatchedEpisodes: KeepWatchingShow[];
+  /** Updated data after changing the watch status */
+  data: UpdateWatchStatusData;
 }
 
 /**
