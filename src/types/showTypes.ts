@@ -856,7 +856,7 @@ export interface ShowDetailsResponse extends BaseResponse {
  */
 export interface UpdateWatchStatusResponse extends BaseResponse {
   /** Updated data after changing the watch status */
-  data: UpdateWatchStatusData;
+  statusData: UpdateWatchStatusData;
 }
 
 /**
