@@ -695,7 +695,7 @@ export interface UpdateShowRequest extends CreateShowRequest {
 
 export interface UpdateWatchStatusData {
   /** Updated show with seasons */
-  show: ProfileShowWithSeasons;
+  showWithSeasons: ProfileShowWithSeasons;
   /** Updated keep watching shows after status change */
   nextUnwatchedEpisodes: KeepWatchingShow[];
 }
@@ -829,11 +829,11 @@ export interface ShowsResponse extends BaseResponse {
  */
 export interface ShowDetailsResponse extends BaseResponse {
   /** Detailed show information with seasons and episodes */
-  show: ProfileShowWithSeasons;
+  showWithSeasons: ProfileShowWithSeasons;
 }
 
 /**
- * API response for watch status updates that includes updated keep watching information.
+ * API response for watch status updates for an active show that includes updated keep watching information.
  * Provides immediate feedback about status changes and their impact on viewing progress.
  *
  * @interface UpdateWatchStatusResponse
@@ -842,15 +842,18 @@ export interface ShowDetailsResponse extends BaseResponse {
  * ```typescript
  * const response: UpdateWatchStatusResponse = {
  *   message: "Watch status updated successfully",
- *   nextUnwatchedEpisodes: [
- *     {
- *       showId: 1,
- *       showTitle: "Breaking Bad",
- *       posterImage: "poster.jpg",
- *       lastWatched: "2024-01-15T20:30:00Z",
- *       episodes: []
- *     }
- *   ]
+ *   statusData: {
+ *     show: {...}
+ *     nextUnwatchedEpisodes: [
+ *       {
+ *         showId: 1,
+ *         showTitle: "Breaking Bad",
+ *         posterImage: "poster.jpg",
+ *         lastWatched: "2024-01-15T20:30:00Z",
+ *         episodes: []
+ *       }
+ *     ]
+ *   }
  * };
  * ```
  */
