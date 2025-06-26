@@ -136,6 +136,9 @@ export interface ProfileWatchProgressResponse {
   /** Total number of episodes watched across all shows */
   watchedEpisodes: number;
 
+  /** Total number of episodes that have not yet aired across all shows */
+  unairedEpisodes: number;
+
   /** Overall completion percentage (0-100) across all shows */
   overallProgress: number;
 
