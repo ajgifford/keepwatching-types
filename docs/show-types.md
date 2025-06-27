@@ -196,23 +196,14 @@ const adminShow: AdminShow = {
 
 ### `ShowReference`
 
-Minimal show reference containing only the ID for lightweight operations and foreign key relationships.
+Show reference that includes ID, TMDB ID, title and release date for external API operations and content matching.
 
 ```typescript
 const showRef: ShowReference = {
   id: 1,
-};
-```
-
-### `ShowTMDBReference`
-
-Extended reference that includes TMDB ID and title for external API operations and content matching.
-
-```typescript
-const tmdbRef: ShowTMDBReference = {
-  id: 1,
   tmdbId: 1399,
   title: 'Game of Thrones',
+  releaseDate: '2011-04-17',
 };
 ```
 
@@ -380,7 +371,7 @@ Response type for removing shows from favorites that includes minimal show refer
 
 **Properties:**
 
-- `removedShow: ShowTMDBReference` - Reference to the removed show
+- `removedShow: ShowReference` - Reference to the removed show
 - `episodes: EpisodesForProfile` - Updated episode information
 
 ## API Response Types
@@ -403,7 +394,7 @@ API response for detailed show information including seasons.
 ```typescript
 interface ShowDetailsResponse extends BaseResponse {
   message: string; // From BaseResponse
-  show: ProfileShowWithSeasons; // Detailed show with seasons
+  showWithSeasons: ProfileShowWithSeasons; // Detailed show with seasons
 }
 ```
 
@@ -414,18 +405,7 @@ Response for watch status updates that includes keep watching updates.
 ```typescript
 interface UpdateWatchStatusResponse extends BaseResponse {
   message: string; // From BaseResponse
-  nextUnwatchedEpisodes: KeepWatchingShow[]; // Updated keep watching list
-}
-```
-
-### `EpisodesForProfileResponse`
-
-Response for episode-related operations.
-
-```typescript
-interface EpisodesForProfileResponse extends BaseResponse {
-  message: string; // From BaseResponse
-  episodes: EpisodesForProfile; // Episode information
+  statusData: UpdateWatchStatusData; // Updated status information
 }
 ```
 
@@ -448,7 +428,7 @@ Response for removing shows from favorites.
 ```typescript
 interface RemoveShowFavoriteResponse extends BaseResponse {
   message: string; // From BaseResponse
-  removedShowReference: ShowTMDBReference; // Reference to removed show
+  removedShowReference: ShowReference; // Reference to removed show
   episodes: EpisodesForProfile; // Updated episodes
 }
 ```
@@ -502,11 +482,11 @@ export class ShowController {
     try {
       const showId = parseInt(req.params.id);
       const profileId = parseInt(req.params.profileId);
-      const show = await this.showService.getShowWithSeasons(showId, profileId);
+      const showWithSeasons = await this.showService.getShowWithSeasons(showId, profileId);
 
       const response: ShowDetailsResponse = {
         message: 'Show details retrieved successfully',
-        show,
+        showWithSeasons,
       };
 
       res.status(200).json(response);
