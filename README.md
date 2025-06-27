@@ -50,6 +50,13 @@ const account: Account = {
 - **[Statistics Types](./docs/statistics-types.md)** - Analytics and progress reporting
 - **[Notification Types](./docs/notification-types.md)** - User notifications and messaging
 - **[Discovery & Search Types](./docs/discover-search-types.md)** - Content discovery and search functionality
+- **[Content Types](./docs/content-types.md)** - Lightweight content identification
+
+### Admin Modules
+
+- **[Log Types](./docs/log-types.md)** - logging and monitoring operations
+- **[Service Health Types](./docs/log-types.md)** - service availability, performance metrics and health checks
+
 
 ### API Types
 
