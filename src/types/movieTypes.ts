@@ -67,6 +67,63 @@ export interface Movie {
 }
 
 /**
+ * Extended movie interface that includes comprehensive production metadata,
+ * financial information, and creative credits.
+ *
+ * MovieDetails provides complete movie information including production
+ * credits, company details, and financial performance data.
+ *
+ * @interface MovieDetails
+ * @extends ProfileMovie
+ * @example
+ * ```typescript
+ * const detailedMovie: MovieDetails = {
+ *   // All Movie properties
+ *   id: 1,
+ *   tmdbId: 27205,
+ *   title: "Inception",
+ *   description: "A thief who steals corporate secrets through dream-sharing technology...",
+ *   releaseDate: "2010-07-16",
+ *   posterImage: "https://image.tmdb.org/t/p/w500/inception_poster.jpg",
+ *   backdropImage: "https://image.tmdb.org/t/p/original/inception_backdrop.jpg",
+ *   runtime: 148,
+ *   userRating: 8.8,
+ *   mpaRating: "PG-13",
+ *   genres: "Action, Drama, Sci-Fi, Thriller",
+ *   streamingServices: "Netflix, HBO Max",
+ *
+ *   // Additional detailed properties
+ *   director: "Christopher Nolan",
+ *   productionCompanies: "Warner Bros. Pictures, Legendary Entertainment, Syncopy",
+ *   budget: 160000000, // $160 million
+ *   revenue: 836836967  // $836.8 million worldwide
+ * };
+ * ```
+ */
+export interface MovieDetails extends Movie {
+  /**
+   * Contains the name(s) of the movie's director(s)
+   */
+  director: string;
+
+  /**
+   * Comma-separated list of production company names that were involved in
+   * bringing the movie to screen.
+   */
+  productionCompanies: string;
+
+  /**
+   * Total production budget in USD
+   */
+  budget: number;
+
+  /**
+   * Total worldwide box office revenue in USD
+   */
+  revenue: number;
+}
+
+/**
  * Extended movie interface that associates movies with specific user profiles
  * and includes watch status tracking. This interface enables personalized movie
  * libraries and viewing progress management across multiple user profiles.
@@ -121,6 +178,7 @@ export interface ProfileMovie extends Movie {
  * profile-specific viewing context and watch status tracking.
  *
  * @interface ProfileMovieWithDetails
+ * @extends MovieDetails
  * @extends ProfileMovie
  * @example
  * ```typescript
@@ -149,28 +207,7 @@ export interface ProfileMovie extends Movie {
  * };
  * ```
  */
-export interface ProfileMovieWithDetails extends ProfileMovie {
-  /**
-   * Contains the name(s) of the movie's director(s)
-   */
-  director: string;
-
-  /**
-   * Comma-separated list of production company names that were involved in
-   * bringing the movie to screen.
-   */
-  productionCompanies: string;
-
-  /**
-   * Total production budget in USD
-   */
-  budget: number;
-
-  /**
-   * Total worldwide box office revenue in USD
-   */
-  revenue: number;
-}
+export interface ProfileMovieWithDetails extends MovieDetails, ProfileMovie {}
 
 /**
  * Administrative interface for movie management that extends the base movie
@@ -205,6 +242,44 @@ export interface AdminMovie extends Movie {
   /** ISO timestamp of the last modification to the movie record */
   lastUpdated: string;
 }
+
+/**
+ * Administrative interface for movie management that extends the movie details
+ * with system metadata. Used for content management, database administration,
+ * and tracking content lifecycle in administrative panels and tools.
+ *
+ * This interface provides administrators with additional context about when
+ * movie records were last modified, enabling better content management workflows.
+ *
+ * @interface AdminMovieDetails
+ * @extends MovieDetails
+ * @extends AdminMovie
+ * @example
+ * ```typescript
+ * const adminMovie: AdminMovie = {
+ *   id: 1,
+ *   tmdbId: 27205,
+ *   title: "Inception",
+ *   description: "A thief who steals corporate secrets...",
+ *   releaseDate: "2010-07-16",
+ *   posterImage: "https://image.tmdb.org/t/p/w500/inception_poster.jpg",
+ *   backdropImage: "https://image.tmdb.org/t/p/original/inception_backdrop.jpg",
+ *   runtime: 148,
+ *   userRating: 8.8,
+ *   mpaRating: "PG-13",
+ *   genres: "Action, Drama, Sci-Fi, Thriller",
+ *   streamingServices: "Netflix, HBO Max",
+ *   lastUpdated: "2024-01-15T10:30:00Z"
+ *
+ *   // Additional detailed properties
+ *   director: "Christopher Nolan",
+ *   productionCompanies: "Warner Bros. Pictures, Legendary Entertainment, Syncopy",
+ *   budget: 160000000, // $160 million
+ *   revenue: 836836967  // $836.8 million worldwide
+ * };
+ * ```
+ */
+export interface AdminMovieDetails extends MovieDetails, AdminMovie {}
 
 /**
  * Lightweight reference interface for movies that contains only essential
