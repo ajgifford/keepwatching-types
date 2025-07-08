@@ -1,4 +1,5 @@
 import { EpisodesForProfile, NextEpisode, ShowEpisode } from './episodeTypes';
+import { ShowCastMember } from './personTypes';
 import { BaseResponse } from './responseTypes';
 import { ProfileSeason } from './seasonTypes';
 import { WatchStatus } from './watchStatusTypes';
@@ -801,7 +802,7 @@ export interface ShowsResponse extends BaseResponse {
 }
 
 /**
- * API response wrapper for detailed show information including seasons and episodes.
+ * API response wrapper for detailed show information including seasons and episodes and cast members.
  * Extends BaseResponse to include comprehensive show data with complete season/episode hierarchy.
  *
  * @interface ShowDetailsResponse
@@ -810,7 +811,7 @@ export interface ShowsResponse extends BaseResponse {
  * ```typescript
  * const response: ShowDetailsResponse = {
  *   message: "Show details retrieved successfully",
- *   show: {
+ *   showWithSeasons: {
  *     id: 1,
  *     title: "Breaking Bad",
  *     profileId: 123,
@@ -824,12 +825,24 @@ export interface ShowsResponse extends BaseResponse {
  *     ]
  *     // ... other ProfileShowWithSeasons properties
  *   }
+ *   castMembers: {
+ *      active: [],
+ *      prior: []
+ *   }
  * };
  * ```
  */
 export interface ShowDetailsResponse extends BaseResponse {
   /** Detailed show information with seasons and episodes */
   showWithSeasons: ProfileShowWithSeasons;
+
+  /**Cast members for the show (active and prior).*/
+  showCast: ShowCast;
+}
+
+export interface ShowCast {
+  activeCast: ShowCastMember[];
+  priorCast: ShowCastMember[];
 }
 
 /**

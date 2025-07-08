@@ -1,3 +1,4 @@
+import { CastMember } from './personTypes';
 import { BaseResponse } from './responseTypes';
 import { SimpleWatchStatus } from './watchStatusTypes';
 
@@ -795,6 +796,11 @@ export interface MovieDetailsResponse extends BaseResponse {
    * Comprehensive movie data with detailed production metadata and user context.
    */
   movie: ProfileMovieWithDetails;
+
+  /**
+   * Array of cast members for the movie.
+   */
+  castMembers: CastMember[];
 
   /**
    * Array of personalized movie recommendations based on user preferences and viewing history.
