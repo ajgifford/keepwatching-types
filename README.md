@@ -42,13 +42,14 @@ const account: Account = {
 
 - **[Account Types](./docs/account-types.md)** - User accounts, authentication, and Firebase integration
 - **[Profile Types](./docs/profile-types.md)** - User profiles and content management
-- **[Show Types](./docs/show-types.md)** - TV shows, series, and related metadata
 - **[Movie Types](./docs/movie-types.md)** - Movies and film-related data structures
-- **[Episode Types](./docs/episode-types.md)** - Individual episodes and viewing progress
+- **[Show Types](./docs/show-types.md)** - TV shows, series, and related metadata
 - **[Season Types](./docs/season-types.md)** - TV show seasons and episode collections
+- **[Episode Types](./docs/episode-types.md)** - Individual episodes and viewing progress
 - **[Watch Status Types](./docs/watch-status-types.md)** - Content viewing states and progress tracking
 - **[Statistics Types](./docs/statistics-types.md)** - Analytics and progress reporting
 - **[Notification Types](./docs/notification-types.md)** - User notifications and messaging
+- **[Person Types](./docs/person-types.md)** - Person (actors) and their roles in movies and shows
 - **[Discovery & Search Types](./docs/discover-search-types.md)** - Content discovery and search functionality
 - **[Content Types](./docs/content-types.md)** - Lightweight content identification
 
@@ -89,13 +90,14 @@ src/
 ├── types/
 │   ├── accountTypes.ts      # User accounts and authentication
 │   ├── profileTypes.ts      # User profiles and content management
-│   ├── showTypes.ts         # TV shows and series
 │   ├── movieTypes.ts        # Movies and films
-│   ├── episodeTypes.ts      # Individual episodes
+│   ├── showTypes.ts         # TV shows and series
 │   ├── seasonTypes.ts       # TV show seasons
+│   ├── episodeTypes.ts      # Individual episodes
 │   ├── watchStatusTypes.ts  # Content viewing states
 │   ├── statisticTypes.ts    # Analytics and reporting
 │   ├── notificationTypes.ts # User notifications
+│   ├── personTypes.ts       # People
 │   ├── discoverAndSearchTypes.ts # Content discovery
 │   └── responseTypes.ts     # Base API response structures
 ├── index.ts                 # Main export file
