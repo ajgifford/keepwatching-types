@@ -93,6 +93,88 @@ export interface DiscoverAndSearchResponse extends BaseResponse {
 }
 
 /**
+ * Represents a single person search result from the content database.
+ * Contains essential metadata about a person including identification,
+ * description, and popularity metrics.
+ *
+ * @interface PersonSearchResult
+ * @example
+ * ```typescript
+ * const searchResult: PersonSearchResult = {
+ *   id: "500",
+ *    name: "Tom Cruise",
+ *    profileImage: "/3mShHjSQR7NXOVbdTu5rT2Qd0MN.jpg",
+ *    knownFor: "["Edge of Tomorrow", "Oblivion", "Mission: Impossible - Ghost Protocol"]",
+ *    department: "Acting",
+ *    popularity: 95.8
+ * };
+ * ```
+ */
+export interface PersonSearchResult {
+  /** Unique identifier for the person*/
+  id: number;
+
+  /** Name of the person*/
+  name: string;
+
+  /** URL to the person's profile image */
+  profileImage: string;
+
+  /** Array of content the person is known for*/
+  knownFor: string[];
+
+  /** Primary element for which the person is known, acting for example*/
+  department: string;
+
+  /**
+   * Popularity metric for the person
+   * Higher values indicate more popular content
+   */
+  popularity: number;
+}
+
+/**
+ * API response wrapper for person search operations.
+ * Extends BaseResponse to include paginated search results with metadata
+ * about the total results and current page position.
+ *
+ * @interface PersonSearchResponse
+ * @extends BaseResponse
+ * @example
+ * ```typescript
+ * const searchResponse: PersonSearchResponse = {
+ *   message: "Search results for 'Tom Cruise",
+ *   results: [
+ *     {
+ *       id: "500",
+ *       name: "Tom Cruise",
+ *       profileImage: "/3mShHjSQR7NXOVbdTu5rT2Qd0MN.jpg",
+ *       knownFor: "["Edge of Tomorrow", "Oblivion", "Mission: Impossible - Ghost Protocol"]",
+ *       department: "Acting",
+ *       popularity: 95.8
+ *     }
+ *   ],
+ *   totalResults: 1,
+ *   totalPages: 1,
+ *   currentPage: 1
+ * };
+ * ```
+ */
+export interface PersonSearchResponse extends BaseResponse {
+  /** Array of person search results for the current page */
+  results: PersonSearchResult[];
+
+  /** Total number of results available across all pages */
+  totalResults: number;
+
+  /** Total number of pages available for pagination */
+  totalPages: number;
+
+  /** Current page number (1-based indexing) */
+  currentPage: number;
+}
+
+/**
  * Enumeration of supported media types for search and discovery operations.
  * Maps to external API values (e.g., TMDB API) for consistent media type identification.
  *

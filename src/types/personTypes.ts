@@ -1,3 +1,5 @@
+import { BaseResponse } from './responseTypes';
+
 /**
  * Lightweight reference interface for persons that contains only essential
  * identification information. Used in contexts where full person data is not
@@ -239,6 +241,22 @@ export interface ShowCredit extends Credit {
   episodeCount: number;
 }
 
+export interface SearchPerson {
+  id: number;
+  name: string;
+  profileImage: string;
+  department: string;
+  popularity: number;
+  biography: string;
+  birthday: string;
+  birthplace: string;
+  deathday: string | null;
+}
+
+export interface SearchPersonResponse extends BaseResponse {
+  person: SearchPerson;
+}
+
 /**
  * Interface representing a cast member's role in a specific piece of content
  * (movie or show). Links persons to content through character relationships
@@ -357,6 +375,26 @@ export interface ShowCastMember extends CastMember {
    * - false: Actor is no longer active (left the show, character died, etc.)
    */
   active: boolean;
+}
+
+export interface SearchPersonCredit {
+  tmdbId: number;
+  title: string;
+  posterImage: string;
+  releaseDate: string;
+  character: string;
+  job: string;
+  mediaType: 'tv' | 'movie';
+  isCast?: boolean;
+}
+
+export interface SearchPersonCredits {
+  cast: SearchPersonCredit[];
+  crew: SearchPersonCredit[];
+}
+
+export interface SearchPersonCreditsResponse extends BaseResponse {
+  credits: SearchPersonCredits;
 }
 
 /**
