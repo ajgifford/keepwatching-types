@@ -243,6 +243,196 @@ const activeCastMember: ShowCastMember = {
 };
 ```
 
+## Search Interfaces
+
+### `SearchPerson`
+
+Simplified person interface for search operations and external API integration. Contains essential person data typically
+returned from search endpoints and external data sources like TMDB.
+
+**Properties:**
+
+- `id: number` - Unique identifier for the person
+- `name: string` - Full name of the person
+- `profileImage: string` - URL to the person's profile image for search result display
+- `department: string` - Primary department or role the person is known for
+- `popularity: number` - Popularity score for ranking search results
+- `biography: string` - Brief biographical information about the person
+- `birthday: string` - Birth date for biographical context
+- `birthplace: string` - Birth location for geographical context
+- `deathday: string | null` - Death date or null if the person is alive
+
+**Key Features:**
+
+- **Search Optimization**: Optimized for search results without overhead of complete biographical data
+- **External API Compatibility**: Designed to work with TMDB and other external search APIs
+- **Popularity Ranking**: Includes popularity metrics for result ordering
+- **Essential Data**: Contains key information needed for search result display
+
+**Usage Example:**
+
+```typescript
+const searchResult: SearchPerson = {
+  id: 6384,
+  name: 'Keanu Reeves',
+  profileImage: 'https://image.tmdb.org/t/p/w500/profile.jpg',
+  department: 'Acting',
+  popularity: 64.928,
+  biography: 'Keanu Charles Reeves is a Canadian actor...',
+  birthday: '1964-09-02',
+  birthplace: 'Beirut, Lebanon',
+  deathday: null,
+};
+```
+
+### `SearchPersonResponse`
+
+API response wrapper for search person operations that extends BaseResponse to include the found person data with
+standardized response structure.
+
+**Properties:**
+
+- `person: SearchPerson` - The found person data
+
+**Usage Example:**
+
+```typescript
+const response: SearchPersonResponse = {
+  message: 'Person found successfully',
+  person: {
+    id: 6384,
+    name: 'Keanu Reeves',
+    profileImage: 'https://image.tmdb.org/t/p/w500/profile.jpg',
+    department: 'Acting',
+    popularity: 64.928,
+    biography: 'Keanu Charles Reeves is a Canadian actor...',
+    birthday: '1964-09-02',
+    birthplace: 'Beirut, Lebanon',
+    deathday: null,
+  },
+};
+```
+
+## Search Credit Interfaces
+
+### `SearchPersonCredit`
+
+Credit information for persons found through search operations, typically from external APIs like TMDB. Contains content
+metadata and the person's role in that content for comprehensive search result display.
+
+**Properties:**
+
+- `tmdbId: number` - TMDB identifier for the content
+- `title: string` - Title of the movie or show
+- `posterImage: string` - URL to the content's poster image
+- `releaseDate: string` - Release date in ISO format (YYYY-MM-DD)
+- `character: string` - Character name portrayed by the person
+- `job: string` - Job or role description (Actor, Director, Writer, etc.)
+- `mediaType: 'tv' | 'movie'` - Type of content (movie or TV show)
+- `isCast?: boolean` - Whether this is a cast credit (acting role) vs crew credit
+
+**Key Features:**
+
+- **External API Integration**: Designed for TMDB and other external API compatibility
+- **Role Distinction**: Differentiates between cast (acting) and crew (behind-the-scenes) roles
+- **Content Metadata**: Includes visual and descriptive content information
+- **Media Type Awareness**: Handles both movie and TV show credits
+
+**Usage Example:**
+
+```typescript
+const searchCredit: SearchPersonCredit = {
+  tmdbId: 603,
+  title: 'The Matrix',
+  posterImage: 'https://image.tmdb.org/t/p/w500/poster.jpg',
+  releaseDate: '1999-03-31',
+  character: 'Neo',
+  job: 'Actor',
+  mediaType: 'movie',
+  isCast: true,
+};
+```
+
+### `SearchPersonCredits`
+
+Grouped collection of search person credits separated by cast and crew roles. Provides organized access to a person's
+filmography from search operations, distinguishing between on-screen and behind-the-scenes work.
+
+**Properties:**
+
+- `cast: SearchPersonCredit[]` - Array of cast credits where the person appeared on screen
+- `crew: SearchPersonCredit[]` - Array of crew credits where the person worked behind the scenes
+
+**Key Features:**
+
+- **Role Organization**: Separates acting roles from crew positions
+- **Comprehensive Filmography**: Includes both on-screen and behind-the-scenes work
+- **Search Integration**: Optimized for external API search result processing
+- **Display Ready**: Organized for immediate use in UI components
+
+**Usage Example:**
+
+```typescript
+const personCredits: SearchPersonCredits = {
+  cast: [
+    {
+      tmdbId: 603,
+      title: 'The Matrix',
+      posterImage: 'https://image.tmdb.org/t/p/w500/poster.jpg',
+      releaseDate: '1999-03-31',
+      character: 'Neo',
+      job: 'Actor',
+      mediaType: 'movie',
+      isCast: true,
+    },
+  ],
+  crew: [
+    {
+      tmdbId: 603,
+      title: 'The Matrix',
+      posterImage: 'https://image.tmdb.org/t/p/w500/poster.jpg',
+      releaseDate: '1999-03-31',
+      character: '',
+      job: 'Producer',
+      mediaType: 'movie',
+      isCast: false,
+    },
+  ],
+};
+```
+
+### `SearchPersonCreditsResponse`
+
+API response wrapper for search person credits operations that extends BaseResponse to include the person's organized
+filmography with standardized response structure.
+
+**Properties:**
+
+- `credits: SearchPersonCredits` - The person's organized filmography
+
+**Usage Example:**
+
+```typescript
+const response: SearchPersonCreditsResponse = {
+  message: 'Person credits retrieved successfully',
+  credits: {
+    cast: [
+      {
+        tmdbId: 603,
+        title: 'The Matrix',
+        posterImage: 'https://image.tmdb.org/t/p/w500/poster.jpg',
+        releaseDate: '1999-03-31',
+        character: 'Neo',
+        job: 'Actor',
+        mediaType: 'movie',
+        isCast: true,
+      },
+    ],
+    crew: [],
+  },
+};
+```
+
 ## Request Types
 
 ### `CreatePerson`
@@ -591,6 +781,60 @@ export class CastService {
 }
 ```
 
+### Search Operations
+
+```typescript
+import { SearchPerson, SearchPersonCredits } from '@ajgifford/keepwatching-types';
+
+export class PersonSearchService {
+  constructor(private tmdbService: TMDBService) {}
+
+  async searchPersons(query: string): Promise<SearchPerson[]> {
+    const tmdbResults = await this.tmdbService.searchPersons(query);
+
+    return tmdbResults.map((result) => ({
+      id: result.id,
+      name: result.name,
+      profileImage: this.tmdbService.buildImageUrl(result.profile_path),
+      department: result.known_for_department,
+      popularity: result.popularity,
+      biography: result.biography || '',
+      birthday: result.birthday || '',
+      birthplace: result.place_of_birth || '',
+      deathday: result.deathday,
+    }));
+  }
+
+  async getPersonCredits(personId: number): Promise<SearchPersonCredits> {
+    const tmdbCredits = await this.tmdbService.getPersonCredits(personId);
+
+    const cast = tmdbCredits.cast.map((credit) => ({
+      tmdbId: credit.id,
+      title: credit.title || credit.name,
+      posterImage: this.tmdbService.buildImageUrl(credit.poster_path),
+      releaseDate: credit.release_date || credit.first_air_date,
+      character: credit.character,
+      job: credit.job || 'Actor',
+      mediaType: credit.media_type as 'tv' | 'movie',
+      isCast: true,
+    }));
+
+    const crew = tmdbCredits.crew.map((credit) => ({
+      tmdbId: credit.id,
+      title: credit.title || credit.name,
+      posterImage: this.tmdbService.buildImageUrl(credit.poster_path),
+      releaseDate: credit.release_date || credit.first_air_date,
+      character: '',
+      job: credit.job,
+      mediaType: credit.media_type as 'tv' | 'movie',
+      isCast: false,
+    }));
+
+    return { cast, crew };
+  }
+}
+```
+
 ### Controller Implementation
 
 ```typescript
@@ -769,6 +1013,48 @@ export class PersonController {
 }
 ```
 
+```typescript
+import { SearchPersonCreditsResponse, SearchPersonResponse } from '@ajgifford/keepwatching-types';
+
+export class PersonSearchController {
+  constructor(private personSearchService: PersonSearchService) {}
+
+  // GET /api/v1/search/persons/:id
+  async getSearchPerson(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const personId = parseInt(req.params.id);
+      const person = await this.personSearchService.getSearchPerson(personId);
+
+      const response: SearchPersonResponse = {
+        message: 'Person found successfully',
+        person,
+      };
+
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // GET /api/v1/search/persons/:id/credits
+  async getPersonCredits(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const personId = parseInt(req.params.id);
+      const credits = await this.personSearchService.getPersonCredits(personId);
+
+      const response: SearchPersonCreditsResponse = {
+        message: 'Person credits retrieved successfully',
+        credits,
+      };
+
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+```
+
 ## TMDB Integration
 
 ### Data Synchronization
@@ -907,6 +1193,17 @@ This module depends on:
 6. **Image Handling**: Implement fallbacks for missing profile images
 7. **Credit Management**: Keep movie and TV credits separate for clarity
 8. **Cast Status**: Properly track active vs. former cast members for shows
+
+## Best Practices for Search Operations
+
+1. **Search Result Optimization**: Use `SearchPerson` for lightweight search operations instead of full `Person` objects
+2. **Credit Organization**: Always separate cast and crew credits using `SearchPersonCredits` structure
+3. **External API Integration**: Use search interfaces for TMDB and other external API compatibility
+4. **Image URL Handling**: Implement proper image URL building for external API poster paths
+5. **Popularity Scoring**: Leverage popularity metrics for relevant search result ordering
+6. **Media Type Awareness**: Handle both movie and TV show credits appropriately
+7. **Null Safety**: Always handle potential null values in external API responses
+8. **Performance**: Cache search results when possible to reduce external API calls
 
 ## Related Types
 

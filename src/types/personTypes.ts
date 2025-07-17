@@ -241,19 +241,97 @@ export interface ShowCredit extends Credit {
   episodeCount: number;
 }
 
+/**
+ * Simplified person interface for search operations and external API integration.
+ * Contains essential person data typically returned from search endpoints and
+ * external data sources like TMDB.
+ *
+ * This interface is optimized for search results where basic person information
+ * is needed without the overhead of complete biographical data and filmography.
+ *
+ * @interface SearchPerson
+ * @example
+ * ```typescript
+ * const searchResult: SearchPerson = {
+ *   id: 6384,
+ *   name: "Keanu Reeves",
+ *   profileImage: "https://image.tmdb.org/t/p/w500/profile.jpg",
+ *   department: "Acting",
+ *   popularity: 64.928,
+ *   biography: "Keanu Charles Reeves is a Canadian actor...",
+ *   birthday: "1964-09-02",
+ *   birthplace: "Beirut, Lebanon",
+ *   deathday: null
+ * };
+ * ```
+ */
 export interface SearchPerson {
+  /** Unique identifier for the person */
   id: number;
+
+  /** Full name of the person */
   name: string;
+
+  /** URL to the person's profile image for search result display */
   profileImage: string;
+
+  /**
+   * Primary department or role the person is known for
+   *
+   * Typically "Acting", "Directing", "Writing", etc. Helps categorize
+   * the person's primary contribution to content production.
+   */
   department: string;
+
+  /**
+   * Popularity score for ranking search results
+   *
+   * Numeric value indicating the person's overall popularity or relevance.
+   * Higher values indicate more popular or well-known individuals.
+   * Used for sorting search results by relevance.
+   */
   popularity: number;
+
+  /** Brief biographical information about the person */
   biography: string;
+
+  /** Birth date for biographical context */
   birthday: string;
+
+  /** Birth location for geographical context */
   birthplace: string;
+
+  /** Death date or null if the person is alive */
   deathday: string | null;
 }
 
+/**
+ * API response wrapper for search person operations.
+ * Extends BaseResponse to include the found person data with
+ * standardized response structure.
+ *
+ * @interface SearchPersonResponse
+ * @extends BaseResponse
+ * @example
+ * ```typescript
+ * const response: SearchPersonResponse = {
+ *   message: "Person found successfully",
+ *   person: {
+ *     id: 6384,
+ *     name: "Keanu Reeves",
+ *     profileImage: "https://image.tmdb.org/t/p/w500/profile.jpg",
+ *     department: "Acting",
+ *     popularity: 64.928,
+ *     biography: "Keanu Charles Reeves is a Canadian actor...",
+ *     birthday: "1964-09-02",
+ *     birthplace: "Beirut, Lebanon",
+ *     deathday: null
+ *   }
+ * };
+ * ```
+ */
 export interface SearchPersonResponse extends BaseResponse {
+  /** The found person data */
   person: SearchPerson;
 }
 
@@ -377,23 +455,134 @@ export interface ShowCastMember extends CastMember {
   active: boolean;
 }
 
+/**
+ * Credit information for persons found through search operations, typically
+ * from external APIs like TMDB. Contains content metadata and the person's
+ * role in that content for comprehensive search result display.
+ *
+ * @interface SearchPersonCredit
+ * @example
+ * ```typescript
+ * const searchCredit: SearchPersonCredit = {
+ *   tmdbId: 603,
+ *   title: "The Matrix",
+ *   posterImage: "https://image.tmdb.org/t/p/w500/poster.jpg",
+ *   releaseDate: "1999-03-31",
+ *   character: "Neo",
+ *   job: "Actor",
+ *   mediaType: "movie",
+ *   isCast: true
+ * };
+ * ```
+ */
 export interface SearchPersonCredit {
+  /** TMDB identifier for the content */
   tmdbId: number;
+
+  /** Title of the movie or show */
   title: string;
+
+  /** URL to the content's poster image */
   posterImage: string;
+
+  /** Release date in ISO format (YYYY-MM-DD) */
   releaseDate: string;
+
+  /** Character name portrayed by the person */
   character: string;
+
+  /** Job or role description (Actor, Director, Writer, etc.) */
   job: string;
+
+  /** Type of content (movie or TV show) */
   mediaType: 'tv' | 'movie';
+
+  /**
+   * Whether this is a cast credit (acting role) vs crew credit
+   *
+   * Optional field that indicates if this credit represents a cast
+   * member role (acting) or a crew member role (directing, writing, etc.).
+   * When true, the person appeared on screen; when false or undefined,
+   * they worked behind the scenes.
+   */
   isCast?: boolean;
 }
 
+/**
+ * Grouped collection of search person credits separated by cast and crew roles.
+ * Provides organized access to a person's filmography from search operations,
+ * distinguishing between on-screen and behind-the-scenes work.
+ *
+ * @interface SearchPersonCredits
+ * @example
+ * ```typescript
+ * const personCredits: SearchPersonCredits = {
+ *   cast: [
+ *     {
+ *       tmdbId: 603,
+ *       title: "The Matrix",
+ *       posterImage: "https://image.tmdb.org/t/p/w500/poster.jpg",
+ *       releaseDate: "1999-03-31",
+ *       character: "Neo",
+ *       job: "Actor",
+ *       mediaType: "movie",
+ *       isCast: true
+ *     }
+ *   ],
+ *   crew: [
+ *     {
+ *       tmdbId: 603,
+ *       title: "The Matrix",
+ *       posterImage: "https://image.tmdb.org/t/p/w500/poster.jpg",
+ *       releaseDate: "1999-03-31",
+ *       character: "",
+ *       job: "Producer",
+ *       mediaType: "movie",
+ *       isCast: false
+ *     }
+ *   ]
+ * };
+ * ```
+ */
 export interface SearchPersonCredits {
+  /** Array of cast credits where the person appeared on screen */
   cast: SearchPersonCredit[];
+
+  /** Array of crew credits where the person worked behind the scenes */
   crew: SearchPersonCredit[];
 }
 
+/**
+ * API response wrapper for search person credits operations.
+ * Extends BaseResponse to include the person's organized filmography
+ * with standardized response structure.
+ *
+ * @interface SearchPersonCreditsResponse
+ * @extends BaseResponse
+ * @example
+ * ```typescript
+ * const response: SearchPersonCreditsResponse = {
+ *   message: "Person credits retrieved successfully",
+ *   credits: {
+ *     cast: [
+ *       {
+ *         tmdbId: 603,
+ *         title: "The Matrix",
+ *         posterImage: "https://image.tmdb.org/t/p/w500/poster.jpg",
+ *         releaseDate: "1999-03-31",
+ *         character: "Neo",
+ *         job: "Actor",
+ *         mediaType: "movie",
+ *         isCast: true
+ *       }
+ *     ],
+ *     crew: []
+ *   }
+ * };
+ * ```
+ */
 export interface SearchPersonCreditsResponse extends BaseResponse {
+  /** The person's organized filmography */
   credits: SearchPersonCredits;
 }
 
