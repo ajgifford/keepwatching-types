@@ -1,6 +1,30 @@
 import { BaseResponse } from './responseTypes';
 
 /**
+ * Account reference that includes id, name and email.
+ *
+ * @interface AccountReference
+ * @example
+ * ```typescript
+ * const account: AccountReference = {
+ *   id: 1,
+ *   name: "John Doe",
+ *   email: "john.doe@example.com",
+ * };
+ * ```
+ */
+export interface AccountReference {
+  /** Unique identifier for the account */
+  id: number;
+
+  /** Display name of the account holder */
+  name: string;
+
+  /** Email address associated with the account */
+  email: string;
+}
+
+/**
  * Represents a user account in the KeepWatching application.
  * Contains core account information and settings.
  *
@@ -17,16 +41,7 @@ import { BaseResponse } from './responseTypes';
  * };
  * ```
  */
-export interface Account {
-  /** Unique identifier for the account */
-  id: number;
-
-  /** Display name of the account holder */
-  name: string;
-
-  /** Email address associated with the account */
-  email: string;
-
+export interface Account extends AccountReference {
   /** Firebase authentication UID for the account */
   uid: string;
 
