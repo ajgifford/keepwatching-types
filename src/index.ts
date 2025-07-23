@@ -6,6 +6,7 @@ export * from './types/logTypes';
 export * from './types/movieTypes';
 export * from './types/notificationTypes';
 export * from './types/personTypes';
+export * from './types/preferenceTypes';
 export * from './types/profileTypes';
 export * from './types/responseTypes';
 export * from './types/seasonTypes';
