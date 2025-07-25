@@ -1,5 +1,11 @@
 import { BaseResponse } from './responseTypes';
 
+export type NotificationType = 'tv' | 'movie' | 'issue' | 'general' | 'feature';
+
+export function isValidNotificationType(value: string): value is NotificationType {
+  return ['tv', 'movie', 'issue', 'general', 'feature'].includes(value);
+}
+
 /**
  * Represents a notification message displayed to account holders in the KeepWatching application.
  * Account notifications provide important information about system updates, feature announcements,
@@ -16,6 +22,7 @@ import { BaseResponse } from './responseTypes';
  *   message: "New episodes of your favorite shows are now available!",
  *   startDate: new Date("2024-01-15T00:00:00Z"),
  *   endDate: new Date("2024-01-22T23:59:59Z"),
+ *   type: 'tv',
  *   dismissed: false,
  *   read: true
  * };
@@ -33,6 +40,9 @@ export interface AccountNotification {
 
   /** Date and time when the notification should stop being displayed */
   endDate: Date;
+
+  /** Type of notification */
+  type: NotificationType;
 
   /** Flag indicating if the account user has dismissed the notification */
   dismissed: boolean;
@@ -131,6 +141,7 @@ export interface AdminNotification extends Omit<AccountNotification, 'dismissed'
  *   message: "System maintenance scheduled for tonight at midnight",
  *   startDate: "2024-01-15T22:00:00Z",
  *   endDate: "2024-01-16T06:00:00Z",
+ *   type: 'issue',
  *   sendToAll: true,
  *   accountId: null
  * };
@@ -140,6 +151,7 @@ export interface AdminNotification extends Omit<AccountNotification, 'dismissed'
  *   message: "Your watchlist has been updated with new episodes",
  *   startDate: "2024-01-15T00:00:00Z",
  *   endDate: "2024-01-22T23:59:59Z",
+ *   type: 'tv',
  *   sendToAll: false,
  *   accountId: 789
  * };
@@ -164,6 +176,9 @@ export interface CreateNotificationRequest {
    * after the startDate for valid notification scheduling.
    */
   endDate: string;
+
+  /** Type of notification */
+  type: NotificationType;
 
   /** Whether this notification should be sent to all users system-wide */
   sendToAll: boolean;
