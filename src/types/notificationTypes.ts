@@ -15,7 +15,9 @@ import { BaseResponse } from './responseTypes';
  *   id: 1,
  *   message: "New episodes of your favorite shows are now available!",
  *   startDate: new Date("2024-01-15T00:00:00Z"),
- *   endDate: new Date("2024-01-22T23:59:59Z")
+ *   endDate: new Date("2024-01-22T23:59:59Z"),
+ *   dismissed: false,
+ *   read: true
  * };
  * ```
  */
@@ -31,6 +33,12 @@ export interface AccountNotification {
 
   /** Date and time when the notification should stop being displayed */
   endDate: Date;
+
+  /** Flag indicating if the account user has dismissed the notification */
+  dismissed: boolean;
+
+  /** Flag indicating if the account user has read the notification */
+  read: boolean;
 }
 
 /**
@@ -66,7 +74,7 @@ export interface AccountNotification {
  * };
  * ```
  */
-export interface AdminNotification extends AccountNotification {
+export interface AdminNotification extends Omit<AccountNotification, 'dismissed' | 'read'> {
   /**
    * Flag indicating whether this notification should be displayed to all users.
    *
