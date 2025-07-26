@@ -32,6 +32,9 @@ export interface AccountNotification {
   /** Unique identifier for the notification */
   id: number;
 
+  /** The notification title */
+  title: string;
+
   /** The notification content to display to the user */
   message: string;
 
@@ -158,6 +161,9 @@ export interface AdminNotification extends Omit<AccountNotification, 'dismissed'
  * ```
  */
 export interface CreateNotificationRequest {
+  /** The notification title to display to user */
+  title: string;
+
   /** The notification message content to display to users */
   message: string;
 
