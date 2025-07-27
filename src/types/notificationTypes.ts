@@ -1,7 +1,71 @@
 import { BaseResponse } from './responseTypes';
 
+/**
+ * Defines the categories of notifications available in the KeepWatching application.
+ *
+ * Notification types are used to categorize different kinds of messages sent to users,
+ * enabling proper filtering, styling, and handling of notifications based on their content type.
+ *
+ * @typedef {('tv' | 'movie' | 'issue' | 'general' | 'feature')} NotificationType
+ *
+ * @example
+ * ```typescript
+ * // TV show related notification
+ * const tvNotification: NotificationType = 'tv';
+ *
+ * // System issue notification
+ * const issueNotification: NotificationType = 'issue';
+ *
+ * // Feature announcement
+ * const featureNotification: NotificationType = 'feature';
+ * ```
+ *
+ * @description
+ * **Available notification types:**
+ * - `tv` - Television show related notifications (new episodes, seasons, renewals)
+ * - `movie` - Movie related notifications (new releases, recommendations, availability)
+ * - `issue` - System issues, maintenance alerts, service disruptions, or problems
+ * - `general` - General announcements, updates, and informational messages
+ * - `feature` - New feature announcements, updates, and product enhancements
+ */
 export type NotificationType = 'tv' | 'movie' | 'issue' | 'general' | 'feature';
 
+/**
+ * Type guard function that validates whether a given string value is a valid NotificationType.
+ *
+ * This function provides runtime type safety by checking if a string value matches one of the
+ * predefined notification type values. It's particularly useful when validating user input
+ * or API request data to ensure type safety at runtime.
+ *
+ * @param {string} value - The string value to validate against NotificationType values
+ * @returns {value is NotificationType} True if the value is a valid NotificationType, false otherwise
+ *
+ * @example
+ * ```typescript
+ * // Validate user input
+ * const userInput = 'tv';
+ * if (isValidNotificationType(userInput)) {
+ *   // userInput is now typed as NotificationType
+ *   console.log(`Valid notification type: ${userInput}`);
+ * }
+ *
+ * // API request validation
+ * const createNotification = (type: string, message: string) => {
+ *   if (!isValidNotificationType(type)) {
+ *     throw new Error(`Invalid notification type: ${type}`);
+ *   }
+ *   // type is now safely typed as NotificationType
+ *   return { type, message };
+ * };
+ *
+ * // Filter valid types from array
+ * const inputTypes = ['tv', 'invalid', 'movie', 'unknown'];
+ * const validTypes = inputTypes.filter(isValidNotificationType);
+ * // validTypes is now NotificationType[]
+ * ```
+ *
+ * @see {@link NotificationType} For the complete list of valid notification types
+ */
 export function isValidNotificationType(value: string): value is NotificationType {
   return ['tv', 'movie', 'issue', 'general', 'feature'].includes(value);
 }
