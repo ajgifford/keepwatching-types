@@ -41,6 +41,7 @@ const account: Account = {
 ### Core Modules
 
 - **[Account Types](./docs/account-types.md)** - User accounts, authentication, and Firebase integration
+- **[Preference Types](./docs/preference-types.md)** - User preferences
 - **[Profile Types](./docs/profile-types.md)** - User profiles and content management
 - **[Movie Types](./docs/movie-types.md)** - Movies and film-related data structures
 - **[Show Types](./docs/show-types.md)** - TV shows, series, and related metadata
@@ -89,6 +90,7 @@ Ensure consistent API communication:
 src/
 ├── types/
 │   ├── accountTypes.ts      # User accounts and authentication
+│   ├── preferenceTypes.ts   # User preferences
 │   ├── profileTypes.ts      # User profiles and content management
 │   ├── movieTypes.ts        # Movies and films
 │   ├── showTypes.ts         # TV shows and series
