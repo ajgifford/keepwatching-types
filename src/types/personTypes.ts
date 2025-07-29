@@ -666,6 +666,29 @@ export interface CreatePerson {
 }
 
 /**
+ * Request payload for updating existing people that extends CreatePerson with an ID field.
+ * Allows modification of all person properties while maintaining referential integrity.
+ *
+ * @interface UpdatePerson
+ * @extends CreatePerson
+ * @example
+ * ```typescript
+ * const updateRequest: UpdatePerson = {
+ *   id: 1,
+ *   // All CreatePerson fields can be updated
+ *   tmdb_id: 1399,
+ *   name: "Tom Hanks (Updated)",
+ *   birthdate: "1964-09-02",
+ *   // ... other fields
+ * };
+ * ```
+ */
+export interface UpdatePerson extends CreatePerson {
+  /** ID of the person to update */
+  id: number;
+}
+
+/**
  * Base request payload for creating cast member relationships between persons
  * and content. Provides the foundation for linking actors to their roles in
  * movies and TV shows with proper character and billing information.
