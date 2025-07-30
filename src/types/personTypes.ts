@@ -40,11 +40,7 @@ export interface PersonReference {
 
 /**
  * Comprehensive interface representing a person (actor, director, creator, etc.)
- * with complete biographical information and filmography. Contains detailed metadata
- * about individuals involved in content production.
- *
- * This interface includes everything needed for person detail pages, cast information,
- * and comprehensive person management throughout the application.
+ * with complete biographical information.
  *
  * @interface Person
  * @extends PersonReference
@@ -60,25 +56,6 @@ export interface PersonReference {
  *   birthdate: "1956-07-09",
  *   deathdate: null,
  *   placeOfBirth: "Concord, California, USA",
- *   movieCredits: [
- *     {
- *       name: "Forrest Gump",
- *       poster: "https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
- *       year: "1994",
- *       character: "Forrest Gump",
- *       rating: 8.8
- *     }
- *   ],
- *   showCredits: [
- *     {
- *       name: "Band of Brothers",
- *       poster: "https://image.tmdb.org/t/p/w500/poster.jpg",
- *       year: "2001",
- *       character: "Narrator",
- *       rating: 9.4,
- *       episodeCount: 10
- *     }
- *   ]
  * };
  * ```
  */
@@ -138,7 +115,53 @@ export interface Person extends PersonReference {
    * origin. Typically in format "City, State/Province, Country" for consistency.
    */
   placeOfBirth: string;
+}
 
+/**
+ * Comprehensive interface representing a person (actor, director, creator, etc.)
+ * with complete biographical information and filmography. Contains detailed metadata
+ * about individuals involved in content production.
+ *
+ * This interface includes everything needed for person detail pages, cast information,
+ * and comprehensive person management throughout the application.
+ *
+ * @interface PersonDetails
+ * @extends Person
+ * @example
+ * ```typescript
+ * const person: PersonDetails = {
+ *   id: 1,
+ *   tmdbId: 31,
+ *   name: "Tom Hanks",
+ *   gender: 2,
+ *   biography: "Thomas Jeffrey Hanks is an American actor and filmmaker...",
+ *   profileImage: "https://image.tmdb.org/t/p/w500/xndWFsBlClOJFRdhSt4NBwiPq2o.jpg",
+ *   birthdate: "1956-07-09",
+ *   deathdate: null,
+ *   placeOfBirth: "Concord, California, USA",
+ *   movieCredits: [
+ *     {
+ *       name: "Forrest Gump",
+ *       poster: "https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
+ *       year: "1994",
+ *       character: "Forrest Gump",
+ *       rating: 8.8
+ *     }
+ *   ],
+ *   showCredits: [
+ *     {
+ *       name: "Band of Brothers",
+ *       poster: "https://image.tmdb.org/t/p/w500/poster.jpg",
+ *       year: "2001",
+ *       character: "Narrator",
+ *       rating: 9.4,
+ *       episodeCount: 10
+ *     }
+ *   ]
+ * };
+ * ```
+ */
+export interface PersonDetails extends Person {
   /**
    * Array of movie appearances and roles
    *
@@ -155,6 +178,16 @@ export interface Person extends PersonReference {
    * episode counts for comprehensive show involvement tracking.
    */
   showCredits: ShowCredit[];
+}
+
+export interface AdminPerson extends Person {
+  /**
+   * Timestamp of the last update to person metadata
+   *
+   * ISO format timestamp indicating when person information was last modified.
+   * Used for content management, cache invalidation, and update tracking.
+   */
+  lastUpdated: string;
 }
 
 /**
