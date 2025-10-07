@@ -1,6 +1,7 @@
 export * from './types/accountTypes';
 export * from './types/contentTypes';
 export * from './types/discoverAndSearchTypes';
+export * from './types/emailTypes';
 export * from './types/episodeTypes';
 export * from './types/logTypes';
 export * from './types/movieTypes';
