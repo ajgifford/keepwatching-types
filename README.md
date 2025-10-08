@@ -41,6 +41,7 @@ const account: Account = {
 ### Core Modules
 
 - **[Account Types](./docs/account-types.md)** - User accounts, authentication, and Firebase integration
+- **[Email Types](./docs/email-types.md)** - Email messaging, templates, and delivery tracking
 - **[Preference Types](./docs/preference-types.md)** - User preferences
 - **[Profile Types](./docs/profile-types.md)** - User profiles and content management
 - **[Movie Types](./docs/movie-types.md)** - Movies and film-related data structures
@@ -57,7 +58,7 @@ const account: Account = {
 ### Admin Modules
 
 - **[Log Types](./docs/log-types.md)** - logging and monitoring operations
-- **[Service Health Types](./docs/log-types.md)** - service availability, performance metrics and health checks
+- **[Service Health Types](./docs/service-health-types.md)** - service availability, performance metrics and health checks
 
 
 ### API Types
@@ -90,21 +91,26 @@ Ensure consistent API communication:
 src/
 ├── types/
 │   ├── accountTypes.ts      # User accounts and authentication
+│   ├── contentTypes.ts      # Lightweight content identification
+│   ├── discoverAndSearchTypes.ts # Content discovery
+│   ├── emailTypes.ts        # Email messaging and templates
+│   ├── episodeTypes.ts      # Individual episodes
+│   ├── logTypes.ts          # Logging and monitoring
+│   ├── movieTypes.ts        # Movies and films
+│   ├── notificationTypes.ts # User notifications
+│   ├── personTypes.ts       # People (actors, directors)
 │   ├── preferenceTypes.ts   # User preferences
 │   ├── profileTypes.ts      # User profiles and content management
-│   ├── movieTypes.ts        # Movies and films
-│   ├── showTypes.ts         # TV shows and series
+│   ├── responseTypes.ts     # Base API response structures
 │   ├── seasonTypes.ts       # TV show seasons
-│   ├── episodeTypes.ts      # Individual episodes
-│   ├── watchStatusTypes.ts  # Content viewing states
-│   ├── statisticTypes.ts    # Analytics and reporting
-│   ├── notificationTypes.ts # User notifications
-│   ├── personTypes.ts       # People
-│   ├── discoverAndSearchTypes.ts # Content discovery
-│   └── responseTypes.ts     # Base API response structures
+│   ├── serviceHealthTypes.ts # Service health checks
+│   ├── showTypes.ts         # TV shows and series
+│   ├── statisticsTypes.ts   # Analytics and reporting
+│   └── watchStatusTypes.ts  # Content viewing states
 ├── index.ts                 # Main export file
 └── docs/
     ├── account-types.md     # Account types documentation
+    ├── email-types.md       # Email types documentation
     ├── profile-types.md     # Profile types documentation
     └── ...                  # Additional documentation files
 ```

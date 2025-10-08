@@ -1,12 +1,26 @@
 /**
- * Enum containing all possible watch status values across the application
- * Serves as the single source of truth for watch status values
+ * Enum containing all possible watch status values across the application.
+ * Serves as the single source of truth for watch status values.
+ * This is used to track the viewing state of movies, shows, seasons, and episodes.
+ *
+ * @enum {string}
+ * @example
+ * ```typescript
+ * const movieStatus = WatchStatus.WATCHED;
+ * const episodeStatus = WatchStatus.NOT_WATCHED;
+ * const showStatus = WatchStatus.UP_TO_DATE;
+ * ```
  */
 export enum WatchStatus {
+  /** Content that has not yet been released or aired */
   UNAIRED = 'UNAIRED',
+  /** Content that is available but has not been viewed */
   NOT_WATCHED = 'NOT_WATCHED',
+  /** Content that is currently being viewed (partially complete) */
   WATCHING = 'WATCHING',
+  /** Content that has been fully viewed */
   WATCHED = 'WATCHED',
+  /** All currently available episodes have been watched (shows/seasons only) */
   UP_TO_DATE = 'UP_TO_DATE',
 }
 
