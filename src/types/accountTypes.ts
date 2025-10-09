@@ -125,6 +125,9 @@ export interface CombinedAccount {
 
   /** Date when the account was created in the application database */
   databaseCreatedAt: Date;
+
+  /** Date when the user last logged in via the application (nullable if never logged in) */
+  lastLogin: Date | null;
 }
 
 /**

@@ -53,6 +53,21 @@ provides a comprehensive view of account status including verification state and
 - Authentication metadata with timestamps
 - Email verification status
 - Account disabled state
+- Last login tracking from application database
+
+**Properties:**
+
+- All properties from `Account` interface
+- `emailVerified: boolean` - Whether the email has been verified
+- `displayName: string | null` - Display name from Firebase (may differ from database name)
+- `photoURL: string | null` - Photo URL from Firebase authentication
+- `disabled: boolean` - Whether the account is disabled
+- `metadata` - Firebase authentication metadata:
+  - `creationTime: string` - ISO timestamp of account creation in Firebase
+  - `lastSignInTime: string` - ISO timestamp of last Firebase sign-in
+  - `lastRefreshTime: string | null` - ISO timestamp of last token refresh
+- `databaseCreatedAt: Date` - Date when account was created in application database
+- `lastLogin: Date | null` - Date when user last logged in via the application (null if never logged in)
 
 **Usage Example:**
 
@@ -74,8 +89,16 @@ const combinedAccount: CombinedAccount = {
     lastRefreshTime: '2023-12-01T16:45:00Z',
   },
   databaseCreatedAt: new Date('2023-01-15T10:30:00Z'),
+  lastLogin: new Date('2023-12-01T14:22:00Z'),
 };
 ```
+
+**Notes:**
+
+- The `lastLogin` field tracks when users authenticate through the application's login, register, or Google login
+  workflows
+- This differs from Firebase's `lastSignInTime` which tracks Firebase authentication events
+- The field will be `null` for users who have never logged in or for existing users before the feature was implemented
 
 ## API Response Types
 
