@@ -128,6 +128,9 @@ export interface CombinedAccount {
 
   /** Date when the user last logged in via the application (nullable if never logged in) */
   lastLogin: Date | null;
+
+  /** Date when the user last was active in the application such as viewing a page (nullable if no activity) */
+  lastActivity: Date | null;
 }
 
 /**

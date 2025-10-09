@@ -16,9 +16,33 @@ The account types module defines interfaces for:
 
 ## Core Interfaces
 
+### `AccountReference`
+
+Lightweight account reference interface containing only essential identification information. Used in contexts where
+full account data is not needed, such as foreign key relationships, lists, or cross-references.
+
+**Properties:**
+
+- `id: number` - Unique identifier for the account
+- `name: string` - Display name of the account holder
+- `email: string` - Email address associated with the account
+
+**Usage Example:**
+
+```typescript
+const accountRef: AccountReference = {
+  id: 1,
+  name: 'John Doe',
+  email: 'john.doe@example.com',
+};
+```
+
 ### `Account`
 
-The primary interface representing a user account in the application.
+**Extends:** `AccountReference`
+
+The primary interface representing a user account in the application. Inherits id, name, and email from AccountReference
+and adds authentication and profile settings.
 
 **Properties:**
 
@@ -68,6 +92,8 @@ provides a comprehensive view of account status including verification state and
   - `lastRefreshTime: string | null` - ISO timestamp of last token refresh
 - `databaseCreatedAt: Date` - Date when account was created in application database
 - `lastLogin: Date | null` - Date when user last logged in via the application (null if never logged in)
+- `lastActivity: Date | null` - Date when the user last was active in the application such as viewing a page (null if no
+  activity)
 
 **Usage Example:**
 
@@ -90,6 +116,7 @@ const combinedAccount: CombinedAccount = {
   },
   databaseCreatedAt: new Date('2023-01-15T10:30:00Z'),
   lastLogin: new Date('2023-12-01T14:22:00Z'),
+  lastActivity: new Date('2023-12-01T16:45:00Z'),
 };
 ```
 
@@ -179,7 +206,7 @@ for flexible update operations.
 **Optional Fields:**
 
 - `name?: string` - New display name
-- `image?: string` - New profile image URL
+- `image?: string | null` - New profile image URL (can be set to null to remove the image)
 - `defaultProfileId?: number` - New default profile ID
 
 **Usage Examples:**
