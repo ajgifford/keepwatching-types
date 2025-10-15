@@ -1,4 +1,5 @@
 export * from './types/accountTypes';
+export * from './types/adminTypes';
 export * from './types/contentTypes';
 export * from './types/discoverAndSearchTypes';
 export * from './types/emailTypes';
