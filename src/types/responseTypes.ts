@@ -61,3 +61,131 @@ export interface BaseResponse {
    */
   message: string;
 }
+
+/**
+ * Pagination metadata interface that provides information about paginated data sets.
+ * This interface contains all the necessary information for implementing pagination
+ * UI controls and navigation in client applications.
+ *
+ * @interface PaginationMeta
+ * @example
+ * ```typescript
+ * const paginationMeta: PaginationMeta = {
+ *   totalCount: 150,
+ *   totalPages: 15,
+ *   currentPage: 3,
+ *   limit: 10,
+ *   hasNextPage: true,
+ *   hasPrevPage: true
+ * };
+ * ```
+ */
+export interface PaginationMeta {
+  /**
+   * Total number of items across all pages.
+   * This represents the complete count of items in the dataset before pagination.
+   *
+   * @example
+   * ```typescript
+   * totalCount: 150 // There are 150 total items
+   * ```
+   */
+  totalCount: number;
+
+  /**
+   * Total number of pages available based on the limit and total count.
+   * Calculated as Math.ceil(totalCount / limit).
+   *
+   * @example
+   * ```typescript
+   * totalPages: 15 // With 150 items and limit of 10, there are 15 pages
+   * ```
+   */
+  totalPages: number;
+
+  /**
+   * Current page number (1-based indexing).
+   * Indicates which page of results is currently being displayed.
+   *
+   * @example
+   * ```typescript
+   * currentPage: 3 // Currently viewing page 3
+   * ```
+   */
+  currentPage: number;
+
+  /**
+   * Maximum number of items per page.
+   * This is the page size that determines how many items are returned in each page.
+   *
+   * @example
+   * ```typescript
+   * limit: 10 // Each page contains up to 10 items
+   * ```
+   */
+  limit: number;
+
+  /**
+   * Indicates whether there is a next page available.
+   * True if currentPage < totalPages, false otherwise.
+   *
+   * @example
+   * ```typescript
+   * hasNextPage: true // More pages are available
+   * ```
+   */
+  hasNextPage: boolean;
+
+  /**
+   * Indicates whether there is a previous page available.
+   * True if currentPage > 1, false otherwise.
+   *
+   * @example
+   * ```typescript
+   * hasPrevPage: true // Can navigate to previous pages
+   * ```
+   */
+  hasPrevPage: boolean;
+}
+
+/**
+ * Base pagination response interface that extends BaseResponse with pagination metadata.
+ * This interface should be used as the foundation for all paginated API responses
+ * to ensure consistent pagination structure across the application.
+ *
+ * Extend this interface and add your data property to create paginated response types.
+ *
+ * @interface BasePaginationResponse
+ * @extends BaseResponse
+ * @example
+ * ```typescript
+ * // Define a paginated response for shows
+ * interface GetAllShowsResponse extends BasePaginationResponse {
+ *   shows: Show[];
+ * }
+ *
+ * // Usage in API response
+ * const response: GetAllShowsResponse = {
+ *   message: "Shows retrieved successfully",
+ *   shows: [
+ *     { id: 1, title: "Show 1" },
+ *     { id: 2, title: "Show 2" }
+ *   ],
+ *   pagination: {
+ *     totalCount: 150,
+ *     totalPages: 15,
+ *     currentPage: 1,
+ *     limit: 10,
+ *     hasNextPage: true,
+ *     hasPrevPage: false
+ *   }
+ * };
+ * ```
+ */
+export interface BasePaginationResponse extends BaseResponse {
+  /**
+   * Pagination metadata for the current result set.
+   * Provides all necessary information for pagination controls and navigation.
+   */
+  pagination: PaginationMeta;
+}
