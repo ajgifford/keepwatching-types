@@ -299,6 +299,70 @@ export interface UpdateNotificationRequest extends CreateNotificationRequest {
 }
 
 /**
+ * Defines the valid sort fields for notification queries.
+ * Used to specify which notification property to sort results by.
+ *
+ * @typedef {('startDate' | 'endDate' | 'type' | 'sendToAll')} NotificationSortField
+ */
+export type NotificationSortField = 'startDate' | 'endDate' | 'type' | 'sendToAll';
+
+/**
+ * Defines the valid sort order directions for notification queries.
+ *
+ * @typedef {('asc' | 'desc')} SortOrder
+ */
+export type SortOrder = 'asc' | 'desc';
+
+/**
+ * Options for retrieving all notifications with filtering and sorting.
+ * This interface defines the query parameters available when fetching notifications
+ * in administrative contexts, enabling flexible filtering and sorting.
+ *
+ * @interface GetAllNotificationsOptions
+ * @example
+ * ```typescript
+ * // Get active notifications
+ * const options: GetAllNotificationsOptions = {
+ *   expired: false,
+ * };
+ *
+ * // Filter by type and date range with custom sorting
+ * const filteredOptions: GetAllNotificationsOptions = {
+ *   expired: false,
+ *   type: 'maintenance',
+ *   startDate: '2025-01-01',
+ *   endDate: '2025-12-31',
+ *   sortBy: 'endDate',
+ *   sortOrder: 'asc',
+ * };
+ *
+ * // Filter by sendToAll status
+ * const systemWideNotifications: GetAllNotificationsOptions = {
+ *   expired: false,
+ *   sendToAll: true,
+ *   sortBy: 'startDate',
+ *   sortOrder: 'desc'
+ * };
+ * ```
+ */
+export interface GetAllNotificationsOptions {
+  /** Whether to include expired notifications */
+  expired: boolean;
+  /** Filter by notification type */
+  type?: string;
+  /** Filter by start date (ISO string) */
+  startDate?: string;
+  /** Filter by end date (ISO string) */
+  endDate?: string;
+  /** Filter by sendToAll status - true for system-wide notifications, false for account-specific */
+  sendToAll?: boolean;
+  /** Field to sort results by (default: 'startDate') */
+  sortBy?: NotificationSortField;
+  /** Sort order direction (default: 'desc' for newest first) */
+  sortOrder?: SortOrder;
+}
+
+/**
  * API response wrapper for notification retrieval operations.
  * Extends BaseResponse to include an array of account notifications in a standardized format.
  *
