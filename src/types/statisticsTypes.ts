@@ -358,3 +358,117 @@ export interface AccountStatisticsResponse {
   /** Aggregated episode progress across all profiles */
   episodeStatistics: AccountEpisodeProgress;
 }
+
+/**
+ * Watching velocity statistics tracking viewing pace and patterns.
+ * Provides insights into how quickly and consistently a user watches content.
+ *
+ * @interface WatchingVelocityStats
+ * @example
+ * ```typescript
+ * const velocity: WatchingVelocityStats = {
+ *   episodesPerWeek: 14.5,
+ *   episodesPerMonth: 62,
+ *   averageEpisodesPerDay: 2.1,
+ *   mostActiveDay: "Saturday",
+ *   mostActiveHour: 20,
+ *   velocityTrend: "increasing"
+ * };
+ * ```
+ */
+export interface WatchingVelocityStats {
+  /** Average number of episodes watched per week */
+  episodesPerWeek: number;
+
+  /** Average number of episodes watched per month */
+  episodesPerMonth: number;
+
+  /** Average number of episodes watched per day */
+  averageEpisodesPerDay: number;
+
+  /** Day of the week with most viewing activity */
+  mostActiveDay: string;
+
+  /** Hour of the day (0-23) with most viewing activity */
+  mostActiveHour: number;
+
+  /** Trend direction comparing recent period to previous period */
+  velocityTrend: 'increasing' | 'decreasing' | 'stable';
+}
+
+/**
+ * Daily activity entry tracking episodes and shows watched on a specific date.
+ *
+ * @interface DailyActivity
+ */
+export interface DailyActivity {
+  /** Date of the activity (ISO 8601 format) */
+  date: string;
+
+  /** Number of episodes watched on this date */
+  episodesWatched: number;
+
+  /** Number of unique shows watched on this date */
+  showsWatched: number;
+}
+
+/**
+ * Weekly activity entry tracking episodes watched in a specific week.
+ *
+ * @interface WeeklyActivity
+ */
+export interface WeeklyActivity {
+  /** Start date of the week (ISO 8601 format) */
+  weekStart: string;
+
+  /** Number of episodes watched during this week */
+  episodesWatched: number;
+}
+
+/**
+ * Monthly activity entry tracking episodes and movies watched in a specific month.
+ *
+ * @interface MonthlyActivity
+ */
+export interface MonthlyActivity {
+  /** Month identifier (e.g., "2024-01" for January 2024) */
+  month: string;
+
+  /** Number of episodes watched during this month */
+  episodesWatched: number;
+
+  /** Number of movies watched during this month */
+  moviesWatched: number;
+}
+
+/**
+ * Comprehensive timeline of watching activity across different time periods.
+ * Provides detailed historical data for activity visualization and analysis.
+ *
+ * @interface WatchingActivityTimeline
+ * @example
+ * ```typescript
+ * const timeline: WatchingActivityTimeline = {
+ *   dailyActivity: [
+ *     { date: "2024-01-15", episodesWatched: 3, showsWatched: 2 },
+ *     { date: "2024-01-16", episodesWatched: 5, showsWatched: 1 }
+ *   ],
+ *   weeklyActivity: [
+ *     { weekStart: "2024-01-14", episodesWatched: 21 }
+ *   ],
+ *   monthlyActivity: [
+ *     { month: "2024-01", episodesWatched: 85, moviesWatched: 12 }
+ *   ]
+ * };
+ * ```
+ */
+export interface WatchingActivityTimeline {
+  /** Daily activity breakdown */
+  dailyActivity: DailyActivity[];
+
+  /** Weekly activity breakdown */
+  weeklyActivity: WeeklyActivity[];
+
+  /** Monthly activity breakdown */
+  monthlyActivity: MonthlyActivity[];
+}
