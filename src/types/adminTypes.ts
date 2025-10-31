@@ -1,4 +1,5 @@
 import { Email } from './emailTypes';
+import { DBPoolStats, DBQueryStats } from './healthTypes';
 import { AdminMovie } from './movieTypes';
 import { AdminNotification } from './notificationTypes';
 import { Person } from './personTypes';
@@ -218,4 +219,10 @@ export interface GetAllNotificationsResponse extends BasePaginationResponse {
    * Each notification includes comprehensive metadata and targeting information.
    */
   notifications: AdminNotification[];
+}
+
+export interface DatabaseHealthResponse {
+  status: string;
+  pool: DBPoolStats;
+  queryStats: DBQueryStats[];
 }
