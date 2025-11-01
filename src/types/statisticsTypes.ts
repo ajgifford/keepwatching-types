@@ -570,3 +570,100 @@ export interface WatchStreakStats {
   /** Average length of all streaks in days */
   averageStreakLength: number;
 }
+
+/**
+ * Statistics tracking how long content sits before being watched and completion rates.
+ * Provides insights into viewing patterns and backlog management.
+ *
+ * @interface TimeToWatchStats
+ * @example
+ * ```typescript
+ * const timeStats: TimeToWatchStats = {
+ *   averageDaysToStartShow: 12.5,
+ *   averageDaysToCompleteShow: 45.2,
+ *   fastestCompletions: [
+ *     { showId: 1, showTitle: "Breaking Bad", daysToComplete: 7 },
+ *     { showId: 2, showTitle: "The Office", daysToComplete: 14 }
+ *   ],
+ *   backlogAging: {
+ *     unwatchedOver30Days: 5,
+ *     unwatchedOver90Days: 3,
+ *     unwatchedOver365Days: 1
+ *   }
+ * };
+ * ```
+ */
+export interface TimeToWatchStats {
+  /** Average number of days between adding a show and watching the first episode */
+  averageDaysToStartShow: number;
+
+  /** Average number of days from first episode watched to last episode watched */
+  averageDaysToCompleteShow: number;
+
+  /** Shows completed in the shortest time periods */
+  fastestCompletions: Array<{
+    /** Unique identifier for the show */
+    showId: number;
+    /** Display title of the show */
+    showTitle: string;
+    /** Number of days taken to complete the show */
+    daysToComplete: number;
+  }>;
+
+  /** Breakdown of unwatched content by age */
+  backlogAging: {
+    /** Number of shows added over 30 days ago but not yet started */
+    unwatchedOver30Days: number;
+    /** Number of shows added over 90 days ago but not yet started */
+    unwatchedOver90Days: number;
+    /** Number of shows added over 365 days ago but not yet started */
+    unwatchedOver365Days: number;
+  };
+}
+
+/**
+ * Statistics analyzing viewing patterns by season and month.
+ * Helps identify when users are most active in their viewing habits.
+ *
+ * @interface SeasonalViewingStats
+ * @example
+ * ```typescript
+ * const seasonalStats: SeasonalViewingStats = {
+ *   viewingByMonth: {
+ *     "January": 45,
+ *     "February": 38,
+ *     "March": 52
+ *   },
+ *   viewingBySeason: {
+ *     spring: 120,
+ *     summer: 95,
+ *     fall: 110,
+ *     winter: 130
+ *   },
+ *   peakViewingMonth: "December",
+ *   slowestViewingMonth: "July"
+ * };
+ * ```
+ */
+export interface SeasonalViewingStats {
+  /** Number of episodes watched per month (month name as key) */
+  viewingByMonth: Record<string, number>;
+
+  /** Number of episodes watched per season */
+  viewingBySeason: {
+    /** Episodes watched in spring (March, April, May) */
+    spring: number;
+    /** Episodes watched in summer (June, July, August) */
+    summer: number;
+    /** Episodes watched in fall (September, October, November) */
+    fall: number;
+    /** Episodes watched in winter (December, January, February) */
+    winter: number;
+  };
+
+  /** Month with the highest number of episodes watched */
+  peakViewingMonth: string;
+
+  /** Month with the lowest number of episodes watched */
+  slowestViewingMonth: string;
+}
