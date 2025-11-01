@@ -472,3 +472,101 @@ export interface WatchingActivityTimeline {
   /** Monthly activity breakdown */
   monthlyActivity: MonthlyActivity[];
 }
+
+/**
+ * Statistics for binge-watching behavior patterns.
+ * Identifies sessions where multiple episodes are watched in short succession.
+ *
+ * @interface BingeWatchingStats
+ * @example
+ * ```typescript
+ * const bingeStats: BingeWatchingStats = {
+ *   bingeSessionCount: 15,
+ *   averageEpisodesPerBinge: 4.5,
+ *   longestBingeSession: {
+ *     showTitle: "Breaking Bad",
+ *     episodeCount: 8,
+ *     date: "2024-01-15"
+ *   },
+ *   topBingedShows: [
+ *     { showId: 1, showTitle: "The Office", bingeSessionCount: 5 },
+ *     { showId: 2, showTitle: "Friends", bingeSessionCount: 3 }
+ *   ]
+ * };
+ * ```
+ */
+export interface BingeWatchingStats {
+  /** Number of binge sessions (3+ episodes within 24 hours) */
+  bingeSessionCount: number;
+
+  /** Average number of episodes per binge session */
+  averageEpisodesPerBinge: number;
+
+  /** Details of the longest binge session */
+  longestBingeSession: {
+    /** Title of the show that was binge-watched */
+    showTitle: string;
+    /** Number of episodes watched in the session */
+    episodeCount: number;
+    /** Date when the binge session occurred (ISO 8601 format) */
+    date: string;
+  };
+
+  /** Shows that are binge-watched most frequently */
+  topBingedShows: Array<{
+    /** Unique identifier for the show */
+    showId: number;
+    /** Display title of the show */
+    showTitle: string;
+    /** Number of binge sessions for this show */
+    bingeSessionCount: number;
+  }>;
+}
+
+/**
+ * Statistics tracking consistency of viewing habits through streaks.
+ * Monitors consecutive days with watching activity.
+ *
+ * @interface WatchStreakStats
+ * @example
+ * ```typescript
+ * const streakStats: WatchStreakStats = {
+ *   currentStreak: 5,
+ *   longestStreak: 21,
+ *   currentStreakStartDate: "2024-01-10",
+ *   longestStreakPeriod: {
+ *     startDate: "2023-12-01",
+ *     endDate: "2023-12-21",
+ *     days: 21
+ *   },
+ *   streaksOver7Days: 3,
+ *   averageStreakLength: 6.5
+ * };
+ * ```
+ */
+export interface WatchStreakStats {
+  /** Current number of consecutive days with watching activity */
+  currentStreak: number;
+
+  /** Longest streak of consecutive days with watching activity */
+  longestStreak: number;
+
+  /** Start date of the current streak (ISO 8601 format) */
+  currentStreakStartDate: string;
+
+  /** Details of the longest streak period */
+  longestStreakPeriod: {
+    /** Start date of the longest streak (ISO 8601 format) */
+    startDate: string;
+    /** End date of the longest streak (ISO 8601 format) */
+    endDate: string;
+    /** Duration of the longest streak in days */
+    days: number;
+  };
+
+  /** Number of streaks that lasted 7 or more days */
+  streaksOver7Days: number;
+
+  /** Average length of all streaks in days */
+  averageStreakLength: number;
+}
