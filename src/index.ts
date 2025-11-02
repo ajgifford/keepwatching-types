@@ -15,5 +15,7 @@ export * from './types/responseTypes';
 export * from './types/seasonTypes';
 export * from './types/serviceHealthTypes';
 export * from './types/showTypes';
-export * from './types/statisticsTypes';
+export * from './types/statistics/commonTypes';
+export * from './types/statistics/profileStatisticsTypes';
+export * from './types/statistics/accountStatisticsTypes';
 export * from './types/watchStatusTypes';
