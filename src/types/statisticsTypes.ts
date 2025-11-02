@@ -745,3 +745,164 @@ export const MILESTONE_THRESHOLDS = {
   movies: [25, 50, 100, 500],
   hours: [100, 500, 1000, 5000],
 };
+
+/**
+ * Statistics analyzing the depth and characteristics of content in a profile.
+ * Provides insights into preferences for content length, release years, and maturity ratings.
+ *
+ * @interface ContentDepthStats
+ * @example
+ * ```typescript
+ * const depthStats: ContentDepthStats = {
+ *   averageEpisodeCountPerShow: 42.5,
+ *   averageMovieRuntime: 118,
+ *   releaseYearDistribution: {
+ *     "2020-2024": 45,
+ *     "2015-2019": 32,
+ *     "2010-2014": 18,
+ *     "2000-2009": 12,
+ *     "Before 2000": 8
+ *   },
+ *   contentMaturityDistribution: {
+ *     "TV-MA": 25,
+ *     "TV-14": 35,
+ *     "TV-PG": 20,
+ *     "R": 15,
+ *     "PG-13": 30
+ *   }
+ * };
+ * ```
+ */
+export interface ContentDepthStats {
+  /** Average number of episodes per show in the profile */
+  averageEpisodeCountPerShow: number;
+
+  /** Average runtime in minutes for movies in the profile */
+  averageMovieRuntime: number;
+
+  /** Distribution of content by release year ranges */
+  releaseYearDistribution: Record<string, number>;
+
+  /** Distribution of content by maturity rating (TV-MA, R, PG-13, etc.) */
+  contentMaturityDistribution: Record<string, number>;
+}
+
+/**
+ * Statistics analyzing content discovery and addition patterns.
+ * Provides insights into how actively users are discovering and adding new content.
+ *
+ * @interface ContentDiscoveryStats
+ * @example
+ * ```typescript
+ * const discoveryStats: ContentDiscoveryStats = {
+ *   daysSinceLastContentAdded: 3,
+ *   contentAdditionRate: {
+ *     showsPerMonth: 4.5,
+ *     moviesPerMonth: 8.2
+ *   },
+ *   watchToAddRatio: {
+ *     shows: 0.85,
+ *     movies: 1.2
+ *   }
+ * };
+ * ```
+ */
+export interface ContentDiscoveryStats {
+  /** Number of days since the last show or movie was added */
+  daysSinceLastContentAdded: number;
+
+  /** Rate at which content is being added */
+  contentAdditionRate: {
+    /** Average number of shows added per month */
+    showsPerMonth: number;
+    /** Average number of movies added per month */
+    moviesPerMonth: number;
+  };
+
+  /** Ratio of content watched to content added (values > 1 mean backlog is shrinking) */
+  watchToAddRatio: {
+    /** Watch-to-add ratio for shows */
+    shows: number;
+    /** Watch-to-add ratio for movies */
+    movies: number;
+  };
+}
+
+/**
+ * Individual show at risk of being abandoned.
+ *
+ * @interface AbandonmentRiskShow
+ */
+export interface AbandonmentRiskShow {
+  /** Unique identifier for the show */
+  showId: number;
+
+  /** Display title of the show */
+  showTitle: string;
+
+  /** Number of days since last episode was watched */
+  daysSinceLastWatch: number;
+
+  /** Number of unwatched episodes available */
+  unwatchedEpisodes: number;
+
+  /** Current watch status */
+  status: string;
+}
+
+/**
+ * Statistics analyzing content abandonment risk and patterns.
+ * Identifies shows that may be abandoned and calculates abandonment rates.
+ *
+ * @interface AbandonmentRiskStats
+ * @example
+ * ```typescript
+ * const abandonmentStats: AbandonmentRiskStats = {
+ *   showsAtRisk: [
+ *     {
+ *       showId: 123,
+ *       showTitle: "The Walking Dead",
+ *       daysSinceLastWatch: 45,
+ *       unwatchedEpisodes: 23,
+ *       status: "WATCHING"
+ *     }
+ *   ],
+ *   showAbandonmentRate: 18.5
+ * };
+ * ```
+ */
+export interface AbandonmentRiskStats {
+  /** Shows marked as "WATCHING" but haven't progressed in 30+ days */
+  showsAtRisk: AbandonmentRiskShow[];
+
+  /** Percentage of shows started but not finished (excluding currently airing) */
+  showAbandonmentRate: number;
+}
+
+/**
+ * Statistics about unaired content awaiting release.
+ *
+ * @interface UnairedContentStats
+ * @example
+ * ```typescript
+ * const unairedStats: UnairedContentStats = {
+ *   unairedShowCount: 5,
+ *   unairedSeasonCount: 8,
+ *   unairedMovieCount: 12,
+ *   unairedEpisodeCount: 45
+ * };
+ * ```
+ */
+export interface UnairedContentStats {
+  /** Number of shows with unaired episodes */
+  unairedShowCount: number;
+
+  /** Number of seasons that haven't aired yet */
+  unairedSeasonCount: number;
+
+  /** Number of movies that haven't been released yet */
+  unairedMovieCount: number;
+
+  /** Total number of unaired episodes across all shows */
+  unairedEpisodeCount: number;
+}
