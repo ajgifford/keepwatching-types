@@ -18,4 +18,5 @@ export * from './types/showTypes';
 export * from './types/statistics/commonTypes';
 export * from './types/statistics/profileStatisticsTypes';
 export * from './types/statistics/accountStatisticsTypes';
+export * from './types/statistics/adminStatisticsTypes';
 export * from './types/watchStatusTypes';
