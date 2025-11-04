@@ -50,6 +50,9 @@ export interface Account extends AccountReference {
 
   /** ID of the default profile to use for this account */
   defaultProfileId: number;
+
+  /** Date the account was created */
+  createdAt?: Date;
 }
 
 /**
