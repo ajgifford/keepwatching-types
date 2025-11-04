@@ -219,6 +219,24 @@ export interface Milestone {
 }
 
 /**
+ * Achievement type enum
+ * Defines all possible achievement types in the system
+ *
+ * @enum AchievementType
+ */
+export enum AchievementType {
+  EPISODES_WATCHED = 'EPISODES_WATCHED',
+  MOVIES_WATCHED = 'MOVIES_WATCHED',
+  HOURS_WATCHED = 'HOURS_WATCHED',
+  FIRST_EPISODE = 'FIRST_EPISODE',
+  FIRST_MOVIE = 'FIRST_MOVIE',
+  SHOW_COMPLETED = 'SHOW_COMPLETED',
+  WATCH_STREAK = 'WATCH_STREAK',
+  BINGE_SESSION = 'BINGE_SESSION',
+  PROFILE_ANNIVERSARY = 'PROFILE_ANNIVERSARY',
+}
+
+/**
  * Achievement that has been unlocked.
  *
  * @interface Achievement
@@ -228,6 +246,25 @@ export interface Achievement {
   description: string;
   /** Date when the achievement was unlocked (ISO 8601 format) */
   achievedDate: string;
+  /** Optional profile name (for account-level aggregation) */
+  profileName?: string;
+  /** Optional metadata about the achievement */
+  metadata?: {
+    /** Title of the show related to the achievement */
+    showTitle?: string;
+    /** ID of the show related to the achievement */
+    showId?: number;
+    /** Title of the movie related to the achievement */
+    movieTitle?: string;
+    /** ID of the movie related to the achievement */
+    movieId?: number;
+    /** Length of watch streak in days */
+    streakDays?: number;
+    /** Number of episodes in a binge session */
+    episodeCount?: number;
+    /** Additional flexible properties */
+    [key: string]: any;
+  };
 }
 
 /**
@@ -250,4 +287,52 @@ export interface AbandonmentRiskShow {
 
   /** Current watch status */
   status: string;
+}
+
+/**
+ * Comprehensive milestone and achievement statistics.
+ * Tracks viewing milestones and provides achievement system.
+ *
+ * @interface MilestoneStats
+ * @example
+ * ```typescript
+ * const milestones: MilestoneStats = {
+ *   totalEpisodesWatched: 856,
+ *   totalMoviesWatched: 32,
+ *   totalHoursWatched: 642,
+ *   createdAt: '2023-01-15T10:30:00Z',
+ *   firstEpisodeWatchedAt: '2023-01-20T14:25:00Z',
+ *   firstMovieWatchedAt: '2023-02-01T19:15:00Z',
+ *   milestones: [
+ *     { type: 'episodes', threshold: 1000, achieved: false, progress: 85.6 },
+ *     { type: 'movies', threshold: 50, achieved: false, progress: 64 },
+ *     { type: 'hours', threshold: 1000, achieved: false, progress: 64.2 }
+ *   ],
+ *   recentAchievements: [
+ *     { description: '500 Episodes Watched', achievedDate: '2024-01-15' }
+ *   ]
+ * };
+ * ```
+ */
+export interface MilestoneStats {
+  /** Total number of episodes watched across all shows */
+  totalEpisodesWatched: number;
+  /** Total number of movies watched */
+  totalMoviesWatched: number;
+  /** Estimated total hours watched based on runtime */
+  totalHoursWatched: number;
+  /** Date when the profile was created (ISO 8601 format) */
+  createdAt?: string;
+  /** Date when the first episode was watched (ISO 8601 format) */
+  firstEpisodeWatchedAt?: string;
+  /** Date when the first movie was watched (ISO 8601 format) */
+  firstMovieWatchedAt?: string;
+  /** Array of milestone tracking information */
+  milestones: Milestone[];
+  /** Recent achievements unlocked */
+  recentAchievements: Achievement[];
+  /** Metadata for the first episode watched (includes show title, season, episode number, etc.) */
+  firstEpisodeMetadata?: Record<string, unknown>;
+  /** Metadata for the first movie watched (includes movie title) */
+  firstMovieMetadata?: Record<string, unknown>;
 }

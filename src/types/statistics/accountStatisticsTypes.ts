@@ -1,8 +1,6 @@
 import {
   AbandonmentRiskShow,
-  Achievement,
   DailyActivity,
-  Milestone,
   MonthlyActivity,
   MovieStatisticsResponse,
   ShowStatisticsResponse,
@@ -287,38 +285,6 @@ export interface AccountSeasonalViewingStats {
 }
 
 /**
- * Account-level milestone statistics.
- * Aggregates milestones and achievements across all profiles.
- *
- * @interface AccountMilestoneStats
- */
-export interface AccountMilestoneStats {
-  /** Total number of episodes watched across all profiles */
-  totalEpisodesWatched: number;
-
-  /** Total number of movies watched across all profiles */
-  totalMoviesWatched: number;
-
-  /** Estimated total hours watched based on runtime across all profiles */
-  totalHoursWatched: number;
-
-  /** Date when the account was created (ISO 8601 format) */
-  accountCreatedAt?: string;
-
-  /** Date when the first episode was watched on any profile (ISO 8601 format) */
-  firstEpisodeWatchedAt?: string;
-
-  /** Date when the first movie was watched on any profile (ISO 8601 format) */
-  firstMovieWatchedAt?: string;
-
-  /** Array of milestone tracking information */
-  milestones: Milestone[];
-
-  /** Recent achievements unlocked across all profiles */
-  recentAchievements: Achievement[];
-}
-
-/**
  * Account-level content depth statistics.
  * Aggregates content characteristics across all profiles.
  *
@@ -402,4 +368,88 @@ export interface AccountUnairedContentStats {
 
   /** Total number of unaired episodes across all profiles */
   unairedEpisodeCount: number;
+}
+
+/**
+ * Individual profile metrics for comparison within an account
+ *
+ * @interface ProfileComparisonDetail
+ */
+export interface ProfileComparisonDetail {
+  /** Profile ID */
+  profileId: number;
+
+  /** Profile name */
+  profileName: string;
+
+  /** Total shows in this profile */
+  totalShows: number;
+
+  /** Total movies in this profile */
+  totalMovies: number;
+
+  /** Total episodes watched */
+  episodesWatched: number;
+
+  /** Total movies watched */
+  moviesWatched: number;
+
+  /** Estimated total hours watched */
+  totalHoursWatched: number;
+
+  /** Watch progress percentage for shows (0-100) */
+  showWatchProgress: number;
+
+  /** Watch progress percentage for movies (0-100) */
+  movieWatchProgress: number;
+
+  /** Top 3 favorite genres by watch count */
+  topGenres: Array<{ genre: string; count: number }>;
+
+  /** Top 3 streaming services by content count */
+  topServices: Array<{ service: string; count: number }>;
+
+  /** Average episodes watched per week */
+  episodesPerWeek: number;
+
+  /** Most active day of the week */
+  mostActiveDay: string;
+
+  /** Last activity date (ISO 8601 format) */
+  lastActivityDate: string | null;
+
+  /** Number of shows currently watching */
+  currentlyWatchingCount: number;
+
+  /** Number of shows completed */
+  completedShowsCount: number;
+}
+
+/**
+ * Profile comparison statistics for an account
+ * Allows users to compare viewing habits across their profiles
+ *
+ * @interface ProfileComparisonStats
+ */
+export interface ProfileComparisonStats {
+  /** Account ID */
+  accountId: number;
+
+  /** Total number of profiles in the account */
+  profileCount: number;
+
+  /** Detailed metrics for each profile */
+  profiles: ProfileComparisonDetail[];
+
+  /** Account-wide summary */
+  accountSummary: {
+    /** Total unique shows across all profiles */
+    totalUniqueShows: number;
+    /** Total unique movies across all profiles */
+    totalUniqueMovies: number;
+    /** Most watched show across all profiles */
+    mostWatchedShow: { showId: number; title: string; watchCount: number } | null;
+    /** Most watched movie across all profiles */
+    mostWatchedMovie: { movieId: number; title: string; watchCount: number } | null;
+  };
 }

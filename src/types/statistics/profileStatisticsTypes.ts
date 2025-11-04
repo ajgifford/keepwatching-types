@@ -1,8 +1,6 @@
 import {
   AbandonmentRiskShow,
-  Achievement,
   DailyActivity,
-  Milestone,
   MonthlyActivity,
   MovieStatisticsResponse,
   ShowProgress,
@@ -373,50 +371,6 @@ export interface SeasonalViewingStats {
 
   /** Month with the lowest number of episodes watched */
   slowestViewingMonth: string;
-}
-
-/**
- * Comprehensive milestone and achievement statistics.
- * Tracks viewing milestones and provides achievement system.
- *
- * @interface MilestoneStats
- * @example
- * ```typescript
- * const milestones: MilestoneStats = {
- *   totalEpisodesWatched: 856,
- *   totalMoviesWatched: 32,
- *   totalHoursWatched: 642,
- *   profileCreatedAt: '2023-01-15T10:30:00Z',
- *   firstEpisodeWatchedAt: '2023-01-20T14:25:00Z',
- *   firstMovieWatchedAt: '2023-02-01T19:15:00Z',
- *   milestones: [
- *     { type: 'episodes', threshold: 1000, achieved: false, progress: 85.6 },
- *     { type: 'movies', threshold: 50, achieved: false, progress: 64 },
- *     { type: 'hours', threshold: 1000, achieved: false, progress: 64.2 }
- *   ],
- *   recentAchievements: [
- *     { description: '500 Episodes Watched', achievedDate: '2024-01-15' }
- *   ]
- * };
- * ```
- */
-export interface MilestoneStats {
-  /** Total number of episodes watched across all shows */
-  totalEpisodesWatched: number;
-  /** Total number of movies watched */
-  totalMoviesWatched: number;
-  /** Estimated total hours watched based on runtime */
-  totalHoursWatched: number;
-  /** Date when the profile was created (ISO 8601 format) */
-  profileCreatedAt?: string;
-  /** Date when the first episode was watched (ISO 8601 format) */
-  firstEpisodeWatchedAt?: string;
-  /** Date when the first movie was watched (ISO 8601 format) */
-  firstMovieWatchedAt?: string;
-  /** Array of milestone tracking information */
-  milestones: Milestone[];
-  /** Recent achievements unlocked */
-  recentAchievements: Achievement[];
 }
 
 export const MILESTONE_THRESHOLDS = {
