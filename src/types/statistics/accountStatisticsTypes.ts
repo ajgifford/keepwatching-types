@@ -1,5 +1,4 @@
 import {
-  AbandonmentRiskShow,
   DailyActivity,
   MonthlyActivity,
   MovieStatisticsResponse,
@@ -329,25 +328,6 @@ export interface AccountContentDiscoveryStats {
     /** Watch-to-add ratio for movies */
     movies: number;
   };
-}
-
-/**
- * Account-level abandonment risk statistics.
- * Aggregates abandonment patterns across all profiles.
- *
- * @interface AccountAbandonmentRiskStats
- */
-export interface AccountAbandonmentRiskStats {
-  /** Shows marked as "WATCHING" but haven't progressed in 30+ days across all profiles */
-  showsAtRisk: Array<
-    AbandonmentRiskShow & {
-      /** Profile name where the show is at risk */
-      profileName: string;
-    }
-  >;
-
-  /** Percentage of shows started but not finished (excluding currently airing) across all profiles */
-  showAbandonmentRate: number;
 }
 
 /**

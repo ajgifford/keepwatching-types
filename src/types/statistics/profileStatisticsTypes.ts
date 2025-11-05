@@ -1,5 +1,4 @@
 import {
-  AbandonmentRiskShow,
   DailyActivity,
   MonthlyActivity,
   MovieStatisticsResponse,
@@ -459,35 +458,6 @@ export interface ContentDiscoveryStats {
     /** Watch-to-add ratio for movies */
     movies: number;
   };
-}
-
-/**
- * Statistics analyzing content abandonment risk and patterns.
- * Identifies shows that may be abandoned and calculates abandonment rates.
- *
- * @interface AbandonmentRiskStats
- * @example
- * ```typescript
- * const abandonmentStats: AbandonmentRiskStats = {
- *   showsAtRisk: [
- *     {
- *       showId: 123,
- *       showTitle: "The Walking Dead",
- *       daysSinceLastWatch: 45,
- *       unwatchedEpisodes: 23,
- *       status: "WATCHING"
- *     }
- *   ],
- *   showAbandonmentRate: 18.5
- * };
- * ```
- */
-export interface AbandonmentRiskStats {
-  /** Shows marked as "WATCHING" but haven't progressed in 30+ days */
-  showsAtRisk: AbandonmentRiskShow[];
-
-  /** Percentage of shows started but not finished (excluding currently airing) */
-  showAbandonmentRate: number;
 }
 
 /**
