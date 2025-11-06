@@ -8,6 +8,7 @@ import {
   AccountUnairedContentStats,
   AccountWatchStreakStats,
   AccountWatchingVelocityStats,
+  ProfileComparisonStats,
 } from './accountStatisticsTypes';
 import { AbandonmentRiskStats, MilestoneStats } from './commonTypes';
 import {
@@ -70,6 +71,9 @@ export interface AccountEnhancedStatistics {
 
   /** Unaired content statistics (upcoming shows/movies) */
   unairedContent?: AccountUnairedContentStats | null;
+
+  /** Profile comparison statistics (multi-profile accounts) */
+  profileComparison?: ProfileComparisonStats | null;
 }
 
 /**
