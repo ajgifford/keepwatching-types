@@ -16,7 +16,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "prepare": "yarn build",
     "clean": "rimraf dist",
     "rebuild": "yarn clean && yarn build",
@@ -44,6 +44,7 @@
     "eslint-config-prettier": "10.1.8",
     "prettier": "3.6.2",
     "rimraf": "^6.1.0",
+    "tsup": "^8.5.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.46.4"
   },
