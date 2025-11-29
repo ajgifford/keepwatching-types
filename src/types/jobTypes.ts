@@ -16,3 +16,19 @@ export interface CompletedJobEvent {
   message: string;
   timestamp: string;
 }
+
+export interface JobStatus {
+  lastRunTime: string | null;
+  lastRunStatus: string | null;
+  isRunning: boolean;
+  nextRunTime: string | null;
+  cronExpression: string;
+}
+
+export interface JobStatusResponse {
+  showsUpdate: JobStatus;
+  moviesUpdate: JobStatus;
+  peopleUpdate: JobStatus;
+  emailDigest: JobStatus;
+  performanceArchive: JobStatus;
+}
