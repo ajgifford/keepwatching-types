@@ -37,9 +37,20 @@ export interface DBQueryCallHistory {
    */
   endpoint?: string;
   /**
-   * Optional user ID associated with the query
+   * Optional account ID associated with the query
    */
-  userId?: number;
+  accountId?: number;
+   /**
+   * Optional profile ID associated with the query
+   */
+  profileId?: number;
+  /**
+   * Optional content object associated with the query
+   */
+  content?: {
+    id: number;
+    type: 'show' | 'movie' | 'episode' | 'season' | 'person';
+  }
   /**
    * Optional result count (number of rows returned)
    */
