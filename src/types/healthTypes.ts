@@ -114,3 +114,20 @@ export interface QueryPerformanceOverview {
         archiveLogs: ArchiveLogEntry[];
     };
 }
+
+/**
+ * Interface for monthly performance summary (external facing)
+ */
+export interface MonthlyPerformanceSummary {
+  year: number;
+  month: number;
+  queryHash: string;
+  queryTemplate: string;
+  totalExecutions: number;
+  avgDurationInMillis: number;
+  minDurationInMillis: number;
+  maxDurationInMillis: number;
+  p50DurationInMillis: number | null;
+  p95DurationInMillis: number | null;
+  p99DurationInMillis: number | null;
+}
