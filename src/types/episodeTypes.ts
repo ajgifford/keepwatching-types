@@ -231,6 +231,9 @@ export interface NextEpisode {
   /** Original air date for chronological context and sorting */
   airDate: string;
 
+  /** Episode duration in minutes for scheduling and user time planning */
+  runtime: number;
+
   /** Parent show identifier for navigation and grouping */
   showId: number;
 
@@ -300,6 +303,9 @@ export interface RecentUpcomingEpisode {
 
   /** Air date for chronological sorting and timeline displays */
   airDate: string;
+
+  /** Episode duration in minutes for scheduling and user time planning */
+  runtime: number;
 
   /** Episode number for sequential context */
   episodeNumber: number;
