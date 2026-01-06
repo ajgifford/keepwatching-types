@@ -226,3 +226,20 @@ export interface DatabaseHealthResponse {
   pool: DBPoolStats;
   queryStats: DBQueryStats[];
 }
+
+export interface SummaryCounts {
+  accounts: number;
+  profiles: number;
+  shows: number;
+  seasons: number;
+  episodes: number;
+  movies: number;
+  people: number;
+  favoritedShows: number;
+  favoritedMovies: number;
+}
+
+export interface SummaryCountsResponse {
+  message: string;
+  counts: SummaryCounts;
+}
