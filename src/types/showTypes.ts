@@ -999,3 +999,31 @@ export interface SimilarOrRecommendedShowsResponse extends BaseResponse {
   /** Array of recommended or similar shows */
   shows: SimilarOrRecommendedShow[];
 }
+
+/**
+ * Filter options for querying shows
+ *
+ * All filters are optional and will be combined with AND logic when multiple filters are provided.
+ *
+ * @property type - Filter by show type (e.g., "Scripted", "Miniseries", "Reality", "Documentary", "Talk Show")
+ * @property status - Filter by show status (e.g., "Returning Series", "Ended", "Canceled", "In Production")
+ * @property network - Filter by network name (exact match, e.g., "NBC", "HBO", "Netflix")
+ * @property streamingService - Filter by streaming service name (partial match, e.g., "Netflix", "Hulu", "Prime Video")
+ *
+ * @example
+ * ```typescript
+ * // Get all returning scripted shows on Netflix
+ * const filters: ShowFilters = {
+ *   type: 'Scripted',
+ *   status: 'Returning Series',
+ *   streamingService: 'Netflix'
+ * };
+ * const shows = await getAllShowsFiltered(filters, 50, 0);
+ * ```
+ */
+export interface ShowFilters {
+  type?: string;
+  status?: string;
+  network?: string;
+  streamingService?: string;
+}
