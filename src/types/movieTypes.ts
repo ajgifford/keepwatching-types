@@ -812,3 +812,17 @@ export interface MovieDetailsResponse extends BaseResponse {
    */
   similarMovies: SimilarOrRecommendedMovie[];
 }
+
+/**
+ * Filter options for querying movies
+ *
+ * All filters are optional and will be combined with AND logic when multiple filters are provided.
+ *
+ * @property year - Filter by movie release year (e.g., "2026", "2001")
+ * @property streamingService - Filter by streaming service name (partial match, e.g., "Netflix", "Hulu", "Prime Video")
+ *
+ */
+export interface MovieFilters {
+  year?: string;
+  streamingService?: string;
+}

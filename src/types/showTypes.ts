@@ -1010,16 +1010,6 @@ export interface SimilarOrRecommendedShowsResponse extends BaseResponse {
  * @property network - Filter by network name (exact match, e.g., "NBC", "HBO", "Netflix")
  * @property streamingService - Filter by streaming service name (partial match, e.g., "Netflix", "Hulu", "Prime Video")
  *
- * @example
- * ```typescript
- * // Get all returning scripted shows on Netflix
- * const filters: ShowFilters = {
- *   type: 'Scripted',
- *   status: 'Returning Series',
- *   streamingService: 'Netflix'
- * };
- * const shows = await getAllShowsFiltered(filters, 50, 0);
- * ```
  */
 export interface ShowFilters {
   type?: string;
