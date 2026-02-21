@@ -59,3 +59,33 @@ export interface ServiceHealth {
   /** CPU usage as a percentage string (e.g., '25%') */
   cpu: string;
 }
+
+/**
+ * Result of probing the public-facing site URL to verify end-to-end reachability.
+ *
+ * @interface SiteStatus
+ * @example
+ * ```typescript
+ * const status: SiteStatus = {
+ *   url: 'https://keepwatching.example.com/health',
+ *   status: 'up',
+ *   statusCode: 200,
+ *   responseTimeMs: 142,
+ *   lastChecked: '2026-02-20T10:00:00.000Z',
+ * };
+ * ```
+ */
+export interface SiteStatus {
+  /** The URL that was probed */
+  url: string;
+  /** Whether the site responded successfully */
+  status: 'up' | 'down';
+  /** HTTP status code returned, or null if the request failed entirely */
+  statusCode: number | null;
+  /** Round-trip response time in milliseconds, or null on failure */
+  responseTimeMs: number | null;
+  /** ISO 8601 timestamp of when the check was performed */
+  lastChecked: string;
+  /** Error message if the site is down */
+  error?: string;
+}
