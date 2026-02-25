@@ -140,6 +140,47 @@ export interface ProfileEpisode extends Episode {
    * season and show completion calculations.
    */
   watchStatus: SimpleWatchStatus;
+
+  /**
+   * The date/time the user actually watched this episode (optional).
+   *
+   * When set, statistics use this value instead of the system `updated_at` timestamp.
+   * Populated when a user marks episodes as "previously watched" so that air dates
+   * are used rather than today's date, keeping analytics accurate.
+   * ISO timestamp string or null if not explicitly set.
+   */
+  watchedAt?: string | null;
+
+  /**
+   * Whether this episode was marked as watched before the user started tracking (optional).
+   *
+   * When true, the episode is excluded from velocity, streak, and binge statistics
+   * so that bulk historical marks do not skew time-based analytics.
+   * Defaults to false for all normal watch operations.
+   */
+  isPriorWatch?: boolean;
+}
+
+/**
+ * Represents a show detected as potentially bulk-marked in watch history.
+ * Used by the Review Watch History feature to surface candidates for retroactive
+ * prior-watch flagging.
+ */
+export interface BulkMarkedShow {
+  /** ID of the show */
+  showId: number;
+
+  /** Display title of the show */
+  title: string;
+
+  /** Poster image URL for display */
+  posterImage: string;
+
+  /** The date on which many episodes were marked watched (YYYY-MM-DD) */
+  markDate: string;
+
+  /** Number of episodes marked on that date */
+  episodeCount: number;
 }
 
 /**
