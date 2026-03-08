@@ -172,10 +172,12 @@ export interface NotificationPreferences {
  *   dateFormat: 'MM/DD/YYYY'
  * };
  *
- * // European-style preferences
+ * // European-style preferences with 24h time
  * const europeanPrefs: DisplayPreferences = {
  *   theme: 'light',
- *   dateFormat: 'DD/MM/YYYY'
+ *   dateFormat: 'DD/MM/YYYY',
+ *   relativeDate: 'relative-recent',
+ *   timeFormat: '24h'
  * };
  * ```
  */
@@ -217,6 +219,40 @@ export interface DisplayPreferences {
    * @optional
    */
   dateFormat?: 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD';
+
+  /**
+   * Controls how contextual/recent dates are displayed throughout the application.
+   *
+   * Relative date options:
+   * - `relative-recent`: Show relative form ("Today", "3 days ago") for dates within
+   *   7 days, then fall back to the formatted date — mirrors current behaviour
+   * - `always-relative`: Always show relative form regardless of how old the date is
+   *   (e.g., "42 days ago", "In 120 days")
+   * - `always-absolute`: Always show the formatted calendar date, never relative form
+   *
+   * Affects: dashboard episode cards, movie card release chips, notification timestamps.
+   *
+   * @type {'relative-recent' | 'always-relative' | 'always-absolute'}
+   * @default 'relative-recent'
+   * @optional
+   */
+  relativeDate?: 'relative-recent' | 'always-relative' | 'always-absolute';
+
+  /**
+   * Controls the clock format used when displaying date-time values.
+   *
+   * Time format options:
+   * - `12h`: 12-hour clock with AM/PM indicator (e.g., "2:30 PM")
+   * - `24h`: 24-hour clock (e.g., "14:30")
+   *
+   * Affects: the "Last Updated" timestamp on the Manage Account page and
+   * any other display that includes both a date and a time component.
+   *
+   * @type {'12h' | '24h'}
+   * @default '12h'
+   * @optional
+   */
+  timeFormat?: '12h' | '24h';
 }
 
 /**
@@ -328,6 +364,8 @@ export const DEFAULT_PREFERENCES: Record<PreferenceType, PreferenceData> = {
   display: {
     theme: 'auto',
     dateFormat: 'MM/DD/YYYY',
+    relativeDate: 'relative-recent',
+    timeFormat: '12h',
   },
   privacy: {
     allowRecommendations: true,
