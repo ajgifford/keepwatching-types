@@ -22,6 +22,7 @@ import {
   WatchingActivityTimeline,
   WatchingVelocityStats,
 } from './profileStatisticsTypes';
+import { AccountRewatchStats, ProfileRewatchStats } from './rewatchStatisticsTypes';
 
 /**
  * Container for all account-level enhanced statistics.
@@ -74,6 +75,9 @@ export interface AccountEnhancedStatistics {
 
   /** Profile comparison statistics (multi-profile accounts) */
   profileComparison?: ProfileComparisonStats | null;
+
+  /** Rewatch statistics (shows and movies rewatched) */
+  rewatchStats?: AccountRewatchStats | null;
 }
 
 /**
@@ -124,4 +128,7 @@ export interface ProfileEnhancedStatistics {
 
   /** Unaired content statistics (upcoming shows/movies) */
   unairedContent?: UnairedContentStats | null;
+
+  /** Rewatch statistics (shows and movies rewatched) */
+  rewatchStats?: ProfileRewatchStats | null;
 }

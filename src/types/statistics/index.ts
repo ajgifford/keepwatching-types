@@ -4,3 +4,4 @@ export * from './accountStatisticsTypes';
 export * from './adminStatisticsTypes';
 export * from './adminStatisticsResponseTypes';
 export * from './enhancedStatisticsTypes';
+export * from './rewatchStatisticsTypes';
