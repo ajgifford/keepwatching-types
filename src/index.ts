@@ -17,4 +17,5 @@ export * from './types/seasonTypes';
 export * from './types/serviceHealthTypes';
 export * from './types/showTypes';
 export * from './types/statistics';
+export * from './types/watchHistoryTypes';
 export * from './types/watchStatusTypes';

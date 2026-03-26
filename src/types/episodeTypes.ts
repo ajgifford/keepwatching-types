@@ -159,6 +159,14 @@ export interface ProfileEpisode extends Episode {
    * Defaults to false for all normal watch operations.
    */
   isPriorWatch?: boolean;
+
+  /**
+   * Total number of times this episode has been watched (optional).
+   *
+   * Derived from episode_watch_history. A value of 1 means watched once (normal),
+   * 2 or more indicates a rewatch. Used to render rewatch badges in the episode list.
+   */
+  watchCount?: number;
 }
 
 /**

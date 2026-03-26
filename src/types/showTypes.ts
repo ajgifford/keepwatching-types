@@ -410,6 +410,15 @@ export interface KeepWatchingShow {
    * Typically sorted by air date or episode order.
    */
   episodes: NextEpisode[];
+
+  /**
+   * Whether the user is currently rewatching this show
+   *
+   * True when the show has been fully reset for a rewatch (rewatch_count > 0)
+   * and no episodes are currently marked as WATCHED. Used to show a "Rewatch"
+   * badge in the Keep Watching UI.
+   */
+  isRewatch?: boolean;
 }
 
 /**
