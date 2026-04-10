@@ -75,7 +75,7 @@ export interface Movie {
  * credits, company details, and financial performance data.
  *
  * @interface MovieDetails
- * @extends ProfileMovie
+ * @extends Movie
  * @example
  * ```typescript
  * const detailedMovie: MovieDetails = {
@@ -159,11 +159,11 @@ export interface ProfileMovie extends Movie {
   profileId: number;
 
   /**
-   * Current watch status for this movie (not release, watched or not watched)
+   * Current watch status for this movie (UNAIRED, NOT_WATCHED, or WATCHED).
    *
-   * Movies use watch status because they are discrete content that
-   * can only be completely watched or not watched, unlike TV shows which
-   * can have partial progress through multiple episodes.
+   * Movies use the simple watch status subset because they are discrete content
+   * that is either unaired, not yet watched, or completely watched — unlike TV
+   * shows which can have partial progress through multiple episodes.
    */
   watchStatus: SimpleWatchStatus;
 }
@@ -257,7 +257,7 @@ export interface AdminMovie extends Movie {
  * @extends AdminMovie
  * @example
  * ```typescript
- * const adminMovie: AdminMovie = {
+ * const adminMovie: AdminMovieDetails = {
  *   id: 1,
  *   tmdbId: 27205,
  *   title: "Inception",
@@ -270,7 +270,7 @@ export interface AdminMovie extends Movie {
  *   mpaRating: "PG-13",
  *   genres: "Action, Drama, Sci-Fi, Thriller",
  *   streamingServices: "Netflix, HBO Max",
- *   lastUpdated: "2024-01-15T10:30:00Z"
+ *   lastUpdated: "2024-01-15T10:30:00Z",
  *
  *   // Additional detailed properties
  *   director: "Christopher Nolan",
@@ -814,15 +814,23 @@ export interface MovieDetailsResponse extends BaseResponse {
 }
 
 /**
- * Filter options for querying movies
- *
+ * Filter options for querying movies.
  * All filters are optional and will be combined with AND logic when multiple filters are provided.
  *
- * @property year - Filter by movie release year (e.g., "2026", "2001")
- * @property streamingService - Filter by streaming service name (partial match, e.g., "Netflix", "Hulu", "Prime Video")
- *
+ * @interface MovieFilters
+ * @example
+ * ```typescript
+ * // Filter for Netflix movies released in 2023
+ * const filters: MovieFilters = {
+ *   year: "2023",
+ *   streamingService: "Netflix"
+ * };
+ * ```
  */
 export interface MovieFilters {
+  /** Filter by movie release year (e.g., "2026", "2001") */
   year?: string;
+
+  /** Filter by streaming service name — partial match (e.g., "Netflix", "Hulu", "Prime Video") */
   streamingService?: string;
 }

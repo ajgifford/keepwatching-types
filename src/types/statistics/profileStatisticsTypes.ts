@@ -372,9 +372,24 @@ export interface SeasonalViewingStats {
   slowestViewingMonth: string;
 }
 
+/**
+ * Predefined threshold values used to determine when a viewing milestone is achieved.
+ * Each array defines the progressive targets for a specific content type,
+ * ordered from smallest to largest.
+ *
+ * @constant MILESTONE_THRESHOLDS
+ * @example
+ * ```typescript
+ * // Check if the user has reached the next episodes milestone
+ * const nextEpisodeTarget = MILESTONE_THRESHOLDS.episodes.find(t => t > watchedCount);
+ * ```
+ */
 export const MILESTONE_THRESHOLDS = {
+  /** Episode count milestones (e.g., 10, 25, 50 … 5000 episodes watched) */
   episodes: [10, 25, 50, 100, 250, 500, 750, 1000, 2000, 3000, 4000, 5000],
+  /** Movie count milestones (e.g., 5, 10, 25 … 500 movies watched) */
   movies: [5, 10, 25, 50, 75, 100, 200, 300, 400, 500],
+  /** Hours watched milestones (e.g., 10, 25, 50 … 5000 hours) */
   hours: [10, 25, 50, 100, 250, 500, 750, 1000, 2000, 3000, 4000, 5000],
 };
 

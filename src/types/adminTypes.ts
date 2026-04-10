@@ -221,25 +221,111 @@ export interface GetAllNotificationsResponse extends BasePaginationResponse {
   notifications: AdminNotification[];
 }
 
+/**
+ * Administrative response for the database health check endpoint.
+ * Combines a high-level status string with real-time pool and query statistics
+ * for operational monitoring and troubleshooting.
+ *
+ * @interface DatabaseHealthResponse
+ * @example
+ * ```typescript
+ * const health: DatabaseHealthResponse = {
+ *   status: "healthy",
+ *   pool: { totalConnections: 10, activeConnections: 2, freeConnections: 8 },
+ *   queryStats: [
+ *     { query: "SELECT * FROM shows WHERE id = ?", count: 500, avgTime: 2.1, maxTime: 15, totalTime: 1050 }
+ *   ]
+ * };
+ * ```
+ */
 export interface DatabaseHealthResponse {
+  /** Human-readable health status (e.g., "healthy", "degraded") */
   status: string;
+
+  /** Current state of the database connection pool */
   pool: DBPoolStats;
+
+  /** Aggregate statistics for each tracked query pattern */
   queryStats: DBQueryStats[];
 }
 
+/**
+ * Platform-wide content and account totals.
+ * Used in administrative dashboards to provide an at-a-glance view of the data
+ * stored in the application.
+ *
+ * @interface SummaryCounts
+ * @example
+ * ```typescript
+ * const counts: SummaryCounts = {
+ *   accounts: 1200,
+ *   profiles: 3800,
+ *   shows: 850,
+ *   seasons: 6400,
+ *   episodes: 120000,
+ *   movies: 2200,
+ *   people: 45000,
+ *   favoritedShows: 18000,
+ *   favoritedMovies: 9500
+ * };
+ * ```
+ */
 export interface SummaryCounts {
+  /** Total number of registered accounts */
   accounts: number;
+
+  /** Total number of profiles across all accounts */
   profiles: number;
+
+  /** Total number of unique shows in the catalog */
   shows: number;
+
+  /** Total number of seasons across all shows */
   seasons: number;
+
+  /** Total number of episodes across all seasons */
   episodes: number;
+
+  /** Total number of unique movies in the catalog */
   movies: number;
+
+  /** Total number of people (cast and crew) in the catalog */
   people: number;
+
+  /** Total number of profile-show favorites across all profiles */
   favoritedShows: number;
+
+  /** Total number of profile-movie favorites across all profiles */
   favoritedMovies: number;
 }
 
+/**
+ * API response wrapper for the platform content summary counts endpoint.
+ * Returns a standardized message alongside the full count breakdown.
+ *
+ * @interface SummaryCountsResponse
+ * @example
+ * ```typescript
+ * const response: SummaryCountsResponse = {
+ *   message: "Summary counts retrieved successfully",
+ *   counts: {
+ *     accounts: 1200,
+ *     profiles: 3800,
+ *     shows: 850,
+ *     seasons: 6400,
+ *     episodes: 120000,
+ *     movies: 2200,
+ *     people: 45000,
+ *     favoritedShows: 18000,
+ *     favoritedMovies: 9500
+ *   }
+ * };
+ * ```
+ */
 export interface SummaryCountsResponse {
+  /** Human-readable message describing the result of the API operation */
   message: string;
+
+  /** Platform-wide content and account count totals */
   counts: SummaryCounts;
 }

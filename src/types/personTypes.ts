@@ -180,10 +180,33 @@ export interface PersonDetails extends Person {
   showCredits: ShowCredit[];
 }
 
+/**
+ * Administrative interface for person management that extends the base Person with
+ * metadata tracking for content management purposes.
+ *
+ * This interface is used in administrative contexts where tracking when person
+ * records were last refreshed from external sources (e.g., TMDB) is required.
+ *
+ * @interface AdminPerson
+ * @extends Person
+ * @example
+ * ```typescript
+ * const adminPerson: AdminPerson = {
+ *   id: 1,
+ *   tmdbId: 31,
+ *   name: "Tom Hanks",
+ *   gender: 2,
+ *   biography: "Thomas Jeffrey Hanks is an American actor and filmmaker...",
+ *   profileImage: "https://image.tmdb.org/t/p/w500/xndWFsBlClOJFRdhSt4NBwiPq2o.jpg",
+ *   birthdate: "1956-07-09",
+ *   deathdate: null,
+ *   placeOfBirth: "Concord, California, USA",
+ *   lastUpdated: "2024-01-15T10:30:00Z"
+ * };
+ * ```
+ */
 export interface AdminPerson extends Person {
   /**
-   * Timestamp of the last update to person metadata
-   *
    * ISO format timestamp indicating when person information was last modified.
    * Used for content management, cache invalidation, and update tracking.
    */

@@ -320,25 +320,26 @@ export interface AdminShow extends Show {
 }
 
 /**
- * Show reference that includes ID, TMDB ID, title and release date for external API operations
- * and content matching.
+ * Lightweight show reference containing ID, TMDB ID, title, and release date.
+ * Used for external API operations, content matching, and in API responses where
+ * the full show payload is not needed (e.g., after removing a show from favorites).
  *
  * @interface ShowReference
  * @example
  * ```typescript
- * const tmdbRef: ShowTMDBReference = {
+ * const showRef: ShowReference = {
  *   id: 1,
  *   tmdbId: 1399,
- *   title: "Game of Thrones"
- *   releaseDate: "2018-08-09"
+ *   title: "Game of Thrones",
+ *   releaseDate: "2011-04-17"
  * };
  *
  * // Used for removed show references
- * const removedShowRef: ShowTMDBReference = {
+ * const removedShowRef: ShowReference = {
  *   id: 15,
  *   tmdbId: 1396,
- *   title: "Breaking Bad"
- *   releaseDate: "2015-07-01"
+ *   title: "Breaking Bad",
+ *   releaseDate: "2008-01-20"
  * };
  * ```
  */
@@ -703,10 +704,18 @@ export interface UpdateShowRequest extends CreateShowRequest {
   id: number;
 }
 
+/**
+ * Data returned after a watch status update operation.
+ * Contains the refreshed show state and updated keep-watching list so the
+ * client can synchronize the UI in a single response.
+ *
+ * @interface UpdateWatchStatusData
+ */
 export interface UpdateWatchStatusData {
-  /** Updated show with seasons */
+  /** Updated show with full season and episode hierarchy after the status change */
   showWithSeasons: ProfileShowWithSeasons;
-  /** Updated keep watching shows after status change */
+
+  /** Updated keep-watching collection reflecting the status change */
   nextUnwatchedEpisodes: KeepWatchingShow[];
 }
 
@@ -849,8 +858,17 @@ export interface ShowDetailsResponse extends BaseResponse {
   showCast: ShowCast;
 }
 
+/**
+ * Cast members for a show, split into active and prior (former) cast members.
+ * Used in show detail responses to organize cast information for display.
+ *
+ * @interface ShowCast
+ */
 export interface ShowCast {
+  /** Cast members who are currently active in the show */
   activeCast: ShowCastMember[];
+
+  /** Cast members who are no longer active in the show */
   priorCast: ShowCastMember[];
 }
 
@@ -1010,19 +1028,30 @@ export interface SimilarOrRecommendedShowsResponse extends BaseResponse {
 }
 
 /**
- * Filter options for querying shows
- *
+ * Filter options for querying shows.
  * All filters are optional and will be combined with AND logic when multiple filters are provided.
  *
- * @property type - Filter by show type (e.g., "Scripted", "Miniseries", "Reality", "Documentary", "Talk Show")
- * @property status - Filter by show status (e.g., "Returning Series", "Ended", "Canceled", "In Production")
- * @property network - Filter by network name (exact match, e.g., "NBC", "HBO", "Netflix")
- * @property streamingService - Filter by streaming service name (partial match, e.g., "Netflix", "Hulu", "Prime Video")
- *
+ * @interface ShowFilters
+ * @example
+ * ```typescript
+ * // Filter for scripted dramas on HBO
+ * const filters: ShowFilters = {
+ *   type: "Scripted",
+ *   status: "Ended",
+ *   network: "HBO"
+ * };
+ * ```
  */
 export interface ShowFilters {
+  /** Filter by show type (e.g., "Scripted", "Miniseries", "Reality", "Documentary", "Talk Show") */
   type?: string;
+
+  /** Filter by show status (e.g., "Returning Series", "Ended", "Canceled", "In Production") */
   status?: string;
+
+  /** Filter by network name — exact match (e.g., "NBC", "HBO", "Netflix") */
   network?: string;
+
+  /** Filter by streaming service name — partial match (e.g., "Netflix", "Hulu", "Prime Video") */
   streamingService?: string;
 }
