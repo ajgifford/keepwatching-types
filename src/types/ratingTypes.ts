@@ -180,8 +180,11 @@ export interface CommunityRecommendation {
   /** Whether the recommended content is a show or movie */
   contentType: RatingContentType;
 
-  /** ID of the show or movie being recommended */
+  /** ID of the show or movie being recommended (database ID) */
   contentId: number;
+
+  /** TMDB ID of the show or movie being recommended */
+  tmdbId: number;
 
   /** Display title of the recommended content */
   contentTitle: string;
