@@ -84,8 +84,8 @@ export function isValidNotificationType(value: string): value is NotificationTyp
  * const notification: AccountNotification = {
  *   id: 1,
  *   message: "New episodes of your favorite shows are now available!",
- *   startDate: new Date("2024-01-15T00:00:00Z"),
- *   endDate: new Date("2024-01-22T23:59:59Z"),
+ *   startDate: "2024-01-15T00:00:00Z",
+ *   endDate: "2024-01-22T23:59:59Z",
  *   type: 'tv',
  *   dismissed: false,
  *   read: true
@@ -102,11 +102,11 @@ export interface AccountNotification {
   /** The notification content to display to the user */
   message: string;
 
-  /** Date and time when the notification should start being displayed */
-  startDate: Date;
+  /** ISO string representation of when the notification should start being displayed */
+  startDate: string;
 
-  /** Date and time when the notification should stop being displayed */
-  endDate: Date;
+  /** ISO string representation of when the notification should stop being displayed */
+  endDate: string;
 
   /** Type of notification */
   type: NotificationType;
@@ -134,8 +134,8 @@ export interface AccountNotification {
  * const systemNotification: AdminNotification = {
  *   id: 1,
  *   message: "Scheduled maintenance will occur on Sunday from 2-4 AM EST",
- *   startDate: new Date("2024-01-10T00:00:00Z"),
- *   endDate: new Date("2024-01-15T04:00:00Z"),
+ *   startDate: "2024-01-10T00:00:00Z",
+ *   endDate: "2024-01-15T04:00:00Z",
  *   sendToAll: true,
  *   accountId: null
  * };
@@ -144,8 +144,8 @@ export interface AccountNotification {
  * const accountNotification: AdminNotification = {
  *   id: 2,
  *   message: "Your premium subscription expires in 7 days",
- *   startDate: new Date("2024-01-15T00:00:00Z"),
- *   endDate: new Date("2024-01-22T23:59:59Z"),
+ *   startDate: "2024-01-15T00:00:00Z",
+ *   endDate: "2024-01-22T23:59:59Z",
  *   sendToAll: false,
  *   accountId: 123
  * };
@@ -380,14 +380,14 @@ export interface GetAllNotificationsOptions {
  *     {
  *       id: 1,
  *       message: "New episodes available for your shows",
- *       startDate: new Date("2024-01-15T00:00:00Z"),
- *       endDate: new Date("2024-01-22T23:59:59Z")
+ *       startDate: "2024-01-15T00:00:00Z",
+ *       endDate: "2024-01-22T23:59:59Z"
  *     },
  *     {
  *       id: 2,
  *       message: "System maintenance completed successfully",
- *       startDate: new Date("2024-01-10T00:00:00Z"),
- *       endDate: new Date("2024-01-16T00:00:00Z")
+ *       startDate: "2024-01-10T00:00:00Z",
+ *       endDate: "2024-01-16T00:00:00Z"
  *     }
  *   ]
  * };
