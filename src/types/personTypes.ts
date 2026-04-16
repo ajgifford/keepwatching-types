@@ -1,5 +1,7 @@
 import { BaseResponse } from './responseTypes';
 
+export type FailureStatus = 'pending' | 'resolved' | 'removed';
+
 /**
  * Lightweight reference interface for persons that contains only essential
  * identification information. Used in contexts where full person data is not
@@ -834,4 +836,86 @@ export interface CreateShowCast extends CreateCast {
    * integer boolean representation.
    */
   active: number;
+}
+
+/**
+ * Represents a persistent record of a failed person update attempt during the
+ * nightly people update job. One cumulative row is maintained per person;
+ * repeated failures increment the failure count rather than creating new rows.
+ *
+ * @interface PersonUpdateFailure
+ */
+export interface PersonUpdateFailure {
+  /** Primary key of the failure record */
+  id: number;
+
+  /**
+   * ID of the person in the application database, or null if the person has
+   * since been deleted (the record is preserved via ON DELETE SET NULL)
+   */
+  personId: number | null;
+
+  /** TMDB ID that was looked up when the failure occurred */
+  tmdbId: number;
+
+  /**
+   * Denormalized person name for display purposes
+   *
+   * Stored separately so the failure record remains readable even after the
+   * person row is deleted.
+   */
+  personName: string;
+
+  /** Short error code (e.g. NOT_FOUND, RATE_LIMIT, UNKNOWN) */
+  errorCode: string;
+
+  /** Full error message from the failed update attempt */
+  errorMessage: string;
+
+  /** Update block number (0–11) in which the failure occurred */
+  blockNumber: number;
+
+  /** Total number of times this person has failed to update */
+  failureCount: number;
+
+  /** ISO timestamp of the first recorded failure for this person */
+  firstFailureAt: string;
+
+  /** ISO timestamp of the most recent failure for this person */
+  lastFailureAt: string;
+
+  /** Current remediation status of the failure record */
+  status: FailureStatus;
+
+  /** Optional notes recorded when the failure was resolved or the person was removed */
+  resolutionNotes?: string;
+
+  /** ISO timestamp when the failure was resolved or the person was removed */
+  resolvedAt?: string;
+}
+
+/**
+ * Payload used to create or update a person update failure record.
+ * Passed from the update job when a per-person error is caught.
+ *
+ * @interface CreatePersonFailure
+ */
+export interface CreatePersonFailure {
+  /** ID of the person in the application database */
+  personId: number;
+
+  /** TMDB ID that was looked up when the failure occurred */
+  tmdbId: number;
+
+  /** Denormalized person name for display even after deletion */
+  personName: string;
+
+  /** Short error code extracted from the thrown error */
+  errorCode: string;
+
+  /** Full error message for diagnostics */
+  errorMessage: string;
+
+  /** Update block number (0–11) in which the failure occurred */
+  blockNumber: number;
 }
