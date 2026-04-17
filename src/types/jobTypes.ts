@@ -49,6 +49,9 @@ export interface JobStatus {
 
   /** Cron expression defining the job's schedule */
   cronExpression: string;
+
+  /** For batch jobs: the next batch index that will run on manual execution (0-11 for people update) */
+  currentBatch?: number;
 }
 
 /**
