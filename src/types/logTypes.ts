@@ -230,12 +230,18 @@ export enum LogLevel {
 export enum LogService {
   /** Main application service */
   APP = 'App',
+  /** Admin server application service */
+  ADMIN_APP = 'Admin-App',
   /** Nginx web server */
   NGINX = 'nginx',
   /** Browser console standard output */
   CONSOLE = 'Console',
   /** Browser console error output */
   CONSOLE_ERROR = 'Console-Error',
+  /** Admin server console standard output */
+  ADMIN_CONSOLE = 'Admin-Console',
+  /** Admin server console error output */
+  ADMIN_CONSOLE_ERROR = 'Admin-Console-Error',
   /** System-level logs */
   SYSTEM = 'system',
 }
