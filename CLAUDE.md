@@ -4,23 +4,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a TypeScript types-only package (`@ajgifford/keepwatching-types`) that provides shared type definitions for the KeepWatching application ecosystem. It contains no runtime code - only TypeScript interfaces, types, and enums. The package is published to GitHub's npm registry.
+This is a TypeScript types-only package (`@ajgifford/keepwatching-types`) that provides shared type definitions for the
+KeepWatching application ecosystem. It contains no runtime code - only TypeScript interfaces, types, and enums. The
+package is published to GitHub's npm registry.
 
 ## Development Commands
 
 ### Build
+
 ```bash
 yarn build
 ```
+
 Compiles TypeScript to JavaScript and generates declaration files in `dist/`.
 
 ### Type Checking
+
 ```bash
 yarn type-check
 ```
+
 Runs TypeScript compiler without emitting files to validate type correctness.
 
 ### Linting & Formatting
+
 ```bash
 yarn lint          # Check for linting issues
 yarn lint:fix      # Auto-fix linting issues
@@ -28,6 +35,7 @@ yarn format        # Format code with Prettier
 ```
 
 ### Versioning & Publishing
+
 ```bash
 yarn version:patch  # Bump patch version (0.4.0 -> 0.4.1)
 yarn version:minor  # Bump minor version (0.4.0 -> 0.5.0)
@@ -41,6 +49,7 @@ The `prepare` script automatically runs `yarn build` before publishing.
 ### Type Organization
 
 All types are located in `src/types/` with one file per domain area:
+
 - **accountTypes.ts** - User accounts, authentication, Firebase integration
 - **emailTypes.ts** - Email-related types
 - **preferenceTypes.ts** - User preferences and settings
@@ -61,26 +70,33 @@ All types are located in `src/types/` with one file per domain area:
 
 ### Key Design Patterns
 
-1. **BaseResponse Pattern**: All API responses extend `BaseResponse` from `responseTypes.ts`, which provides a standardized `message` field for API communication.
+1. **BaseResponse Pattern**: All API responses extend `BaseResponse` from `responseTypes.ts`, which provides a
+   standardized `message` field for API communication.
 
-2. **Reference Types**: Many entities have a lighter "Reference" variant (e.g., `AccountReference`) containing only essential fields (typically id, name) for use in foreign key relationships.
+2. **Reference Types**: Many entities have a lighter "Reference" variant (e.g., `AccountReference`) containing only
+   essential fields (typically id, name) for use in foreign key relationships.
 
-3. **Admin vs User Types**: Administrative interfaces (e.g., `AdminProfile`) extend base types with additional metadata like creation timestamps and aggregate counts.
+3. **Admin vs User Types**: Administrative interfaces (e.g., `AdminProfile`) extend base types with additional metadata
+   like creation timestamps and aggregate counts.
 
-4. **Watch Status Enum**: `WatchStatus` enum in `watchStatusTypes.ts` is the single source of truth for all content viewing states:
+4. **Watch Status Enum**: `WatchStatus` enum in `watchStatusTypes.ts` is the single source of truth for all content
+   viewing states:
    - `UNAIRED` - Content not yet released
    - `NOT_WATCHED` - Available but not viewed
    - `WATCHING` - Currently in progress
    - `WATCHED` - Fully completed
    - `UP_TO_DATE` - All available episodes watched (shows/seasons only)
 
-5. **Type Guards**: Watch status types include helper functions like `isSimpleWatchStatus()` and `parseStatusFromInput()` for runtime validation.
+5. **Type Guards**: Watch status types include helper functions like `isSimpleWatchStatus()` and
+   `parseStatusFromInput()` for runtime validation.
 
-6. **Profile-Scoped Types**: Many content types have "Profile" variants (e.g., `ProfileShow`, `ProfileMovie`) that include watch status and associations for a specific user profile.
+6. **Profile-Scoped Types**: Many content types have "Profile" variants (e.g., `ProfileShow`, `ProfileMovie`) that
+   include watch status and associations for a specific user profile.
 
 ### Export Strategy
 
-`src/index.ts` re-exports all types from all domain files using barrel exports (`export * from './types/*'`). Consumers import directly from the package root.
+`src/index.ts` re-exports all types from all domain files using barrel exports (`export * from './types/*'`). Consumers
+import directly from the package root.
 
 ### TypeScript Configuration
 
@@ -92,12 +108,14 @@ All types are located in `src/types/` with one file per domain area:
 ## Code Style
 
 ### Linting
+
 - Uses `typescript-eslint` with recommended configs
 - Unused vars prefixed with `_` are allowed
 - `no-explicit-any` and `no-empty-object-type` are warnings (not errors)
 - Explicit return types not required
 
 ### Formatting
+
 - **Prettier** with import sorting plugin
 - Single quotes
 - 120 character line width
@@ -107,6 +125,7 @@ All types are located in `src/types/` with one file per domain area:
 ## Documentation Requirements
 
 All types must include:
+
 1. **JSDoc comments** with `@interface` or `@type` annotations
 2. **Property descriptions** for each field
 3. **`@example` blocks** showing realistic usage

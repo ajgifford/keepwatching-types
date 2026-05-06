@@ -2,7 +2,8 @@
 
 # Notification Types Documentation
 
-This module provides TypeScript type definitions for notification management in the KeepWatching application. It handles user messaging, system announcements, administrative notifications, and time-based notification scheduling.
+This module provides TypeScript type definitions for notification management in the KeepWatching application. It handles
+user messaging, system announcements, administrative notifications, and time-based notification scheduling.
 
 ## Overview
 
@@ -25,6 +26,7 @@ type NotificationType = 'tv' | 'movie' | 'issue' | 'general' | 'feature';
 ```
 
 **Type Descriptions:**
+
 - `tv` - TV show related notifications (new episodes, seasons)
 - `movie` - Movie related notifications (new releases, recommendations)
 - `issue` - System issues, maintenance, or problems
@@ -43,7 +45,9 @@ function isValidNotificationType(value: string): value is NotificationType {
 
 ### `AccountNotification`
 
-The primary interface representing a notification message displayed to account holders. These notifications provide timely information about system updates, feature announcements, or other relevant communications with user interaction tracking.
+The primary interface representing a notification message displayed to account holders. These notifications provide
+timely information about system updates, feature announcements, or other relevant communications with user interaction
+tracking.
 
 **Properties:**
 
@@ -74,13 +78,15 @@ const notification: AccountNotification = {
   endDate: new Date('2024-01-22T23:59:59Z'),
   type: 'tv',
   dismissed: false,
-  read: true
+  read: true,
 };
 ```
 
 ### `AdminNotification`
 
-Extended notification interface for administrative purposes that provides full control over notification distribution and targeting. This interface enables administrators to manage both system-wide announcements and account-specific messages.
+Extended notification interface for administrative purposes that provides full control over notification distribution
+and targeting. This interface enables administrators to manage both system-wide announcements and account-specific
+messages.
 
 **Properties:**
 
@@ -128,7 +134,8 @@ const accountNotification: AdminNotification = {
 
 ### `CreateNotificationRequest`
 
-Defines the payload structure for creating new notifications. Uses string dates for API compatibility and includes explicit targeting options for flexible notification distribution.
+Defines the payload structure for creating new notifications. Uses string dates for API compatibility and includes
+explicit targeting options for flexible notification distribution.
 
 **Required Fields:**
 
@@ -151,7 +158,7 @@ const maintenanceNotification: CreateNotificationRequest = {
   endDate: '2024-01-16T06:00:00Z',
   type: 'issue',
   sendToAll: true,
-  accountId: null
+  accountId: null,
 };
 
 // Create a user-specific notification
@@ -162,13 +169,14 @@ const userNotification: CreateNotificationRequest = {
   endDate: '2024-01-22T23:59:59Z',
   type: 'tv',
   sendToAll: false,
-  accountId: 789
+  accountId: 789,
 };
 ```
 
 ### `UpdateNotificationRequest`
 
-Enables modification of existing notifications by extending the creation request with an ID field. All fields from the creation request can be updated, allowing for complete notification management.
+Enables modification of existing notifications by extending the creation request with an ID field. All fields from the
+creation request can be updated, allowing for complete notification management.
 
 **Additional Field:**
 
@@ -186,7 +194,7 @@ const updateRequest: UpdateNotificationRequest = {
   endDate: '2024-01-17T06:00:00Z',
   type: 'issue',
   sendToAll: true,
-  accountId: null
+  accountId: null,
 };
 
 // Change targeting from system-wide to account-specific
@@ -198,7 +206,7 @@ const retargetRequest: UpdateNotificationRequest = {
   endDate: '2024-01-30T23:59:59Z',
   type: 'general',
   sendToAll: false,
-  accountId: 456
+  accountId: 456,
 };
 ```
 
@@ -206,7 +214,8 @@ const retargetRequest: UpdateNotificationRequest = {
 
 ### `NotificationResponse`
 
-API response wrapper for notification retrieval operations that extends BaseResponse to include an array of account notifications in a standardized format.
+API response wrapper for notification retrieval operations that extends BaseResponse to include an array of account
+notifications in a standardized format.
 
 **Structure:**
 
@@ -231,7 +240,7 @@ const notificationResponse: NotificationResponse = {
       endDate: new Date('2024-01-22T23:59:59Z'),
       type: 'tv',
       dismissed: false,
-      read: true
+      read: true,
     },
     {
       id: 2,
@@ -241,9 +250,9 @@ const notificationResponse: NotificationResponse = {
       endDate: new Date('2024-01-16T00:00:00Z'),
       type: 'issue',
       dismissed: false,
-      read: false
-    }
-  ]
+      read: false,
+    },
+  ],
 };
 ```
 
@@ -252,12 +261,12 @@ const notificationResponse: NotificationResponse = {
 ### Service Layer Implementation
 
 ```typescript
-import { 
-  CreateNotificationRequest, 
-  UpdateNotificationRequest,
+import {
   AccountNotification,
+  CreateNotificationRequest,
   NotificationType,
-  isValidNotificationType
+  UpdateNotificationRequest,
+  isValidNotificationType,
 } from '@ajgifford/keepwatching-types';
 
 class NotificationService {
@@ -282,7 +291,7 @@ class NotificationService {
       startDate: new Date(request.startDate),
       endDate: new Date(request.endDate),
       dismissed: false,
-      read: false
+      read: false,
     });
 
     return notification;
@@ -290,22 +299,22 @@ class NotificationService {
 
   async getActiveNotificationsForAccount(accountId: number): Promise<AccountNotification[]> {
     const now = new Date();
-    
+
     return this.repository.findActiveNotifications({
       accountId,
-      currentDate: now
+      currentDate: now,
     });
   }
 
   async markAsRead(notificationId: number, accountId: number): Promise<void> {
     await this.repository.updateUserInteraction(notificationId, accountId, {
-      read: true
+      read: true,
     });
   }
 
   async dismiss(notificationId: number, accountId: number): Promise<void> {
     await this.repository.updateUserInteraction(notificationId, accountId, {
-      dismissed: true
+      dismissed: true,
     });
   }
 }
@@ -325,10 +334,10 @@ export class NotificationController {
     try {
       const accountId = req.user.accountId;
       const notifications = await this.notificationService.getActiveNotificationsForAccount(accountId);
-      
+
       res.json({
         message: 'Notifications retrieved successfully',
-        notifications
+        notifications,
       });
     } catch (error) {
       next(error);
@@ -340,10 +349,10 @@ export class NotificationController {
     try {
       const createRequest: CreateNotificationRequest = req.body;
       const notification = await this.notificationService.createNotification(createRequest);
-      
+
       res.status(201).json({
         message: 'Notification created successfully',
-        notification
+        notification,
       });
     } catch (error) {
       next(error);
@@ -355,11 +364,11 @@ export class NotificationController {
     try {
       const notificationId = parseInt(req.params.id);
       const accountId = req.user.accountId;
-      
+
       await this.notificationService.markAsRead(notificationId, accountId);
-      
+
       res.json({
-        message: 'Notification marked as read'
+        message: 'Notification marked as read',
       });
     } catch (error) {
       next(error);
@@ -371,11 +380,11 @@ export class NotificationController {
     try {
       const notificationId = parseInt(req.params.id);
       const accountId = req.user.accountId;
-      
+
       await this.notificationService.dismiss(notificationId, accountId);
-      
+
       res.json({
-        message: 'Notification dismissed'
+        message: 'Notification dismissed',
       });
     } catch (error) {
       next(error);

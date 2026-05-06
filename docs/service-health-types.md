@@ -335,14 +335,11 @@ async function checkHealth() {
 
 // ✅ Do: Handle errors gracefully
 async function checkHealth(): Promise<{ database: ServiceHealth; redis: ServiceHealth }> {
-  const [dbHealth, redisHealth] = await Promise.allSettled([
-    checkDatabaseWithTimeout(),
-    checkRedisWithTimeout()
-  ]);
+  const [dbHealth, redisHealth] = await Promise.allSettled([checkDatabaseWithTimeout(), checkRedisWithTimeout()]);
 
   return {
     database: dbHealth.status === 'fulfilled' ? dbHealth.value : createErrorHealth('Database'),
-    redis: redisHealth.status === 'fulfilled' ? redisHealth.value : createErrorHealth('Redis')
+    redis: redisHealth.status === 'fulfilled' ? redisHealth.value : createErrorHealth('Redis'),
   };
 }
 ```

@@ -85,7 +85,7 @@ export interface DBQueryCallHistory {
    * Optional account ID associated with the query
    */
   accountId?: number;
-   /**
+  /**
    * Optional profile ID associated with the query
    */
   profileId?: number;
@@ -95,7 +95,7 @@ export interface DBQueryCallHistory {
   content?: {
     id: number;
     type: 'show' | 'movie' | 'episode' | 'season' | 'person';
-  }
+  };
   /**
    * Optional result count (number of rows returned)
    */
@@ -111,7 +111,7 @@ export interface DBQueryCallHistory {
  *
  * @type {ArchiveLogStatus}
  */
-export type ArchiveLogStatus = 'started' | 'completed' | 'failed'
+export type ArchiveLogStatus = 'started' | 'completed' | 'failed';
 
 /**
  * Represents a single row in the performance archive log.

@@ -121,10 +121,10 @@ const searchShows = (query: string) => {
 // Type checking and conditional logic
 if (mediaType === MediaType.SHOW) {
   // Handle TV show specific logic
-  console.log("Processing TV show content");
+  console.log('Processing TV show content');
 } else if (mediaType === MediaType.MOVIE) {
   // Handle movie specific logic
-  console.log("Processing movie content");
+  console.log('Processing movie content');
 }
 
 // Switch statement usage

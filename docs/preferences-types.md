@@ -474,7 +474,7 @@ Always provide sensible defaults for optional preferences:
 function getEmailPreferences(user: AccountPreferences): EmailPreferences {
   return {
     weeklyDigest: user.email?.weeklyDigest ?? DEFAULT_PREFERENCES.email.weeklyDigest,
-    marketingEmails: user.email?.marketingEmails ?? DEFAULT_PREFERENCES.email.marketingEmails
+    marketingEmails: user.email?.marketingEmails ?? DEFAULT_PREFERENCES.email.marketingEmails,
   };
 }
 
@@ -490,14 +490,11 @@ Use Partial<T> for preference updates to allow incremental changes:
 
 ```typescript
 // ✅ Allow partial updates
-async function updateDisplayPreferences(
-  accountId: number,
-  updates: Partial<DisplayPreferences>
-): Promise<void> {
+async function updateDisplayPreferences(accountId: number, updates: Partial<DisplayPreferences>): Promise<void> {
   // Only update provided fields
   const request: UpdatePreferenceRequest<DisplayPreferences> = {
     preference_type: 'display',
-    preferences: updates
+    preferences: updates,
   };
 
   await preferenceService.updatePreferences(accountId, request);
@@ -506,7 +503,7 @@ async function updateDisplayPreferences(
 // ❌ Avoid requiring complete preference objects
 async function updateDisplayPreferences(
   accountId: number,
-  preferences: DisplayPreferences // Forces all fields to be provided
+  preferences: DisplayPreferences, // Forces all fields to be provided
 ): Promise<void> {
   // Implementation
 }
@@ -552,8 +549,8 @@ function disableMarketing(prefs: AccountPreferences): AccountPreferences {
     ...prefs,
     email: {
       ...prefs.email,
-      marketingEmails: false
-    }
+      marketingEmails: false,
+    },
   };
 }
 ```

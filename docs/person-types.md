@@ -1220,7 +1220,7 @@ This module depends on:
 // ❌ Don't: Always fetch complete person data
 async function getMovieCastList(movieId: number): Promise<Person[]> {
   const cast = await this.castService.getMovieCast(movieId);
-  return Promise.all(cast.map(member => this.personService.getPersonById(member.personId)));
+  return Promise.all(cast.map((member) => this.personService.getPersonById(member.personId)));
 }
 
 // ✅ Do: Use appropriate data level for context

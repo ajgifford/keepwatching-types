@@ -2,7 +2,8 @@
 
 # Content Types Documentation
 
-This module provides TypeScript type definitions for content reference operations in the KeepWatching application. It handles lightweight content identification and cross-referencing for scenarios where full content data is not needed.
+This module provides TypeScript type definitions for content reference operations in the KeepWatching application. It
+handles lightweight content identification and cross-referencing for scenarios where full content data is not needed.
 
 ## Overview
 
@@ -17,7 +18,9 @@ The content types module defines interfaces for:
 
 ### `ContentReference`
 
-Lightweight reference interface for content that contains only essential identification information. Used in contexts where full content data is not needed, such as lists, recommendations, cross-references, or API responses that need to minimize payload size.
+Lightweight reference interface for content that contains only essential identification information. Used in contexts
+where full content data is not needed, such as lists, recommendations, cross-references, or API responses that need to
+minimize payload size.
 
 **Properties:**
 
@@ -39,23 +42,23 @@ Lightweight reference interface for content that contains only essential identif
 const tmdbRef: ContentReference = {
   id: 1,
   tmdbId: 1399,
-  title: "Game of Thrones",
-  releaseDate: "2011-04-17"
+  title: 'Game of Thrones',
+  releaseDate: '2011-04-17',
 };
 
 // Used for removed references
 const removedContentRef: ContentReference = {
   id: 15,
   tmdbId: 1396,
-  title: "Breaking Bad",
-  releaseDate: "2008-01-20"
+  title: 'Breaking Bad',
+  releaseDate: '2008-01-20',
 };
 
 // Used in recommendation lists
 const recentContent: ContentReference[] = [
-  { id: 1, title: "Inception", tmdbId: 27205, releaseDate: "2010-07-16" },
-  { id: 2, title: "The Matrix", tmdbId: 603, releaseDate: "1999-03-31" },
-  { id: 3, title: "Interstellar", tmdbId: 157336, releaseDate: "2014-11-07" }
+  { id: 1, title: 'Inception', tmdbId: 27205, releaseDate: '2010-07-16' },
+  { id: 2, title: 'The Matrix', tmdbId: 603, releaseDate: '1999-03-31' },
+  { id: 3, title: 'Interstellar', tmdbId: 157336, releaseDate: '2014-11-07' },
 ];
 ```
 
@@ -74,10 +77,10 @@ interface RemovalResponse {
 async function removeFromFavorites(contentId: number): Promise<RemovalResponse> {
   const contentRef = await getContentReference(contentId);
   await removeContent(contentId);
-  
+
   return {
     removedContent: contentRef,
-    message: "Content removed successfully"
+    message: 'Content removed successfully',
   };
 }
 ```
@@ -99,7 +102,7 @@ async function getContentTimeline(): Promise<ContentTimeline> {
 
   return {
     recentContent: await getContentByDateRange(threeMonthsAgo, now),
-    upcomingContent: await getContentByDateRange(now, threeMonthsFromNow)
+    upcomingContent: await getContentByDateRange(now, threeMonthsFromNow),
   };
 }
 ```
@@ -117,16 +120,16 @@ interface SearchResults {
 
 async function searchContent(query: string, limit: number = 20): Promise<SearchResults> {
   const results = await performSearch(query, limit);
-  
+
   return {
     query,
-    results: results.map(content => ({
+    results: results.map((content) => ({
       id: content.id,
       tmdbId: content.tmdbId,
       title: content.title,
-      releaseDate: content.releaseDate
+      releaseDate: content.releaseDate,
     })),
-    totalCount: results.length
+    totalCount: results.length,
   };
 }
 ```
@@ -150,7 +153,7 @@ async function getRecommendations(contentId: number): Promise<RecommendationResu
   return {
     baseContent,
     similarContent: similar.map(toContentReference),
-    personalizedRecommendations: personalized.map(toContentReference)
+    personalizedRecommendations: personalized.map(toContentReference),
   };
 }
 
@@ -159,7 +162,7 @@ function toContentReference(content: any): ContentReference {
     id: content.id,
     tmdbId: content.tmdbId,
     title: content.title,
-    releaseDate: content.releaseDate
+    releaseDate: content.releaseDate,
   };
 }
 ```
@@ -204,9 +207,7 @@ ContentReference maintains TMDB compatibility for external operations:
 ```typescript
 class TMDBService {
   async fetchContentDetails(reference: ContentReference) {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${reference.tmdbId}?api_key=${this.apiKey}`
-    );
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${reference.tmdbId}?api_key=${this.apiKey}`);
     return await response.json();
   }
 
@@ -232,7 +233,7 @@ class ContentCacheService {
 
   setCachedReference(reference: ContentReference): void {
     this.referenceCache.set(reference.id, reference);
-    
+
     // Auto-expire cache entry
     setTimeout(() => {
       this.referenceCache.delete(reference.id);
@@ -241,7 +242,7 @@ class ContentCacheService {
 
   // Batch operations for better performance
   setCachedReferences(references: ContentReference[]): void {
-    references.forEach(ref => this.setCachedReference(ref));
+    references.forEach((ref) => this.setCachedReference(ref));
   }
 }
 ```
@@ -277,14 +278,14 @@ Reduced bandwidth usage for mobile and slow connections:
 // API endpoint returning recent content
 app.get('/api/recent-content', async (req, res) => {
   const recentContent = await getRecentContent(100); // 100 items
-  
+
   // Using ContentReference reduces response size by ~90%
   const lightweightResponse = recentContent.map(toContentReference);
-  
+
   res.json({
-    message: "Recent content retrieved successfully",
+    message: 'Recent content retrieved successfully',
     content: lightweightResponse,
-    totalCount: lightweightResponse.length
+    totalCount: lightweightResponse.length,
   });
 });
 ```
@@ -294,6 +295,7 @@ app.get('/api/recent-content', async (req, res) => {
 ### 1. When to Use ContentReference
 
 **Use ContentReference for:**
+
 - List operations (search results, recent content, recommendations)
 - Cross-references between different content types
 - Removal confirmations and cleanup operations
@@ -301,6 +303,7 @@ app.get('/api/recent-content', async (req, res) => {
 - Caching scenarios where memory is constrained
 
 **Don't use ContentReference for:**
+
 - Detailed content views requiring full metadata
 - Content creation or modification operations
 - User interfaces requiring rich content information
@@ -316,7 +319,7 @@ function toContentReference(content: Show | Movie): ContentReference {
     id: content.id,
     tmdbId: content.tmdbId,
     title: content.title,
-    releaseDate: content.releaseDate
+    releaseDate: content.releaseDate,
   };
 }
 
@@ -348,7 +351,7 @@ async function validateContentReference(reference: ContentReference): Promise<bo
 
 async function cleanupInvalidReferences(references: ContentReference[]): Promise<ContentReference[]> {
   const validReferences: ContentReference[] = [];
-  
+
   for (const ref of references) {
     if (await validateContentReference(ref)) {
       validReferences.push(ref);
@@ -356,7 +359,7 @@ async function cleanupInvalidReferences(references: ContentReference[]): Promise
       console.info(`Removing invalid content reference: ${ref.title} (ID: ${ref.id})`);
     }
   }
-  
+
   return validReferences;
 }
 ```
@@ -368,11 +371,13 @@ Maintain type safety when working with references:
 ```typescript
 // Type guard for ContentReference
 function isContentReference(obj: any): obj is ContentReference {
-  return obj &&
+  return (
+    obj &&
     typeof obj.id === 'number' &&
     typeof obj.tmdbId === 'number' &&
     typeof obj.title === 'string' &&
-    typeof obj.releaseDate === 'string';
+    typeof obj.releaseDate === 'string'
+  );
 }
 
 // Validate arrays of references
@@ -401,6 +406,7 @@ This module has minimal dependencies:
 If upgrading from full content objects to ContentReference:
 
 ### Before (Heavy)
+
 ```typescript
 interface ApiResponse {
   content: FullContentObject[];
@@ -408,6 +414,7 @@ interface ApiResponse {
 ```
 
 ### After (Lightweight)
+
 ```typescript
 interface ApiResponse {
   content: ContentReference[];
@@ -420,6 +427,7 @@ interface DetailedContentResponse {
 ```
 
 ### Gradual Migration Strategy
+
 ```typescript
 // Support both during transition
 interface FlexibleApiResponse {

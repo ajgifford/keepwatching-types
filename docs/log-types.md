@@ -633,13 +633,13 @@ class LogSecurityService implements LogAccessPolicy {
 ```typescript
 // ❌ Don't: Log every minor operation
 function processData(data: any[]) {
-  logger.info("Starting data processing");
+  logger.info('Starting data processing');
   for (let i = 0; i < data.length; i++) {
     logger.info(`Processing item ${i}`); // Too verbose
     // ... processing logic
     logger.info(`Completed item ${i}`); // Unnecessary
   }
-  logger.info("Data processing complete");
+  logger.info('Data processing complete');
 }
 
 // ✅ Do: Log important milestones
