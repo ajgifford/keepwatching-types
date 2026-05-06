@@ -1,7 +1,7 @@
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
-const ignores = ['node_modules/**', 'dist/**', '.prettierrc.js', 'eslint.config.js'];
+const ignores = ['node_modules/**', 'dist/**', '.prettierrc.cjs', 'eslint.config.js'];
 
 export default [
   {

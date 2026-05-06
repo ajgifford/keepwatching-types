@@ -3,6 +3,7 @@ module.exports = {
   proseWrap: 'always',
   printWidth: 120,
   tabWidth: 2,
+  endOfLine: 'lf',
   plugins: ['@trivago/prettier-plugin-sort-imports'],
   importOrder: ['<THIRD_PARTY_MODULES>'],
   importOrderSeparation: true,
