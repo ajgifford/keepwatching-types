@@ -244,6 +244,12 @@ export enum LogService {
   ADMIN_CONSOLE_ERROR = 'Admin-Console-Error',
   /** System-level logs */
   SYSTEM = 'system',
+  /** Nginx web server access */
+  ACCESS = 'NGINX-Access',
+  /** KeepWatching Nginx web server access */
+  ACCESS_APP = 'KeepWatching-NGINX-Access',
+  /** KeepWatching Admin Nginx web server access */
+  ACCESS_ADMIN_APP = 'KeepWatching-Admin-NGINX-Access',
 }
 
 /**
