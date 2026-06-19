@@ -151,6 +151,14 @@ export interface Show {
    * May be null for shows without a clear original broadcaster.
    */
   network: string | null;
+
+  /**
+   * Average episode runtime in minutes, computed from episodes table (nullable)
+   *
+   * Null when no episodes have runtime data. Used for time-based filtering
+   * and display in the watchlist feature.
+   */
+  averageEpisodeRuntime: number | null;
 }
 
 /**

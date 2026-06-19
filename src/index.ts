@@ -19,5 +19,6 @@ export * from './types/serviceHealthTypes';
 export * from './types/showTypes';
 export * from './types/statistics';
 export * from './types/watchHistoryTypes';
+export * from './types/watchlistTypes';
 export * from './types/watchStatusTypes';
 export * from './types/ratingTypes';
