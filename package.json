@@ -1,6 +1,6 @@
 {
   "name": "@ajgifford/keepwatching-types",
-  "version": "0.11.8",
+  "version": "0.12.0",
   "description": "Shared TypeScript types for KeepWatching application",
   "type": "module",
   "main": "dist/index.cjs",
