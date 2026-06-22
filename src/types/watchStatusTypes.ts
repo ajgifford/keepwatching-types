@@ -22,13 +22,15 @@ export enum WatchStatus {
   WATCHED = 'WATCHED',
   /** All currently available episodes have been watched (shows/seasons only) */
   UP_TO_DATE = 'UP_TO_DATE',
+  /** Season was intentionally skipped; treated as WATCHED for roll-up purposes (seasons only) */
+  SKIPPED = 'SKIPPED',
 }
 
 /** Subset of watch statuses that are used by Episodes and Movies */
 export type SimpleWatchStatus = WatchStatus.UNAIRED | WatchStatus.NOT_WATCHED | WatchStatus.WATCHED;
 
 /** Subset of watch statuses that are allowed to be passed from the client */
-export type UserWatchStatus = WatchStatus.WATCHED | WatchStatus.NOT_WATCHED;
+export type UserWatchStatus = WatchStatus.WATCHED | WatchStatus.NOT_WATCHED | WatchStatus.SKIPPED;
 
 /**
  * Base type that includes all possible watch statuses
