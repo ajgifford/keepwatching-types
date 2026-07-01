@@ -44,6 +44,9 @@ export interface Profile {
 
   /** Optional URL to the profile's avatar image */
   image: string | undefined;
+
+  /** Optional hex color accent (e.g. "#1976d2") used to tint the MUI primary palette for this profile */
+  accentColor?: string | null;
 }
 
 /**
@@ -150,6 +153,25 @@ export interface UpdateProfileNameRequest extends UpdateProfileRequest {
 export interface UpdateProfileImageRequest extends UpdateProfileRequest {
   /** New profile image URL */
   image: string | null;
+}
+
+/**
+ * Request payload for updating a profile's color accent.
+ * Extends the base update request with the new accent color value.
+ *
+ * @interface UpdateProfileAccentColorRequest
+ * @extends UpdateProfileRequest
+ * @example
+ * ```typescript
+ * const updateAccent: UpdateProfileAccentColorRequest = {
+ *   id: 123,
+ *   accentColor: "#7b1fa2"
+ * };
+ * ```
+ */
+export interface UpdateProfileAccentColorRequest extends UpdateProfileRequest {
+  /** New hex color accent (e.g. "#1976d2"), or null to clear */
+  accentColor: string | null;
 }
 
 /**
