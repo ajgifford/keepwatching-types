@@ -1,5 +1,6 @@
 export * from './commonTypes';
 export * from './profileStatisticsTypes';
+export * from './recapTypes';
 export * from './accountStatisticsTypes';
 export * from './adminStatisticsTypes';
 export * from './adminStatisticsResponseTypes';
