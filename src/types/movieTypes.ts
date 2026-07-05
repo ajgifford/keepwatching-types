@@ -607,6 +607,14 @@ export interface AddMovieFavorite {
 
   /** Updated timeline data for recent and upcoming movies */
   recentUpcomingMovies: RecentUpcomingMoviesForProfile;
+
+  /**
+   * `true` if the profile has surviving watch history for this movie from a previous
+   * favorite/unfavorite-keeping-history cycle. When `true` and a restore wasn't requested,
+   * the movie's watch status starts fresh (NOT_WATCHED) even though history exists —
+   * callers can use this to offer restoring status from that history.
+   */
+  hasSurvivingHistory: boolean;
 }
 
 /**
@@ -683,6 +691,12 @@ export interface FavoriteMovieResponse extends BaseResponse {
 
   /** Updated timeline data for recent and upcoming movies */
   recentUpcomingMovies: RecentUpcomingMoviesForProfile;
+
+  /**
+   * `true` if the profile has surviving watch history for this movie from a previous
+   * favorite/unfavorite-keeping-history cycle that a restore wasn't requested for.
+   */
+  hasSurvivingHistory: boolean;
 }
 
 /**

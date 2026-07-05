@@ -766,6 +766,14 @@ export interface AddShowFavorite {
    * This helps maintain UI consistency without requiring additional API calls.
    */
   episodes?: EpisodesForProfile;
+
+  /**
+   * `true` if the profile has surviving watch history for this show from a previous
+   * favorite/unfavorite-keeping-history cycle. When `true` and a restore wasn't requested,
+   * the show's watch status starts fresh (NOT_WATCHED) even though history exists —
+   * callers can use this to offer restoring status from that history.
+   */
+  hasSurvivingHistory: boolean;
 }
 
 /**
@@ -968,6 +976,12 @@ export interface AddShowFavoriteResponse extends BaseResponse {
    * and episode tracking after adding a show to favorites.
    */
   episodes?: EpisodesForProfile;
+
+  /**
+   * `true` if the profile has surviving watch history for this show from a previous
+   * favorite/unfavorite-keeping-history cycle that a restore wasn't requested for.
+   */
+  hasSurvivingHistory: boolean;
 }
 
 /**
