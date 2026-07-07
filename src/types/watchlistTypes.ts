@@ -8,6 +8,8 @@
  * const movieEntry: WatchlistContentType = 'movie';
  * ```
  */
+import { WatchStatus } from './watchStatusTypes';
+
 export type WatchlistContentType = 'show' | 'movie';
 
 /**
@@ -69,7 +71,7 @@ export interface WatchlistEntry {
  *   genres: "Drama,Crime,Thriller",
  *   streamingServices: "Netflix",
  *   runtime: 47,
- *   hasNewSeason: false
+ *   currentWatchStatus: WatchStatus.NOT_WATCHED
  * };
  * ```
  */
@@ -89,8 +91,8 @@ export interface WatchlistItem extends WatchlistEntry {
   /** Average episode runtime in minutes for shows, or movie runtime for movies; null if unknown */
   runtime: number | null;
 
-  /** True when an unwatched new season has aired since the profile last watched (shows only; always false for movies) */
-  hasNewSeason: boolean;
+  /** Profile's current watch status for this content; used to flag entries that are no longer NOT_WATCHED */
+  currentWatchStatus: WatchStatus;
 }
 
 /**
@@ -115,7 +117,7 @@ export interface WatchlistItem extends WatchlistEntry {
  *       genres: "Drama,Crime,Thriller",
  *       streamingServices: "Netflix",
  *       runtime: 47,
- *       hasNewSeason: false
+ *       currentWatchStatus: WatchStatus.NOT_WATCHED
  *     }
  *   ]
  * };
