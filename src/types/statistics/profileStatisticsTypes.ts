@@ -391,6 +391,10 @@ export const MILESTONE_THRESHOLDS = {
   movies: [5, 10, 25, 50, 75, 100, 200, 300, 400, 500],
   /** Hours watched milestones (e.g., 10, 25, 50 … 5000 hours) */
   hours: [10, 25, 50, 100, 250, 500, 750, 1000, 2000, 3000, 4000, 5000],
+  /** Shows fully completed milestones */
+  showsCompleted: [1, 5, 10, 25, 50],
+  /** Profile anniversary milestones, in years */
+  anniversary: [1, 2, 3, 5, 10],
 };
 
 /**

@@ -208,14 +208,34 @@ export interface MonthlyActivity {
  * @interface Milestone
  */
 export interface Milestone {
-  /** Type of milestone (episodes, movies, or hours) */
-  type: 'episodes' | 'movies' | 'hours';
+  /** Type of milestone (episodes, movies, hours, shows completed, or profile anniversary) */
+  type: 'episodes' | 'movies' | 'hours' | 'showsCompleted' | 'anniversary';
   /** Threshold value for achieving this milestone */
   threshold: number;
   /** Whether this milestone has been achieved */
   achieved: boolean;
   /** Progress percentage towards the next milestone (0-100) */
   progress: number;
+}
+
+/** Badge tier assigned to a milestone based on its position within its threshold list */
+export type BadgeTier = 'bronze' | 'silver' | 'gold' | 'platinum';
+
+/**
+ * Determines the badge tier for a milestone based on its position within its category's
+ * threshold list. Splits any threshold array into four roughly-equal quartiles by index,
+ * so it works uniformly across categories with different array lengths (e.g. the 12-entry
+ * episodes/hours arrays vs. the 5-entry showsCompleted/anniversary arrays) without
+ * per-category tier tables.
+ *
+ * @param index - Index of the threshold within its category's threshold array
+ * @param totalThresholds - Length of that category's threshold array
+ * @returns The badge tier for that threshold position
+ */
+export function getBadgeTier(index: number, totalThresholds: number): BadgeTier {
+  const tiers: BadgeTier[] = ['bronze', 'silver', 'gold', 'platinum'];
+  const tierIndex = Math.min(Math.floor((index / totalThresholds) * tiers.length), tiers.length - 1);
+  return tiers[tierIndex];
 }
 
 /**
@@ -246,6 +266,10 @@ export interface Achievement {
   description: string;
   /** Date when the achievement was unlocked (ISO 8601 format) */
   achievedDate: string;
+  /** Type of achievement this record represents */
+  achievementType: AchievementType;
+  /** Threshold value that was crossed to unlock this achievement (e.g. episode count, anniversary year) */
+  thresholdValue: number;
   /** Optional profile name (for account-level aggregation) */
   profileName?: string;
   /** Optional metadata about the achievement */
@@ -361,8 +385,10 @@ export interface MilestoneStats {
   firstMovieWatchedAt?: string;
   /** Array of milestone tracking information */
   milestones: Milestone[];
-  /** Recent achievements unlocked */
+  /** Recent achievements unlocked (last 30 days) */
   recentAchievements: Achievement[];
+  /** Full lifetime history of unlocked achievements */
+  allAchievements: Achievement[];
   /** Metadata for the first episode watched (includes show title, season, episode number, etc.) */
   firstEpisodeMetadata?: Record<string, unknown>;
   /** Metadata for the first movie watched (includes movie title) */
