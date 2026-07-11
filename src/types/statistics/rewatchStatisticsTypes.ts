@@ -47,8 +47,83 @@ export interface RewatchedMovie {
 }
 
 /**
+ * An episode that has been rewatched at least once by a profile.
+ *
+ * @interface RewatchedEpisode
+ * @example
+ * ```typescript
+ * const rewatchedEpisode: RewatchedEpisode = {
+ *   episodeId: 5001,
+ *   showId: 101,
+ *   showTitle: "Breaking Bad",
+ *   seasonNumber: 1,
+ *   episodeNumber: 1,
+ *   episodeTitle: "Pilot",
+ *   rewatchCount: 2
+ * };
+ * ```
+ */
+export interface RewatchedEpisode {
+  /** Unique identifier for the episode */
+  episodeId: number;
+
+  /** Unique identifier for the show the episode belongs to */
+  showId: number;
+
+  /** Display title of the show the episode belongs to */
+  showTitle: string;
+
+  /** Season number the episode belongs to */
+  seasonNumber: number;
+
+  /** Episode number within its season */
+  episodeNumber: number;
+
+  /** Display title of the episode */
+  episodeTitle: string;
+
+  /** Number of times the episode has been rewatched (excludes the original watch) */
+  rewatchCount: number;
+}
+
+/**
+ * A show's episode-rewatch activity, summarizing how many of its episodes have been
+ * rewatched and surfacing the show's own most-rewatched episodes.
+ *
+ * @interface RewatchedShowEpisodeSummary
+ * @example
+ * ```typescript
+ * const summary: RewatchedShowEpisodeSummary = {
+ *   showId: 101,
+ *   showTitle: "Breaking Bad",
+ *   totalEpisodesRewatched: 2,
+ *   totalRewatchCount: 6,
+ *   topEpisodes: [
+ *     { episodeId: 5001, showId: 101, showTitle: "Breaking Bad", seasonNumber: 1, episodeNumber: 1, episodeTitle: "Pilot", rewatchCount: 4 }
+ *   ]
+ * };
+ * ```
+ */
+export interface RewatchedShowEpisodeSummary {
+  /** Unique identifier for the show */
+  showId: number;
+
+  /** Display title of the show */
+  showTitle: string;
+
+  /** Number of distinct episodes of this show that have been rewatched at least once */
+  totalEpisodesRewatched: number;
+
+  /** Sum of rewatch counts across all of this show's rewatched episodes */
+  totalRewatchCount: number;
+
+  /** This show's most-rewatched episodes, sorted descending by rewatchCount */
+  topEpisodes: RewatchedEpisode[];
+}
+
+/**
  * Rewatch statistics for a single profile.
- * Tracks how many times shows and movies have been rewatched and surfaces
+ * Tracks how many times shows, movies, and episodes have been rewatched and surfaces
  * the most frequently rewatched titles.
  *
  * @interface ProfileRewatchStats
@@ -57,8 +132,10 @@ export interface RewatchedMovie {
  * const stats: ProfileRewatchStats = {
  *   totalShowRewatches: 5,
  *   totalMovieRewatches: 12,
+ *   totalEpisodeRewatches: 7,
  *   mostRewatchedShows: [{ showId: 101, showTitle: "Breaking Bad", rewatchCount: 2 }],
- *   mostRewatchedMovies: [{ movieId: 550, movieTitle: "Fight Club", rewatchCount: 3 }]
+ *   mostRewatchedMovies: [{ movieId: 550, movieTitle: "Fight Club", rewatchCount: 3 }],
+ *   mostRewatchedEpisodes: [{ episodeId: 5001, showId: 101, showTitle: "Breaking Bad", seasonNumber: 1, episodeNumber: 1, episodeTitle: "Pilot", rewatchCount: 2 }]
  * };
  * ```
  */
@@ -69,11 +146,20 @@ export interface ProfileRewatchStats {
   /** Total number of movie rewatch cycles initiated across all movies for this profile */
   totalMovieRewatches: number;
 
+  /** Total number of episode rewatches across all episodes for this profile */
+  totalEpisodeRewatches: number;
+
   /** Shows rewatched most often by this profile, sorted descending by rewatchCount */
   mostRewatchedShows: RewatchedShow[];
 
   /** Movies rewatched most often by this profile, sorted descending by rewatchCount */
   mostRewatchedMovies: RewatchedMovie[];
+
+  /** Episodes rewatched most often by this profile, sorted descending by rewatchCount */
+  mostRewatchedEpisodes: RewatchedEpisode[];
+
+  /** Shows ranked by total episode-rewatch volume, each with its own top rewatched episodes */
+  topRewatchedShowsByEpisodes: RewatchedShowEpisodeSummary[];
 }
 
 /**
@@ -87,8 +173,10 @@ export interface ProfileRewatchStats {
  * const stats: AccountRewatchStats = {
  *   totalShowRewatches: 18,
  *   totalMovieRewatches: 35,
+ *   totalEpisodeRewatches: 22,
  *   mostRewatchedShows: [{ showId: 101, showTitle: "Breaking Bad", rewatchCount: 5, profileName: "Alice" }],
- *   mostRewatchedMovies: [{ movieId: 550, movieTitle: "Fight Club", rewatchCount: 8, profileName: "Bob" }]
+ *   mostRewatchedMovies: [{ movieId: 550, movieTitle: "Fight Club", rewatchCount: 8, profileName: "Bob" }],
+ *   mostRewatchedEpisodes: [{ episodeId: 5001, showId: 101, showTitle: "Breaking Bad", seasonNumber: 1, episodeNumber: 1, episodeTitle: "Pilot", rewatchCount: 3, profileName: "Alice" }]
  * };
  * ```
  */
@@ -99,9 +187,18 @@ export interface AccountRewatchStats {
   /** Total movie rewatch cycles across all profiles in the account */
   totalMovieRewatches: number;
 
+  /** Total episode rewatches across all profiles in the account */
+  totalEpisodeRewatches: number;
+
   /** Most rewatched shows across all profiles, each entry attributed to a profile by name */
   mostRewatchedShows: Array<RewatchedShow & { profileName: string }>;
 
   /** Most rewatched movies across all profiles, each entry attributed to a profile by name */
   mostRewatchedMovies: Array<RewatchedMovie & { profileName: string }>;
+
+  /** Most rewatched episodes across all profiles, each entry attributed to a profile by name */
+  mostRewatchedEpisodes: Array<RewatchedEpisode & { profileName: string }>;
+
+  /** Shows ranked by total episode-rewatch volume across all profiles, each entry attributed to a profile by name */
+  topRewatchedShowsByEpisodes: Array<RewatchedShowEpisodeSummary & { profileName: string }>;
 }

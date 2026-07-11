@@ -23,6 +23,8 @@ import {
   WatchingVelocityStats,
 } from './profileStatisticsTypes';
 import { AccountRewatchStats, ProfileRewatchStats } from './rewatchStatisticsTypes';
+import { AccountSkipRateStats, ProfileSkipRateStats } from './skipRateStatisticsTypes';
+import { AccountWatchlistUsageStats, ProfileWatchlistUsageStats } from './watchlistUsageStatisticsTypes';
 
 /**
  * Container for all account-level enhanced statistics.
@@ -78,6 +80,12 @@ export interface AccountEnhancedStatistics {
 
   /** Rewatch statistics (shows and movies rewatched) */
   rewatchStats?: AccountRewatchStats | null;
+
+  /** Skip-rate statistics (seasons marked SKIPPED) */
+  skipRateStats?: AccountSkipRateStats | null;
+
+  /** Watchlist usage statistics (queue age, churn, completion rate) */
+  watchlistUsage?: AccountWatchlistUsageStats | null;
 }
 
 /**
@@ -131,4 +139,10 @@ export interface ProfileEnhancedStatistics {
 
   /** Rewatch statistics (shows and movies rewatched) */
   rewatchStats?: ProfileRewatchStats | null;
+
+  /** Skip-rate statistics (seasons marked SKIPPED) */
+  skipRateStats?: ProfileSkipRateStats | null;
+
+  /** Watchlist usage statistics (queue age, churn, completion rate) */
+  watchlistUsage?: ProfileWatchlistUsageStats | null;
 }

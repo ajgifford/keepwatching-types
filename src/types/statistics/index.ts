@@ -6,3 +6,5 @@ export * from './adminStatisticsTypes';
 export * from './adminStatisticsResponseTypes';
 export * from './enhancedStatisticsTypes';
 export * from './rewatchStatisticsTypes';
+export * from './skipRateStatisticsTypes';
+export * from './watchlistUsageStatisticsTypes';

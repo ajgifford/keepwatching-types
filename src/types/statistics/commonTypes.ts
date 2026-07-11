@@ -377,6 +377,8 @@ export interface MilestoneStats {
   totalMoviesWatched: number;
   /** Estimated total hours watched based on runtime */
   totalHoursWatched: number;
+  /** Total number of shows fully completed (all episodes watched) */
+  totalShowsCompleted: number;
   /** Date when the profile was created (ISO 8601 format) */
   createdAt?: string;
   /** Date when the first episode was watched (ISO 8601 format) */
