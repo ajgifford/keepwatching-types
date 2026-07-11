@@ -87,6 +87,42 @@ export interface RewatchedEpisode {
 }
 
 /**
+ * A season that has been rewatched at least once by a profile.
+ *
+ * @interface RewatchedSeason
+ * @example
+ * ```typescript
+ * const rewatchedSeason: RewatchedSeason = {
+ *   seasonId: 301,
+ *   showId: 101,
+ *   showTitle: "Breaking Bad",
+ *   seasonNumber: 1,
+ *   seasonName: "Season 1",
+ *   rewatchCount: 1
+ * };
+ * ```
+ */
+export interface RewatchedSeason {
+  /** Unique identifier for the season */
+  seasonId: number;
+
+  /** Unique identifier for the show the season belongs to */
+  showId: number;
+
+  /** Display title of the show the season belongs to */
+  showTitle: string;
+
+  /** Season number within its show */
+  seasonNumber: number;
+
+  /** Display name of the season */
+  seasonName: string;
+
+  /** Number of times the season has been rewatched (excludes the original watch) */
+  rewatchCount: number;
+}
+
+/**
  * A show's episode-rewatch activity, summarizing how many of its episodes have been
  * rewatched and surfacing the show's own most-rewatched episodes.
  *
@@ -149,6 +185,9 @@ export interface ProfileRewatchStats {
   /** Total number of episode rewatches across all episodes for this profile */
   totalEpisodeRewatches: number;
 
+  /** Total number of season rewatches across all seasons for this profile */
+  totalSeasonRewatches: number;
+
   /** Shows rewatched most often by this profile, sorted descending by rewatchCount */
   mostRewatchedShows: RewatchedShow[];
 
@@ -157,6 +196,9 @@ export interface ProfileRewatchStats {
 
   /** Episodes rewatched most often by this profile, sorted descending by rewatchCount */
   mostRewatchedEpisodes: RewatchedEpisode[];
+
+  /** Seasons rewatched most often by this profile, sorted descending by rewatchCount */
+  mostRewatchedSeasons: RewatchedSeason[];
 
   /** Shows ranked by total episode-rewatch volume, each with its own top rewatched episodes */
   topRewatchedShowsByEpisodes: RewatchedShowEpisodeSummary[];
@@ -190,6 +232,9 @@ export interface AccountRewatchStats {
   /** Total episode rewatches across all profiles in the account */
   totalEpisodeRewatches: number;
 
+  /** Total season rewatches across all profiles in the account */
+  totalSeasonRewatches: number;
+
   /** Most rewatched shows across all profiles, each entry attributed to a profile by name */
   mostRewatchedShows: Array<RewatchedShow & { profileName: string }>;
 
@@ -198,6 +243,9 @@ export interface AccountRewatchStats {
 
   /** Most rewatched episodes across all profiles, each entry attributed to a profile by name */
   mostRewatchedEpisodes: Array<RewatchedEpisode & { profileName: string }>;
+
+  /** Most rewatched seasons across all profiles, each entry attributed to a profile by name */
+  mostRewatchedSeasons: Array<RewatchedSeason & { profileName: string }>;
 
   /** Shows ranked by total episode-rewatch volume across all profiles, each entry attributed to a profile by name */
   topRewatchedShowsByEpisodes: Array<RewatchedShowEpisodeSummary & { profileName: string }>;
