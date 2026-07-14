@@ -47,6 +47,9 @@ export interface Profile {
 
   /** Optional hex color accent (e.g. "#1976d2") used to tint the MUI primary palette for this profile */
   accentColor?: string | null;
+
+  /** ISO timestamp of when this profile last viewed the achievements page/dropdown, or null if never viewed */
+  lastViewedAchievementsAt?: string | null;
 }
 
 /**
