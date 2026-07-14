@@ -266,7 +266,8 @@ export interface DatabaseHealthResponse {
  *   movies: 2200,
  *   people: 45000,
  *   favoritedShows: 18000,
- *   favoritedMovies: 9500
+ *   favoritedMovies: 9500,
+ *   profilesTransferred: 42
  * };
  * ```
  */
@@ -297,6 +298,9 @@ export interface SummaryCounts {
 
   /** Total number of profile-movie favorites across all profiles */
   favoritedMovies: number;
+
+  /** Total number of profiles successfully transferred to a new, independent account */
+  profilesTransferred: number;
 }
 
 /**
