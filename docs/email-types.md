@@ -53,6 +53,40 @@ const action: EmailAction = 'send';
 const scheduleAction: EmailAction = 'schedule';
 ```
 
+### `EmailHeaderStyle`
+
+Predefined header styles available when composing or templating an email. Headers are rendered server-side and wrap the
+admin-authored body HTML.
+
+**Possible Values:**
+
+- `none` - No header block; the body HTML starts at the top of the email
+- `gradient` - Purple gradient brand header with the email subject as its heading
+- `dark` - Flat dark header with the email subject as its heading
+
+**Usage Example:**
+
+```typescript
+const headerStyle: EmailHeaderStyle = 'gradient';
+```
+
+### `EmailFooterStyle`
+
+Predefined footer styles available when composing or templating an email. Footers are rendered server-side and appended
+after the admin-authored body HTML.
+
+**Possible Values:**
+
+- `none` - No footer block
+- `standard` - Small, centered gray sign-off footer matching the app's transactional emails
+- `cta` - An "Open KeepWatching" call-to-action button (linking to `{{appUrl}}`) followed by the standard sign-off
+
+**Usage Example:**
+
+```typescript
+const footerStyle: EmailFooterStyle = 'standard';
+```
+
 ### `EmailRecipientStatus`
 
 Status values for individual email recipients. Tracks delivery status for each recipient of an email.
@@ -98,6 +132,11 @@ Complete email message with all metadata. Represents a full email record in the 
 - `id: number` - Unique identifier for the email
 - `subject: string` - Email subject line
 - `message: string` - Email message content
+- `headerStyle: EmailHeaderStyle` - Predefined header style to wrap the message body in when sent
+- `footerStyle: EmailFooterStyle` - Predefined footer style to append after the message body when sent
+- `headerTitle: string | null` - Overrides the header's heading text (defaults to `subject` when null)
+- `headerSubtitle: string | null` - Optional sub-header line shown beneath the heading (null for none)
+- `footerNote: string | null` - Overrides the footer's sign-off line (defaults to "Happy watching! 🍿" when null)
 - `sentToAll: boolean` - Whether this email was sent to all accounts
 - `accountCount: number` - Number of accounts this email was sent to
 - `scheduledDate: string | null` - Timestamp when the email is scheduled to be sent (null for immediate send)
@@ -113,6 +152,11 @@ const email: Email = {
   id: 100,
   subject: 'Welcome to KeepWatching!',
   message: 'Thanks for joining our platform!',
+  headerStyle: 'gradient',
+  footerStyle: 'standard',
+  headerTitle: null,
+  headerSubtitle: null,
+  footerNote: null,
   sentToAll: false,
   accountCount: 50,
   scheduledDate: null,
@@ -133,6 +177,11 @@ Template for email messages. Defines reusable email structure with dynamic conte
 - `name: string` - Human-readable name for the template
 - `subject: string` - Email subject line
 - `message: string` - Email message content (may include placeholders like {{variable}})
+- `headerStyle: EmailHeaderStyle` - Predefined header style to wrap the message body in when sent
+- `footerStyle: EmailFooterStyle` - Predefined footer style to append after the message body when sent
+- `headerTitle: string | null` - Overrides the header's heading text (defaults to `subject` when null)
+- `headerSubtitle: string | null` - Optional sub-header line shown beneath the heading (null for none)
+- `footerNote: string | null` - Overrides the footer's sign-off line (defaults to "Happy watching! 🍿" when null)
 - `createdAt: string` - Timestamp when the template was created
 - `updatedAt: string` - Timestamp when the template was last updated
 
@@ -143,7 +192,12 @@ const template: EmailTemplate = {
   id: 1,
   name: 'welcome-email',
   subject: 'Welcome to KeepWatching!',
-  message: 'Welcome {{userName}}! Thanks for joining!',
+  message: 'Welcome {{accountName}}! Thanks for joining!',
+  headerStyle: 'gradient',
+  footerStyle: 'standard',
+  headerTitle: null,
+  headerSubtitle: null,
+  footerNote: null,
   createdAt: '2025-01-01T00:00:00Z',
   updatedAt: '2025-01-01T00:00:00Z',
 };
@@ -189,6 +243,11 @@ Input data for creating a new email message. Contains all required fields and sc
 
 - `subject: string` - Email subject line
 - `message: string` - Email message content
+- `headerStyle: EmailHeaderStyle` - Predefined header style to wrap the message body in when sent
+- `footerStyle: EmailFooterStyle` - Predefined footer style to append after the message body when sent
+- `headerTitle: string | null` - Overrides the header's heading text (defaults to `subject` when null)
+- `headerSubtitle: string | null` - Optional sub-header line shown beneath the heading (null for none)
+- `footerNote: string | null` - Overrides the footer's sign-off line (defaults to "Happy watching! 🍿" when null)
 - `sendToAll: boolean` - Whether to send to all accounts
 - `recipients: number[]` - Array of account IDs to send the email to
 - `scheduledDate: string | null` - When to send the email (null for immediate, ISO 8601 string for scheduled)
@@ -200,6 +259,11 @@ Input data for creating a new email message. Contains all required fields and sc
 const newEmail: CreateEmail = {
   subject: 'Welcome!',
   message: 'Welcome to KeepWatching!',
+  headerStyle: 'gradient',
+  footerStyle: 'standard',
+  headerTitle: null,
+  headerSubtitle: null,
+  footerNote: null,
   sendToAll: false,
   recipients: [1, 2, 3],
   scheduledDate: null,
@@ -223,6 +287,11 @@ const update: UpdateEmail = {
   id: 100,
   subject: 'Updated Subject',
   message: 'Updated message',
+  headerStyle: 'gradient',
+  footerStyle: 'standard',
+  headerTitle: null,
+  headerSubtitle: null,
+  footerNote: null,
   sendToAll: false,
   recipients: [1, 2, 3, 4],
   scheduledDate: '2025-01-10T12:00:00Z',
@@ -239,6 +308,11 @@ Input data for creating a new email template. Contains all required fields for t
 - `name: string` - Human-readable name for the template
 - `subject: string` - Email subject line
 - `message: string` - Email message content
+- `headerStyle: EmailHeaderStyle` - Predefined header style to wrap the message body in when sent
+- `footerStyle: EmailFooterStyle` - Predefined footer style to append after the message body when sent
+- `headerTitle: string | null` - Overrides the header's heading text (defaults to `subject` when null)
+- `headerSubtitle: string | null` - Optional sub-header line shown beneath the heading (null for none)
+- `footerNote: string | null` - Overrides the footer's sign-off line (defaults to "Happy watching! 🍿" when null)
 
 **Usage Example:**
 
@@ -247,6 +321,11 @@ const newTemplate: CreateEmailTemplate = {
   name: 'password-reset',
   subject: 'Reset Your Password',
   message: 'Click the following link to reset your password: {{resetLink}}',
+  headerStyle: 'none',
+  footerStyle: 'standard',
+  headerTitle: null,
+  headerSubtitle: null,
+  footerNote: null,
 };
 ```
 
@@ -267,6 +346,11 @@ const update: UpdateEmailTemplate = {
   name: 'password-reset',
   subject: 'Updated Subject Line',
   message: 'Updated message content',
+  headerStyle: 'none',
+  footerStyle: 'standard',
+  headerTitle: null,
+  headerSubtitle: null,
+  footerNote: null,
 };
 ```
 
@@ -298,18 +382,25 @@ const newRecipient: CreateEmailRecipient = {
 
 ### Email Template System
 
-Templates support variable substitution for dynamic content:
+Templates support variable substitution for dynamic content, and a predefined header/footer style that server-side
+rendering wraps the message body in at send time:
 
 ```typescript
-// Create a template with placeholders
+// Create a template with placeholders and a header/footer style
 const template: CreateEmailTemplate = {
   name: 'new-content-alert',
-  subject: 'New content available: {{showName}}',
-  message: 'Hi {{userName}}, a new episode of {{showName}} is now available!',
+  subject: 'Hi {{accountName}}, new content is available!',
+  message: "<p>Hi {{accountName}}, check out what's new at {{accountEmail}}!</p>",
+  headerStyle: 'gradient',
+  footerStyle: 'standard',
+  headerTitle: null,
+  headerSubtitle: null,
+  footerNote: null,
 };
 
-// When sending, replace placeholders with actual values
-const emailContent = template.message.replace('{{userName}}', 'John').replace('{{showName}}', 'Breaking Bad');
+// When sending, placeholders are replaced with actual per-recipient values
+// (e.g. accountName/accountEmail resolved from the recipient's account record)
+// before the message is wrapped with the chosen header/footer style.
 ```
 
 ### Scheduled Email Workflow

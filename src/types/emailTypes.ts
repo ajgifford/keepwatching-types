@@ -35,6 +35,38 @@ export type EmailStatus = 'draft' | 'pending' | 'scheduled' | 'sent' | 'failed';
 export type EmailAction = 'draft' | 'schedule' | 'send';
 
 /**
+ * Predefined header styles available when composing or templating an email.
+ * Headers are rendered server-side and wrap the admin-authored body HTML.
+ *
+ * - `none` - No header block; the body HTML starts at the top of the email
+ * - `gradient` - Purple gradient brand header with the email subject as its heading
+ * - `dark` - Flat dark header with the email subject as its heading
+ *
+ * @type {EmailHeaderStyle}
+ * @example
+ * ```typescript
+ * const headerStyle: EmailHeaderStyle = 'gradient';
+ * ```
+ */
+export type EmailHeaderStyle = 'none' | 'gradient' | 'dark';
+
+/**
+ * Predefined footer styles available when composing or templating an email.
+ * Footers are rendered server-side and appended after the admin-authored body HTML.
+ *
+ * - `none` - No footer block
+ * - `standard` - Small, centered gray sign-off footer matching the app's transactional emails
+ * - `cta` - A "Open KeepWatching" call-to-action button (linking to `{{appUrl}}`) followed by the standard sign-off
+ *
+ * @type {EmailFooterStyle}
+ * @example
+ * ```typescript
+ * const footerStyle: EmailFooterStyle = 'standard';
+ * ```
+ */
+export type EmailFooterStyle = 'none' | 'standard' | 'cta';
+
+/**
  * Status values for individual email recipients.
  * Tracks delivery status for each recipient of an email.
  *
@@ -81,7 +113,12 @@ export interface EmailReference {
  *   id: 1,
  *   name: 'welcome-email',
  *   subject: 'Welcome to KeepWatching!',
- *   message: 'Welcome {{userName}}! Thanks for joining!',
+ *   message: 'Welcome {{accountName}}! Thanks for joining!',
+ *   headerStyle: 'gradient',
+ *   footerStyle: 'standard',
+ *   headerTitle: null,
+ *   headerSubtitle: '🎉 A month of new features',
+ *   footerNote: null,
  *   createdAt: '2025-01-01T00:00:00Z',
  *   updatedAt: '2025-01-01T00:00:00Z'
  * };
@@ -94,6 +131,16 @@ export interface EmailTemplate extends EmailReference {
   subject: string;
   /** Email message content (may include placeholders like {{variable}}) */
   message: string;
+  /** Predefined header style to wrap the message body in when sent */
+  headerStyle: EmailHeaderStyle;
+  /** Predefined footer style to append after the message body when sent */
+  footerStyle: EmailFooterStyle;
+  /** Overrides the header's heading text (defaults to `subject` when null) */
+  headerTitle: string | null;
+  /** Optional sub-header line shown beneath the heading (null for none) */
+  headerSubtitle: string | null;
+  /** Overrides the footer's sign-off line (defaults to "Happy watching! 🍿" when null) */
+  footerNote: string | null;
   /** Timestamp when the template was created */
   createdAt: string;
   /** Timestamp when the template was last updated */
@@ -112,6 +159,11 @@ export interface EmailTemplate extends EmailReference {
  *   id: 100,
  *   subject: 'Welcome to KeepWatching!',
  *   message: 'Thanks for joining our platform!',
+ *   headerStyle: 'gradient',
+ *   footerStyle: 'standard',
+ *   headerTitle: null,
+ *   headerSubtitle: null,
+ *   footerNote: null,
  *   sentToAll: false,
  *   accountCount: 50,
  *   scheduledDate: null,
@@ -127,6 +179,16 @@ export interface Email extends EmailReference {
   subject: string;
   /** Email message content */
   message: string;
+  /** Predefined header style to wrap the message body in when sent */
+  headerStyle: EmailHeaderStyle;
+  /** Predefined footer style to append after the message body when sent */
+  footerStyle: EmailFooterStyle;
+  /** Overrides the header's heading text (defaults to `subject` when null) */
+  headerTitle: string | null;
+  /** Optional sub-header line shown beneath the heading (null for none) */
+  headerSubtitle: string | null;
+  /** Overrides the footer's sign-off line (defaults to "Happy watching! 🍿" when null) */
+  footerNote: string | null;
   /** Whether this email was sent to all accounts */
   sentToAll: boolean;
   /** Number of accounts this email was sent to */
@@ -153,7 +215,12 @@ export interface Email extends EmailReference {
  * const newTemplate: CreateEmailTemplate = {
  *   name: 'password-reset',
  *   subject: 'Reset Your Password',
- *   message: 'Click the following link to reset your password: {{resetLink}}'
+ *   message: 'Click the following link to reset your password: {{resetLink}}',
+ *   headerStyle: 'none',
+ *   footerStyle: 'standard',
+ *   headerTitle: null,
+ *   headerSubtitle: null,
+ *   footerNote: null
  * };
  * ```
  */
@@ -164,6 +231,16 @@ export interface CreateEmailTemplate {
   subject: string;
   /** Email message content */
   message: string;
+  /** Predefined header style to wrap the message body in when sent */
+  headerStyle: EmailHeaderStyle;
+  /** Predefined footer style to append after the message body when sent */
+  footerStyle: EmailFooterStyle;
+  /** Overrides the header's heading text (defaults to `subject` when null) */
+  headerTitle: string | null;
+  /** Optional sub-header line shown beneath the heading (null for none) */
+  headerSubtitle: string | null;
+  /** Overrides the footer's sign-off line (defaults to "Happy watching! 🍿" when null) */
+  footerNote: string | null;
 }
 
 /**
@@ -179,7 +256,12 @@ export interface CreateEmailTemplate {
  *   id: 1,
  *   name: 'password-reset',
  *   subject: 'Updated Subject Line',
- *   message: 'Updated message content'
+ *   message: 'Updated message content',
+ *   headerStyle: 'none',
+ *   footerStyle: 'standard',
+ *   headerTitle: null,
+ *   headerSubtitle: null,
+ *   footerNote: null
  * };
  * ```
  */
@@ -195,6 +277,11 @@ export interface UpdateEmailTemplate extends CreateEmailTemplate, EmailReference
  * const newEmail: CreateEmail = {
  *   subject: 'Welcome!',
  *   message: 'Welcome to KeepWatching!',
+ *   headerStyle: 'gradient',
+ *   footerStyle: 'standard',
+ *   headerTitle: null,
+ *   headerSubtitle: null,
+ *   footerNote: null,
  *   sendToAll: false,
  *   recipients: [1, 2, 3],
  *   scheduledDate: null,
@@ -207,6 +294,16 @@ export interface CreateEmail {
   subject: string;
   /** Email message content */
   message: string;
+  /** Predefined header style to wrap the message body in when sent */
+  headerStyle: EmailHeaderStyle;
+  /** Predefined footer style to append after the message body when sent */
+  footerStyle: EmailFooterStyle;
+  /** Overrides the header's heading text (defaults to `subject` when null) */
+  headerTitle: string | null;
+  /** Optional sub-header line shown beneath the heading (null for none) */
+  headerSubtitle: string | null;
+  /** Overrides the footer's sign-off line (defaults to "Happy watching! 🍿" when null) */
+  footerNote: string | null;
   /** Whether to send to all accounts */
   sendToAll: boolean;
   /** Array of account IDs to send the email to */
@@ -230,6 +327,11 @@ export interface CreateEmail {
  *   id: 100,
  *   subject: 'Updated Subject',
  *   message: 'Updated message',
+ *   headerStyle: 'gradient',
+ *   footerStyle: 'standard',
+ *   headerTitle: null,
+ *   headerSubtitle: null,
+ *   footerNote: null,
  *   sendToAll: false,
  *   recipients: [1, 2, 3, 4],
  *   scheduledDate: '2025-01-10T12:00:00Z',
