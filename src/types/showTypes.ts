@@ -1076,4 +1076,7 @@ export interface ShowFilters {
 
   /** Filter by streaming service name — partial match (e.g., "Netflix", "Hulu", "Prime Video") */
   streamingService?: string;
+
+  /** Filter by show title — partial, case-insensitive match */
+  search?: string;
 }

@@ -1,3 +1,5 @@
+import { WatchStatus } from './watchStatusTypes';
+
 /**
  * A single entry in a profile's watch history, covering both episodes and movies.
  * Each entry represents one watch event, so rewatched content produces multiple entries
@@ -102,4 +104,80 @@ export interface WatchHistoryResponse {
 
   /** Maximum number of items returned per page */
   pageSize: number;
+}
+
+/** Content granularity supported by the admin watch history editor */
+export type AdminWatchHistoryContentType = 'episode' | 'movie' | 'season' | 'show';
+
+/**
+ * A single row from an episode/movie/season/show watch history (log) table, as surfaced
+ * to the admin watch-history editor for a specific profile + content item.
+ *
+ * @interface AdminWatchHistoryEntry
+ */
+export interface AdminWatchHistoryEntry {
+  /** Unique row ID from the watch history table */
+  historyId: number;
+
+  /** ISO timestamp of when this watch event was recorded */
+  watchedAt: string;
+
+  /** Watch cycle number — 1 for the first watch, 2 for the first rewatch, and so on */
+  watchNumber: number;
+
+  /** True when this entry was logged as a prior (air-date-aligned) watch. Episode/movie only. */
+  isPriorWatch?: boolean;
+
+  /** ISO timestamp of when this history row was created. Episode/movie only. */
+  createdAt?: string;
+}
+
+/**
+ * The current watch-status row for a profile + content item, as surfaced to the admin
+ * watch-history editor. Seasons and shows have no `watchedAt` of their own — only episodes
+ * and movies track a status-level watched date.
+ *
+ * @interface AdminWatchStatusDetail
+ */
+export interface AdminWatchStatusDetail {
+  /** Current watch status */
+  status: WatchStatus;
+
+  /** ISO timestamp of the status-level watched date. Episode/movie only. */
+  watchedAt?: string | null;
+
+  /** True when the status-level watch was logged as a prior watch. Episode only. */
+  isPriorWatch?: boolean;
+
+  /** Number of completed rewatches. Movie/show only. */
+  rewatchCount?: number;
+}
+
+/**
+ * Combined status + history detail for a profile's watch record of a single episode,
+ * movie, season, or show — the payload the admin watch-history editor reads and edits.
+ *
+ * @interface AdminWatchHistoryDetailResponse
+ */
+export interface AdminWatchHistoryDetailResponse {
+  /** Content granularity this detail applies to */
+  contentType: AdminWatchHistoryContentType;
+
+  /** Current watch-status row */
+  status: AdminWatchStatusDetail;
+
+  /** All watch-history log rows, ordered by watchNumber */
+  history: AdminWatchHistoryEntry[];
+}
+
+/** Request body to correct the watched date/time of a single watch history log row. */
+export interface UpdateWatchHistoryEntryRequest {
+  /** ISO datetime to set as the entry's watchedAt */
+  watchedAt: string;
+}
+
+/** Request body to correct the status-level watched date/time. Episode/movie only. */
+export interface UpdateWatchStatusDateRequest {
+  /** ISO datetime to set as the status row's watchedAt */
+  watchedAt: string;
 }

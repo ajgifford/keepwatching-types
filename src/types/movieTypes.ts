@@ -847,4 +847,7 @@ export interface MovieFilters {
 
   /** Filter by streaming service name — partial match (e.g., "Netflix", "Hulu", "Prime Video") */
   streamingService?: string;
+
+  /** Filter by movie title — partial, case-insensitive match */
+  search?: string;
 }
